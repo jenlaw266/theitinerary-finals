@@ -2,18 +2,26 @@ const Express = require('express');
 const App = Express();
 const BodyParser = require('body-parser');
 const PORT = 8080;
+const data = require('./db.json')
+const cors = require('cors')
 
 // Express Configuration
+App.use(
+  cors({
+    origin: "http://localhost:3000"
+  })
+)
 App.use(BodyParser.urlencoded({ extended: false }));
 App.use(BodyParser.json());
 App.use(Express.static('public'));
 
 // Sample GET route
-App.get('/api/data', (req, res) => res.json({
-  message: "Seems to work!",
-}));
+App.get('/api/data', (req, res) => res.send(JSON.stringify(data)));
 
 App.listen(PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`Express seems to be listening on port ${PORT} so that's pretty good 👍`);
 });
+
+
+
