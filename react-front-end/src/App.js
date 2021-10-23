@@ -18,7 +18,8 @@ class App extends Component {
 
       console.log(response.data.message) // Just the message
       this.setState({
-        message: response.data.message
+        message: response.data.message,
+        act: response.data.act[5].name
       });
     }) 
   }
@@ -27,6 +28,7 @@ class App extends Component {
     return (
       <div className="App">
         <h1>{ this.state.message }</h1>
+        <h1>{ this.state.act }</h1>
         <button onClick={this.fetchData} >
           Fetch Data
         </button>        
