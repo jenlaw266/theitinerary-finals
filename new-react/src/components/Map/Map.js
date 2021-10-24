@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import GoogleMapReact from 'google-map-react';
 import LocationMarker from './LocationMarker'
 import LocationInfoBox from './LocationInfoBox';
+import DaysCheckbox from './Checkbox';
 
 const Map = ({ eventData, center, zoom }) => {
   const [locationInfo, setLocationInfo] = useState(null);
@@ -40,8 +41,8 @@ const Map = ({ eventData, center, zoom }) => {
     />)
   })
 
-  const days = allDays.filter((value, index, self) => self.indexOf(value) === index)
-  console.log("days", days)
+  const days = allDays.filter((value, index, self) => self.indexOf(value) === index);
+  console.log("days", days);
 
   return (
     <div className="map">
@@ -57,6 +58,7 @@ const Map = ({ eventData, center, zoom }) => {
        {markers}
       </GoogleMapReact>
       {locationInfo && <LocationInfoBox info={locationInfo}/>}
+      <DaysCheckbox />
     </div>
   )
 }

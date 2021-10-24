@@ -16,7 +16,7 @@ function App() {
         // handle success
         console.log(response.data)
         setEventData(response.data);
-        setLoading(false)
+        setLoading(false);
       }) 
     }
   
@@ -33,9 +33,6 @@ function App() {
   return (
     <div className="App">
       <h1>the ITinerary</h1>
-      {/* <button onClick={this.fetchData} >
-        Fetch Data
-      </button>         */}
       { !loading ? <Map eventData={eventData} /> : <Loader /> }
     </div>
   );
