@@ -6,7 +6,7 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import Button from "@mui/material/Button";
 
-const Home = () => {
+const Home = ({ eventData }) => {
   const [city, setCity] = useState(null);
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
@@ -52,7 +52,7 @@ const Home = () => {
           Submit
         </Button>
       </form>
-      {submit && <Activities />}
+      {submit && <Activities eventData={eventData} />}
     </div>
   );
 };
