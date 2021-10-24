@@ -14,9 +14,6 @@ function App() {
     message: ''
   })
 
-  const [loading, setLoading] = useState(true);
-
-
   useEffect(() => {
     const fetchData = () => {
       axios
