@@ -21,8 +21,7 @@ function DaysCheckbox() {
     });
   };
 
-  const { day1, day2, day3 } = state;
-  // const error = [gilad, jason, antoine].filter((v) => v).length !== 2;
+  const { day1, day2, day3, day4 } = state;
 
   return (
     <Box sx={{ display: 'flex' }}>
