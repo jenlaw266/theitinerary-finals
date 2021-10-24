@@ -6,11 +6,15 @@
   "author": "garrettgsb",
   "license": "MIT",
   "scripts": {
-    "go": "nodemon server.js"
+    "go": "nodemon server.js",
+    "run": "node websocket-server.js"
   },
   "dependencies": {
+    "axios": "^0.23.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
-    "nodemon": "^1.18.7"
+    "http": "^0.0.1-security",
+    "nodemon": "^1.18.7",
+    "websocket": "^1.0.34"
   }
 }
