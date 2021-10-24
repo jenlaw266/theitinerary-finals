@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
-import Chat from './Chat/Chat'
+
 
 class App extends Component {
   constructor(props) {

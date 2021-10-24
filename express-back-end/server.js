@@ -5,6 +5,10 @@ const getActivities = require('./routes/getActivities');
 const PORT = 8080;
 const data = require('./db.json')
 const cors = require('cors')
+const { Pool } = require('pg');
+const dbParams = require('./lib/db.js');
+const db = new Pool(dbParams);
+db.connect();
 
 // Express Configuration
 App.use(
@@ -17,10 +21,8 @@ App.use(BodyParser.json());
 App.use(Express.static('public'));
 
 // Sample GET route
-App.get('/api/data', (req, res) => res.send(JSON.stringify(data)));
-
-App.get('/api/activities', async function(req, res) {
-  const activities = await getActivities();
+App.use('/api/activities', async function(req, res) {
+  const activities = await getActivities(db);
   res.json({
     message: 'Success, able to get data from api',
     act: activities
