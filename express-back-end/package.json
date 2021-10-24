@@ -7,7 +7,8 @@
   "license": "MIT",
   "scripts": {
     "go": "nodemon server.js",
-    "run": "node websocket-server.js"
+    "run": "node websocket-server.js",
+    "db:reset": "node bin/resetdb.js"
   },
   "dependencies": {
     "axios": "^0.23.0",
@@ -16,6 +17,7 @@
     "express": "^4.16.4",
     "http": "^0.0.1-security",
     "nodemon": "^1.18.7",
+    "pg-native": "^3.0.0",
     "websocket": "^1.0.34"
   }
 }
