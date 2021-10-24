@@ -13,7 +13,7 @@ function DaysCheckbox(props) {
   console.log(props.daysList);
   console.log(props.dayProperties);
 
-  const [checked, setChecked] = useState([0]);
+  const [checked, setChecked] = useState(props.daysList);
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -27,6 +27,7 @@ function DaysCheckbox(props) {
 
     setChecked(newChecked);
   };
+  console.log("checked outside handleToggle", checked)
 
   return (
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
