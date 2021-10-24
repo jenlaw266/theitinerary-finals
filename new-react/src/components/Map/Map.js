@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 // import React, { useState, useCallback, useEffect } from 'react';
 import GoogleMapReact from 'google-map-react';
 import LocationMarker from './LocationMarker'
@@ -11,8 +11,8 @@ const Map = ({ eventData, center, zoom }) => {
   // const [map, setMap] = useState(null);
   // const onLoad = useCallback((map) => setMap(map), []);
 
-  useEffect(() => {
-  //MUST FIGURE OUT HOW TO AUTOZOOM, AUTOCENTER, FIND THE CENTER!
+  // useEffect(() => {
+  // MUST FIGURE OUT HOW TO AUTOZOOM, AUTOCENTER, FIND THE CENTER!
   //   if (map) {
   //     const bounds = new window.google.maps.LatLngBounds();
   //     eventData.map(marker => {
@@ -24,13 +24,46 @@ const Map = ({ eventData, center, zoom }) => {
   //     map.fitBounds(bounds);
   //   }
   // }, [map, eventData]);
-  }, [])
+  // }, [])
 
-  const allDays = [];
+  const randomColor = () => {
+    return Math.floor(Math.random()*16777215).toString(16);
+  }
+
+  const uniqueDays = (eventData) => {
+    const allDays = [];
+    eventData.map(event => allDays.push(event.day))
+
+    const days = allDays.filter((value, index, self) => self.indexOf(value) === index);
+
+    return days;
+  }
+
+  const daysList = uniqueDays(eventData)
+  const assignDayProperties = (daysList, eventData) => {
+    const daysProps = {};
+    
+    daysList.forEach(day => {
+      daysProps[day] = {};
+      daysProps[day].name = day;
+      daysProps[day].visibility = true;
+      daysProps[day].color = randomColor();
+    })
+  
+    return daysProps;
+  };
+
+  const dayProperties = assignDayProperties(daysList, eventData);
+
+  const assignMarkerColor = (dayProperties, dayName) => {
+    const color = dayProperties[dayName].color;
+    return color;
+  };
+
   const markers = eventData.map(event => {
-    allDays.push(event.day)
     return (
     <LocationMarker 
+      key = {event.name}
       lat={event.lat} 
       lng={event.lng} 
       onClick={() => setLocationInfo({
@@ -38,11 +71,9 @@ const Map = ({ eventData, center, zoom }) => {
         day: event.day, 
         img: event.img
       })}
+      color={assignMarkerColor(dayProperties, event.day)}
     />)
   })
-
-  const days = allDays.filter((value, index, self) => self.indexOf(value) === index);
-  console.log("days", days);
 
   return (
     <div className="map">
@@ -58,7 +89,7 @@ const Map = ({ eventData, center, zoom }) => {
        {markers}
       </GoogleMapReact>
       {locationInfo && <LocationInfoBox info={locationInfo}/>}
-      <DaysCheckbox />
+      <DaysCheckbox daysList={daysList} dayProperties={dayProperties}/>
     </div>
   )
 }

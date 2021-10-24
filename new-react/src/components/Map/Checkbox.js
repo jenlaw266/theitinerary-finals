@@ -5,14 +5,18 @@ import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
-function DaysCheckbox() {
+function DaysCheckbox(props) {
   const [state, setState] = useState({
     day1: true,
     day2: true,
     day3: true,
     day4: true
   });
+  
+  // console.log("inside daysheckbox component ", props.daysList)
+  // console.log("inside daysheckbox component ", props.dayProperties)
 
   const handleChange = (event) => {
     setState({
