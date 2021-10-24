@@ -14,7 +14,7 @@ App.use(BodyParser.json());
 App.use(Express.static('public'));
 
 // Sample GET route
-App.get('/api/activities', async function(req, res) {
+App.use('/api/activities', async function(req, res) {
   const activities = await getActivities(db);
   res.json({
     message: 'Success, able to get data from api',
