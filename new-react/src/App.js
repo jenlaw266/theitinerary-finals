@@ -16,6 +16,9 @@ function App() {
   const [login, setLogin] = useState(false);
   const [eventData, setEventData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [state, setState] = useState({
+    message: "",
+  });
 
   useEffect(() => {
     const fetchData = () => {
@@ -36,6 +39,26 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  const fetchActivities = () => {
+    axios.get("/api/activities").then((response) => {
+      console.log(response.data);
+      console.log(response.data.message); // Just the message
+
+      setState({
+        message: response.data.message,
+        act: response.data.act[6].name,
+      });
+    });
+  };
+
+  /* return (
+    <div className="App">
+      <h1>{state.message}</h1>
+      <h1>{state.act}</h1>
+      <button onClick={fetchActivities}>Fetch Data</button>
+    </div>
+  );
+ */
   return (
     <Router>
       <div className="App">
