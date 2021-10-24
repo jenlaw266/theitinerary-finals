@@ -12,6 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { makeStyles } from "@mui/styles";
 import { Link, useHistory } from "react-router-dom";
+import Members from "./Members";
 
 const userItineraries = [
   { id: 1, name: "London" },
@@ -33,6 +34,8 @@ const Nav = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
 
+  const [drawer, setDrawer] = useState(false);
+
   const handleMenuOpen = (e) => {
     setAnchorEl(e.currentTarget);
   };
@@ -47,18 +50,22 @@ const Nav = (props) => {
     history.push("/");
   };
 
+  const toggleDrawer = () => {
+    setDrawer(true);
+  };
+
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
+        vertical: "bottom",
+        horizontal: "center",
       }}
       id={menuId}
       keepMounted
       transformOrigin={{
         vertical: "top",
-        horizontal: "right",
+        horizontal: "center",
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}
@@ -74,11 +81,12 @@ const Nav = (props) => {
         </MenuItem>
       )}
       {props.login && (
-        <MenuItem onClick={logout} component={Link} to="/itineraries">
+        <MenuItem onClick={handleMenuClose} component={Link} to="/itineraries">
           Itineraries
         </MenuItem>
       )}
-      {props.login && <MenuItem onClick={handleMenuClose}>Logout</MenuItem>}
+      {props.login && <MenuItem onClick={toggleDrawer}>Members</MenuItem>}
+      {props.login && <MenuItem onClick={logout}>Logout</MenuItem>}
     </Menu>
   );
 
@@ -96,7 +104,7 @@ const Nav = (props) => {
           size="large"
           color="inherit"
           component={Link}
-          to={`itinerary/${id}`}
+          to={`/itinerary/${id}`}
         >
           <ListAltIcon />
         </IconButton>
@@ -105,7 +113,7 @@ const Nav = (props) => {
           size="large"
           color="inherit"
           component={Link}
-          to={`itinerary/${id}/map`}
+          to={`/itinerary/${id}/map`}
         >
           <MapIcon />
         </IconButton>
@@ -114,7 +122,7 @@ const Nav = (props) => {
           size="large"
           color="inherit"
           component={Link}
-          to={`itinerary/${id}/chat`}
+          to={`/itinerary/${id}/chat`}
         >
           <SmsIcon />
         </IconButton>

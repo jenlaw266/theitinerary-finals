@@ -12,7 +12,6 @@ import Chat from "./pages/Chat";
 
 function App() {
   const [login, setLogin] = useState(false);
-  // const login = useRef(login);
 
   return (
     <Router>
@@ -29,13 +28,13 @@ function App() {
             <Route path="/itineraries">
               <Itineraries login={login} />
             </Route>
-            <Route path="itinerary/:id/map">
+            <Route exact path="/itinerary/:id/map">
               <Map login={login} />
             </Route>
-            <Route path="itinerary/:id/chat">
+            <Route exact path="/itinerary/:id/chat">
               <Chat login={login} />
             </Route>
-            <Route path="/itinerary/:id">
+            <Route exact path="/itinerary/:id">
               <Itinerary login={login} />
             </Route>
             <Route exact path="/">

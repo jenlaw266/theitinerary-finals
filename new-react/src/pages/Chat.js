@@ -1,12 +1,12 @@
-import { useParams } from "react-router";
+// import { useParams } from "react-router";
 import { useRouteMatch } from "react-router";
 
 const Chat = () => {
-  const params = useParams();
+  // const params = useParams();
   return (
     <div>
       <h1>chat</h1>
-      <h3>id: {params.id} </h3>
+      {/* <h3>id: {params.id} </h3> */}
     </div>
   );
 };

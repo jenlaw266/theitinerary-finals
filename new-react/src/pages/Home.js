@@ -14,11 +14,12 @@ const Home = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setSubmit(true);
     if (city && start && end) {
       console.log(city, start, end);
-      setSubmit(true);
     }
   };
+
   return (
     <div>
       <h1>home</h1>
