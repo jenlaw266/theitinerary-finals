@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Nav from "./components/Nav";
 import Home from "./pages/Home";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -12,6 +12,7 @@ import Chat from "./pages/Chat";
 
 function App() {
   const [login, setLogin] = useState(false);
+  // const login = useRef(login);
 
   return (
     <Router>

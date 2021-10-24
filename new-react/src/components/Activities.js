@@ -21,7 +21,7 @@ const activitiesList = [
 
 const Activities = () => {
   const activityCard = activitiesList.map((act, id) => {
-    return <Activity name={act.name} desc={act.desc} />;
+    return <Activity key={id} name={act.name} desc={act.desc} />;
   });
   return (
     <div>
