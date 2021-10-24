@@ -3,12 +3,19 @@ const App = Express();
 const BodyParser = require('body-parser');
 const getActivities = require('./routes/getActivities');
 const PORT = 8080;
+const data = require('./db.json')
+const cors = require('cors')
 
 const dbParams = require('./lib/db.js');
 const db = new Pool(dbParams);
 db.connect();
 
 // Express Configuration
+App.use(
+  cors({
+    origin: "http://localhost:3000"
+  })
+)
 App.use(BodyParser.urlencoded({ extended: false }));
 App.use(BodyParser.json());
 App.use(Express.static('public'));
