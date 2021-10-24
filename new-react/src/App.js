@@ -1,37 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./App.css";
 
-import Map from './components/Map/Map';
-import Loader from './components/Map/Loader';
+import Map from "./components/Map/Map";
+import Loader from "./components/Map/Loader";
 
 function App() {
 
   const [eventData, setEventData] = useState([]);
+
   const [loading, setLoading] = useState(true)
   const [ state, setState ] = useState({
     message: ''
   })
 
+  const [loading, setLoading] = useState(true);
+
+
   useEffect(() => {
     const fetchData = () => {
-      axios.get('http://localhost:8080/api/data') // You can simply make your requests to "/api/whatever you want"
-      .then((response) => {
-        // handle success
-        console.log(response.data)
-        setEventData(response.data);
-        setLoading(false);
-      }) 
-    }
-  
+      axios
+        .get("http://localhost:8080/api/data") // You can simply make your requests to "/api/whatever you want"
+        .then((response) => {
+          // handle success
+          console.log(response.data);
+          setEventData(response.data);
+          setLoading(false);
+        });
+    };
+
     const timer = setTimeout(() => {
       fetchData();
     }, 2000);
-    
-    return () => clearTimeout(timer)
-  }, [])
 
-  const fetchActivities = () => {
+    return () => clearTimeout(timer);
+  }, []);
+
+  console.log("eventData", eventData);
+  console.log("loading", loading);
+  
+    const fetchActivities = () => {
     axios.get('/api/activities') // You can simply make your requests to "/api/whatever you want"
     .then((response) => {
       // handle success
@@ -45,8 +53,6 @@ function App() {
     }) 
   }
 
-  console.log("eventData", eventData)
-  console.log("loading", loading)
 
   return (
     <div className="App">
@@ -58,6 +64,7 @@ function App() {
         <button onClick={fetchActivities} >
           Fetch Data
         </button>  
+
     </div>
   );
 }
@@ -73,7 +80,7 @@ function App() {
 //         message: response.data.message,
 //         act: response.data.act[6].name
 //       });
-//     }) 
+//     })
 //   }
 
 //   render() {
@@ -83,7 +90,7 @@ function App() {
 //         <h1>{ this.state.act }</h1>
 //         <button onClick={this.fetchData} >
 //           Fetch Data
-//         </button>        
+//         </button>
 //       </div>
 //     );
 //   }
