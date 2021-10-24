@@ -7,6 +7,9 @@ const getActivities = async function(db) {
   let output = []
   await getApi()
   .then((response) => {
+    const day_id = 1
+    const itinerary_id = 1
+    const heart = false;
     for (let i = 0; i < response.length; i++) {
       let name = response[i].name
       let location = 'London'
@@ -14,7 +17,6 @@ const getActivities = async function(db) {
       let lat = response[i].geometry.location.lat
       let long = response[i].geometry.location.lng
       let rating = response[i].rating
-      db.query(`${queryString}`, [name, location, lat, long, heart, day_id, itinerary_id])
       output.push({
         name: name,
         location: location,
@@ -23,6 +25,7 @@ const getActivities = async function(db) {
         long: long,
         rating: rating
       })
+      db.query(`${queryString}`, [name, location, lat, long, heart, day_id, itinerary_id])
     }
   })
   console.log('output', output)

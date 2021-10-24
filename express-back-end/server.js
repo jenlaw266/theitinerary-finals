@@ -5,7 +5,7 @@ const getActivities = require('./routes/getActivities');
 const PORT = 8080;
 const data = require('./db.json')
 const cors = require('cors')
-
+const { Pool } = require('pg');
 const dbParams = require('./lib/db.js');
 const db = new Pool(dbParams);
 db.connect();

@@ -6,8 +6,12 @@ import Map from './components/Map/Map';
 import Loader from './components/Map/Loader';
 
 function App() {
+
   const [eventData, setEventData] = useState([]);
   const [loading, setLoading] = useState(true)
+  const [ state, setState ] = useState({
+    message: ''
+  })
 
   useEffect(() => {
     const fetchData = () => {
@@ -27,6 +31,20 @@ function App() {
     return () => clearTimeout(timer)
   }, [])
 
+  const fetchActivities = () => {
+    axios.get('/api/activities') // You can simply make your requests to "/api/whatever you want"
+    .then((response) => {
+      // handle success
+      console.log(response.data) // The entire response from the Rails API
+
+      console.log(response.data.message) // Just the message
+      setState({
+        message: response.data.message,
+        act: response.data.act[6].name
+      });
+    }) 
+  }
+
   console.log("eventData", eventData)
   console.log("loading", loading)
 
@@ -34,6 +52,12 @@ function App() {
     <div className="App">
       <h1>the ITinerary</h1>
       { !loading ? <Map eventData={eventData} /> : <Loader /> }
+
+      <h1>{ state.message }</h1>
+        <h1>{ state.act }</h1>
+        <button onClick={fetchActivities} >
+          Fetch Data
+        </button>  
     </div>
   );
 }
