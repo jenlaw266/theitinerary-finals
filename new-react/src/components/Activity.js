@@ -8,6 +8,7 @@ import { Typography } from "@mui/material";
 import { StylesContext } from "@mui/styles";
 
 const Activity = (props) => {
+  console.log("props activity", props.name, props.img);
   return (
     <div>
       <Card>
@@ -18,12 +19,12 @@ const Activity = (props) => {
         />
         <CardMedia
           component="img"
-          style={{ height: 0, paddingTop: "20%" }}
-          image={props.img} //{require(props.img)}
+          height="150"
+          image={props.img}
           alt={props.img}
         />
         <CardContent>
-          <Typography>{props.desc}</Typography>
+          <Typography>{props.address}</Typography>
         </CardContent>
       </Card>
     </div>
