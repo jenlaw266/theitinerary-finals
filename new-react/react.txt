@@ -67,3 +67,6 @@ Routes
 /itinerary/:id/members --> component
 
 
+issues 
+- :id/map , :id/chat doesn't work
+- card img doesn't work 

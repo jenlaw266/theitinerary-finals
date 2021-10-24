@@ -11,7 +11,14 @@ import SmsIcon from "@mui/icons-material/Sms";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { makeStyles } from "@mui/styles";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import Members from "./Members";
+
+const userItineraries = [
+  { id: 1, name: "London" },
+  { id: 2, name: "Vancouver" },
+  { id: 3, name: "Calgary" },
+];
 
 const useStyles = makeStyles({
   // button: { color: "black" },
@@ -20,14 +27,16 @@ const useStyles = makeStyles({
 
 const Nav = (props) => {
   const classes = useStyles();
-  let login = false;
+  const history = useHistory();
+  const id = userItineraries[userItineraries.length - 1].id;
 
   const menuId = "primary-search-account-menu";
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
 
+  const [drawer, setDrawer] = useState(false);
+
   const handleMenuOpen = (e) => {
-    console.log("login", anchorEl);
     setAnchorEl(e.currentTarget);
   };
 
@@ -35,18 +44,28 @@ const Nav = (props) => {
     setAnchorEl(null);
   };
 
+  const logout = () => {
+    props.setLogin(false);
+    setAnchorEl(null);
+    history.push("/");
+  };
+
+  const toggleDrawer = () => {
+    setDrawer(true);
+  };
+
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
+        vertical: "bottom",
+        horizontal: "center",
       }}
       id={menuId}
       keepMounted
       transformOrigin={{
         vertical: "top",
-        horizontal: "right",
+        horizontal: "center",
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}
@@ -61,10 +80,13 @@ const Nav = (props) => {
           Register
         </MenuItem>
       )}
-      {props.login && <MenuItem onClick={handleMenuClose}>Logout</MenuItem>}
-      <MenuItem onClick={handleMenuClose} component={Link} to="/itineraries">
-        Itineraries
-      </MenuItem>
+      {props.login && (
+        <MenuItem onClick={handleMenuClose} component={Link} to="/itineraries">
+          Itineraries
+        </MenuItem>
+      )}
+      {props.login && <MenuItem onClick={toggleDrawer}>Members</MenuItem>}
+      {props.login && <MenuItem onClick={logout}>Logout</MenuItem>}
     </Menu>
   );
 
@@ -78,29 +100,29 @@ const Nav = (props) => {
         </Box>
         <IconButton
           // classes={{ root: classes.button }}
-          disabled={login ? false : true}
+          disabled={props.login ? false : true}
           size="large"
           color="inherit"
           component={Link}
-          to="itinerary/:id"
+          to={`/itinerary/${id}`}
         >
           <ListAltIcon />
         </IconButton>
         <IconButton
-          disabled={login ? false : true}
+          disabled={props.login ? false : true}
           size="large"
           color="inherit"
           component={Link}
-          to="itinerary/:id/map"
+          to={`/itinerary/${id}/map`}
         >
           <MapIcon />
         </IconButton>
         <IconButton
-          disabled={login ? false : true}
+          disabled={props.login ? false : true}
           size="large"
           color="inherit"
           component={Link}
-          to="itinerary/:id/chat"
+          to={`/itinerary/${id}/chat`}
         >
           <SmsIcon />
         </IconButton>
