@@ -11,6 +11,7 @@ const db = new Pool(dbParams);
 db.connect();
 
 const getName = require('./queries/itineraries');
+const login = require('./routes/login');
 
 // Express Configuration
 App.use(
@@ -34,6 +35,14 @@ App.use("/api/activities", async function (req, res) {
     message: "Success, able to get data from api",
     act: activities,
   });
+});
+
+App.use("/api/login", async function (req, res) {
+  const token = await login(db, req.body);
+  console.log('token', token)
+  res.json({
+    token: token
+  })
 });
 
 App.listen(PORT, () => {
