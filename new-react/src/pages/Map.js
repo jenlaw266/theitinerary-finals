@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import React, { useState, useCallback, useEffect } from 'react';
 import GoogleMapReact from 'google-map-react';
 import LocationMarker from '../components/Map/LocationMarker'
@@ -7,25 +7,26 @@ import DaysCheckbox from '../components/Map/Checkbox';
 
 const Map = ({ eventData, center, zoom }) => {
   const [locationInfo, setLocationInfo] = useState(null);
-  const [show, setShow] = useState([]);
+  const [filteredDays, setFilteredDays] = useState(eventData);
 
   // const [map, setMap] = useState(null);
   // const onLoad = useCallback((map) => setMap(map), []);
-
+  
   // useEffect(() => {
-  // MUST FIGURE OUT HOW TO AUTOZOOM, AUTOCENTER, FIND THE CENTER!
-  //   if (map) {
-  //     const bounds = new window.google.maps.LatLngBounds();
-  //     eventData.map(marker => {
-  //       bounds.extend({
-  //         lat: marker.latitude,
-  //         lng: marker.longitude,
-  //       });
-  //     });
-  //     map.fitBounds(bounds);
-  //   }
-  // }, [map, eventData]);
-  // }, [])
+    // MUST FIGURE OUT HOW TO AUTOZOOM, AUTOCENTER, FIND THE CENTER!
+    //   if (map) {
+      //     const bounds = new window.google.maps.LatLngBounds();
+      //     eventData.map(marker => {
+        //       bounds.extend({
+          //         lat: marker.latitude,
+          //         lng: marker.longitude,
+          //       });
+          //     });
+          //     map.fitBounds(bounds);
+          //   }
+          // }, [map, eventData]);
+          // }, [])
+    
 
   const randomColor = () => {
     return Math.floor(Math.random()*16777215).toString(16);
@@ -41,7 +42,10 @@ const Map = ({ eventData, center, zoom }) => {
   }
 
   const daysList = uniqueDays(eventData)
-  const assignDayProperties = (daysList, eventData) => {
+  const [show, setShow] = useState(daysList); 
+
+  //assign each day properties
+  const assignDayProperties = (daysList) => {
     const daysProps = {};
     
     daysList.forEach(day => {
@@ -62,22 +66,31 @@ const Map = ({ eventData, center, zoom }) => {
   };
 
   const handleCallback = (childData) => {
-    setShow(childData)
+    setShow(childData) // childData = ["day1", "day2", "day3", "day4"]
   };
 
   //create a filtered list of the days selected from the checkbox.
-  const filteredDays = eventData.filter((event) => {
-    if (show.includes(event.day)) {
-      return event;
+  useEffect(()=> {
+    console.log({show, filteredDays, daysList})
+
+    if (show.length === daysList.length) {
+      return setFilteredDays(eventData);
+    } else {
+      const newFilteredDays = eventData.filter((event) => {
+        if (show.includes(event.day)) {
+          return event;
+        } 
+      });
+
+      return setFilteredDays(newFilteredDays);
     }
-  });
-  
-  console.log("filteredDays", filteredDays)
+  }, [show])
   
   //show only the markers that are enabled on checkbox
+    
   const markers = filteredDays.map(event => {
     return (
-    <LocationMarker 
+      <LocationMarker 
       key = {event.name}
       lat={event.lat} 
       lng={event.lng} 
@@ -87,8 +100,8 @@ const Map = ({ eventData, center, zoom }) => {
         img: event.img
       })}
       color={assignMarkerColor(dayProperties, event.day)}
-    />)
-  })
+      />)
+    })
 
   return (
     <div className="map">
@@ -104,7 +117,7 @@ const Map = ({ eventData, center, zoom }) => {
        {markers}
       </GoogleMapReact>
       {locationInfo && <LocationInfoBox info={locationInfo}/>}
-      <DaysCheckbox daysList={daysList} dayProperties={dayProperties} parentCallback={handleCallback}/>
+      <DaysCheckbox daysList={daysList} dayProperties={dayProperties} parentCallback={handleCallback} />
     </div>
   )
 }
