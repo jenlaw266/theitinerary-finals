@@ -7,6 +7,7 @@ import DaysCheckbox from './Checkbox';
 
 const Map = ({ eventData, center, zoom }) => {
   const [locationInfo, setLocationInfo] = useState(null);
+  const [show, setShow] = useState([]);
 
   // const [map, setMap] = useState(null);
   // const onLoad = useCallback((map) => setMap(map), []);
@@ -60,7 +61,21 @@ const Map = ({ eventData, center, zoom }) => {
     return color;
   };
 
-  const markers = eventData.map(event => {
+  const handleCallback = (childData) => {
+    setShow(childData)
+  };
+
+  //create a filtered list of the days selected from the checkbox.
+  const filteredDays = eventData.filter((event) => {
+    if (show.includes(event.day)) {
+      return event;
+    }
+  });
+  
+  console.log("filteredDays", filteredDays)
+  
+  //show only the markers that are enabled on checkbox
+  const markers = filteredDays.map(event => {
     return (
     <LocationMarker 
       key = {event.name}
@@ -89,7 +104,7 @@ const Map = ({ eventData, center, zoom }) => {
        {markers}
       </GoogleMapReact>
       {locationInfo && <LocationInfoBox info={locationInfo}/>}
-      <DaysCheckbox daysList={daysList} dayProperties={dayProperties}/>
+      <DaysCheckbox daysList={daysList} dayProperties={dayProperties} parentCallback={handleCallback}/>
     </div>
   )
 }

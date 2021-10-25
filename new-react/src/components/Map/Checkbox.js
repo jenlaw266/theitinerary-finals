@@ -10,8 +10,8 @@ import IconButton from '@mui/material/IconButton';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 function DaysCheckbox(props) {
-  console.log(props.daysList);
-  console.log(props.dayProperties);
+  console.log("propsdaylist inside dayscheckbox", props.daysList);
+  console.log("propsdayproperties inside dayscheckbox", props.dayProperties);
 
   const [checked, setChecked] = useState(props.daysList);
 
@@ -26,8 +26,16 @@ function DaysCheckbox(props) {
     }
 
     setChecked(newChecked);
+
+    //call function to send back checked days 
+    props.parentCallback(daysToMark(checked));
   };
+
   console.log("checked outside handleToggle", checked)
+  //send data of days to place on map if box is checked
+  const daysToMark = (checked) => {
+    return checked;
+  }
 
   return (
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
