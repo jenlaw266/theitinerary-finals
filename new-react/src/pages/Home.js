@@ -28,10 +28,6 @@ const Home = ({ eventData }) => {
     .then((response) => {
       console.log('Data Sent')
     })
-
-    // axios.post('http://localhost:8080/api/activities', {
-    //   city: city
-    // })
   };
 
   return (

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 // import React, { useState, useCallback, useEffect } from 'react';
 import GoogleMapReact from 'google-map-react';
-import LocationMarker from '../Map/LocationMarker'
-import LocationInfoBox from '../Map/LocationInfoBox';
-import DaysCheckbox from '../Map/Checkbox';
+import LocationMarker from '../components/Map/LocationMarker'
+import LocationInfoBox from '../components/Map/LocationInfoBox';
+import DaysCheckbox from '../components/Map/Checkbox';
 
 const Map = ({ eventData, center, zoom }) => {
   const [locationInfo, setLocationInfo] = useState(null);
