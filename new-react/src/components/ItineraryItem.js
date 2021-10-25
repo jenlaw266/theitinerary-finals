@@ -11,29 +11,20 @@ import { StylesContext } from "@mui/styles";
 const ItineraryItem = (props) => {
   //take the :id from url
   const params = useParams();
-  console.log("props activity", props.name, props.img);
   //just city name? // need to test with dummy data
   return (
     <div>
       <Card>
         <CardHeader
           action={<Checkbox onClick={() => console.log("clicked checkbox")} />}
-          title={props.name}
+          title={props.children}
           subheader={props.city}
         />
-        <CardMedia
-          component="img"
-          height="150"
-          image={props.img}
-          alt={props.img}
-        />
+
         <CardContent>
-          <Typography>{props.address}</Typography>
+          <Typography>Date: </Typography>
         </CardContent>
       </Card>
-      <h1>location: {props.location}</h1>
-      <h2>Link: {props.children}</h2>
-      <h3>id: {params.id} </h3>
     </div>
   );
 };

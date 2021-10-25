@@ -1,4 +1,4 @@
-import "./App.css";
+import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
 import Nav from "./components/Nav";
 import Home from "./pages/Home";
@@ -11,9 +11,11 @@ import Map from "./pages/Map";
 import Loader from "./components/Map/Loader";
 import Chat from "./pages/Chat";
 import axios from "axios";
+import Members from "./components/Members";
 
 function App() {
   const [login, setLogin] = useState(false);
+  const [drawer, setDrawer] = useState(false);
   const [eventData, setEventData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [state, setState] = useState({
@@ -51,48 +53,51 @@ function App() {
     });
   };
 
-//  return (
-//     <div className="App">
-//       <h1>{state.message}</h1>
-//       <h1>{state.act}</h1>
-//       <button onClick={fetchActivities}>Fetch Data</button>
-//     </div>
-//   );
- 
+  //  return (
+  //     <div className="App">
+  //       <h1>{state.message}</h1>
+  //       <h1>{state.act}</h1>
+  //       <button onClick={fetchActivities}>Fetch Data</button>
+  //     </div>
+  //   );
+
   return (
     <Router>
-      <div className="App">
-        <Nav login={login} setLogin={setLogin} />
-        <Layout>
-          <Switch>
-            <Route path="/login">
-              <Login login={login} setLogin={setLogin} />
-            </Route>
-            <Route path="/register">
-              <Login login={login} setLogin={setLogin} />
-            </Route>
-            <Route path="/itineraries">
-              <Itineraries login={login} />
-            </Route>
-            <Route exact path="/itinerary/:id/map">
-              {!loading ? (
-                <Map login={login} eventData={eventData} />
-              ) : (
-                <Loader />
-              )}
-            </Route>
-            <Route exact path="/itinerary/:id/chat">
-              <Chat login={login} />
-            </Route>
-            <Route exact path="/itinerary/:id">
-              <Itinerary login={login} eventData={eventData} />
-            </Route>
-            <Route exact path="/">
-              <Home login={login} eventData={eventData} />
-            </Route>
-          </Switch>
-        </Layout>
-      </div>
+      <Box sx={{ display: "flex" }}>
+        <Nav login={login} setLogin={setLogin} setDrawer={setDrawer} />
+        {drawer && <Members />}
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+          <Layout>
+            <Switch>
+              <Route path="/login">
+                <Login login={login} setLogin={setLogin} />
+              </Route>
+              <Route path="/register">
+                <Login login={login} setLogin={setLogin} />
+              </Route>
+              <Route path="/itineraries">
+                <Itineraries login={login} />
+              </Route>
+              <Route exact path="/itinerary/:id/map">
+                {!loading ? (
+                  <Map login={login} eventData={eventData} />
+                ) : (
+                  <Loader />
+                )}
+              </Route>
+              <Route exact path="/itinerary/:id/chat">
+                <Chat login={login} />
+              </Route>
+              <Route exact path="/itinerary/:id">
+                <Itinerary login={login} eventData={eventData} />
+              </Route>
+              <Route exact path="/">
+                <Home login={login} eventData={eventData} />
+              </Route>
+            </Switch>
+          </Layout>
+        </Box>
+      </Box>
     </Router>
   );
 }

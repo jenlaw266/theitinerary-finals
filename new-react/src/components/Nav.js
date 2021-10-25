@@ -12,7 +12,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { makeStyles } from "@mui/styles";
 import { Link, useHistory } from "react-router-dom";
-import Members from "./Members";
 
 const userItineraries = [
   { id: 1, name: "London" },
@@ -34,8 +33,6 @@ const Nav = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
 
-  const [drawer, setDrawer] = useState(false);
-
   const handleMenuOpen = (e) => {
     setAnchorEl(e.currentTarget);
   };
@@ -51,7 +48,7 @@ const Nav = (props) => {
   };
 
   const toggleDrawer = () => {
-    setDrawer(true);
+    props.setDrawer((prev) => !prev);
   };
 
   const renderMenu = (
@@ -91,7 +88,10 @@ const Nav = (props) => {
   );
 
   return (
-    <AppBar>
+    <AppBar
+      position="fixed"
+      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+    >
       <Toolbar>
         <Box sx={{ flexGrow: 1 }}>
           <Button size="large" color="inherit" component={Link} to="/">

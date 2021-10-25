@@ -25,7 +25,7 @@ const Itineraries = () => {
   const trip = archivedTrips.map((city, id) => {
     return (
       <ItineraryItem key={id} location={city.location}>
-        <Link to={`itinerary/${id}`}>{id}</Link>
+        <Link to={`itinerary/${id}`}>{city.location}</Link>
       </ItineraryItem>
     );
   });
