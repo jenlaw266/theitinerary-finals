@@ -12,6 +12,8 @@ db.connect();
 
 const getName = require('./queries/itineraries');
 
+const getAllItineraries = require('./routes/getAllItineraries')
+
 // Express Configuration
 App.use(
   cors({
@@ -30,6 +32,12 @@ App.use("/api/activities", async function (req, res) {
     message: "Success, able to get data from api",
     act: activities,
   });
+});
+
+App.use("/api/  ", async function (req, res) {
+  console.log('i am here')
+  const itineraries = await getAllItineraries(db);
+
 });
 
 App.listen(PORT, () => {

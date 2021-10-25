@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { useRouteMatch } from "react-router";
+import { useState, useEffect } from "react";
 import Itinerary from "./Itinerary";
+import axios from "axios";
 
 const archivedTrips = [
   {
@@ -19,8 +21,22 @@ const archivedTrips = [
 
 const Itineraries = () => {
   const { path, url } = useRouteMatch();
+  const [trips, setTrips] = useState();
   console.log("path", path);
   console.log("url", url);
+
+  useEffect(() => {
+    const fetchData = () => {
+      axios.get("http://localhost:8080/api/itineraries")
+      .then((response) => {
+        setTrips({
+          itineraries: response.data
+        });
+      });
+    };
+
+  }, []);
+
 
   const trip = archivedTrips.map((city, id) => {
     return (
