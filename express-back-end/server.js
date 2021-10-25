@@ -23,6 +23,10 @@ App.use(BodyParser.urlencoded({ extended: false }));
 App.use(BodyParser.json());
 App.use(Express.static("public"));
 
+
+App.get('/api/data', (req, res) => res.send(JSON.stringify(data)));
+
+
 // Sample GET route
 App.use("/api/activities", async function (req, res) {
   const body = req.body

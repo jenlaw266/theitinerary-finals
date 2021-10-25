@@ -79,7 +79,7 @@ function App() {
             </Route>
             <Route exact path="/itinerary/:id/map">
               {!loading ? (
-                <Map login={login} eventData={eventData} />
+                <Map {...console.log("RENDERING MAP")} login={login} eventData={eventData} />
               ) : (
                 <Loader />
               )}
