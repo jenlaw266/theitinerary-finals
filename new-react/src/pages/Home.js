@@ -5,6 +5,7 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import Button from "@mui/material/Button";
+import axios from "axios";
 
 const Home = ({ eventData }) => {
   const [city, setCity] = useState(null);
@@ -18,6 +19,19 @@ const Home = ({ eventData }) => {
     if (city && start && end) {
       console.log(city, start, end);
     }
+
+    axios.post('http://localhost:8080/api/activities', {
+      city: city,
+      start: start,
+      end: end
+    })
+    .then((response) => {
+      console.log('Data Sent')
+    })
+
+    // axios.post('http://localhost:8080/api/activities', {
+    //   city: city
+    // })
   };
 
   return (
