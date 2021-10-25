@@ -51,14 +51,14 @@ function App() {
     });
   };
 
-  /* return (
-    <div className="App">
-      <h1>{state.message}</h1>
-      <h1>{state.act}</h1>
-      <button onClick={fetchActivities}>Fetch Data</button>
-    </div>
-  );
- */
+//  return (
+//     <div className="App">
+//       <h1>{state.message}</h1>
+//       <h1>{state.act}</h1>
+//       <button onClick={fetchActivities}>Fetch Data</button>
+//     </div>
+//   );
+ 
   return (
     <Router>
       <div className="App">
