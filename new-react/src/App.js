@@ -85,7 +85,7 @@ function App() {
               <Chat login={login} />
             </Route>
             <Route exact path="/itinerary/:id">
-              <Itinerary login={login} />
+              <Itinerary login={login} eventData={eventData} />
             </Route>
             <Route exact path="/">
               <Home login={login} eventData={eventData} />

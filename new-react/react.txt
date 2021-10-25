@@ -54,8 +54,6 @@ app -landing page (/)
         <form?> // search for user
     
 
-
-
 Routes
 
 /
@@ -70,3 +68,7 @@ Routes
 issues 
 - :id/map , :id/chat doesn't work
 - card img doesn't work 
+
+-useContext
+-card for itinerary
+-drawer for members

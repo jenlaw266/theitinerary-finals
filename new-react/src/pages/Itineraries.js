@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useRouteMatch } from "react-router";
-import Itinerary from "./Itinerary";
+import ItineraryItem from "../components/ItineraryItem";
 
 const archivedTrips = [
   {
@@ -24,9 +24,9 @@ const Itineraries = () => {
 
   const trip = archivedTrips.map((city, id) => {
     return (
-      <Itinerary key={id} location={city.location}>
+      <ItineraryItem key={id} location={city.location}>
         <Link to={`itinerary/${id}`}>{id}</Link>
-      </Itinerary>
+      </ItineraryItem>
     );
   });
   return (
