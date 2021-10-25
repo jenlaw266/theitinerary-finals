@@ -10,6 +10,8 @@ const dbParams = require("./lib/db.js");
 const db = new Pool(dbParams);
 db.connect();
 
+const getName = require('./queries/itineraries');
+
 // Express Configuration
 App.use(
   cors({
@@ -22,7 +24,8 @@ App.use(Express.static("public"));
 
 // Sample GET route
 App.use("/api/activities", async function (req, res) {
-  const activities = await getActivities(db);
+  const body = req.body
+  const activities = await getActivities(db, body);
   res.json({
     message: "Success, able to get data from api",
     act: activities,
