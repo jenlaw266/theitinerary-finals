@@ -4,10 +4,12 @@ import GoogleMapReact from 'google-map-react';
 import LocationMarker from '../components/Map/LocationMarker'
 import LocationInfoBox from '../components/Map/LocationInfoBox';
 import DaysCheckbox from '../components/Map/Checkbox';
+// import { color } from '@mui/system';
 
 const Map = ({ eventData, center, zoom }) => {
   const [locationInfo, setLocationInfo] = useState(null);
   const [filteredDays, setFilteredDays] = useState(eventData);
+  const [colorByDay, setColorByDay] = useState(null)
 
   // const [map, setMap] = useState(null);
   // const onLoad = useCallback((map) => setMap(map), []);
@@ -27,11 +29,6 @@ const Map = ({ eventData, center, zoom }) => {
           // }, [map, eventData]);
           // }, [])
     
-
-  const randomColor = () => {
-    return Math.floor(Math.random()*16777215).toString(16);
-  }
-
   const uniqueDays = (eventData) => {
     const allDays = [];
     eventData.map(event => allDays.push(event.day))
@@ -44,15 +41,30 @@ const Map = ({ eventData, center, zoom }) => {
   const daysList = uniqueDays(eventData)
   const [show, setShow] = useState(daysList); 
 
+  useEffect(() => {
+    const daysWithColor = {};
+    for (const day of daysList) {
+      daysWithColor[day] = Math.floor(Math.random()*16777215).toString(16)
+    };
+    
+    console.log("color by day inside", colorByDay)
+    setColorByDay(daysWithColor)
+  }, [])
+  
+  console.log("color by day outside", colorByDay)
+
   //assign each day properties
   const assignDayProperties = (daysList) => {
     const daysProps = {};
     
     daysList.forEach(day => {
+      console.log("day", day)
       daysProps[day] = {};
       daysProps[day].name = day;
       daysProps[day].visibility = true;
-      daysProps[day].color = randomColor();
+
+      //assign color based on the 
+      daysProps[day].color = colorByDay[day];
     })
   
     return daysProps;
