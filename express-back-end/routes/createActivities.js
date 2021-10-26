@@ -2,7 +2,7 @@ const getApi = require("./getApi");
 const getName = require("../queries/itineraries");
 const dayDiff = require("../helpers/convertDate");
 
-const getActivities = async function (db, body) {
+const createActivities = async function (db, body) {
   await db.query(
     `INSERT INTO itineraries(name, start_date, end_date, completed)
                   VALUES ($1, $2, $3, $4) RETURNING *`,
@@ -28,6 +28,7 @@ const getActivities = async function (db, body) {
     const heart = false;
     for (let i = 0; i < response.length; i++) {
       let name = response[i].name;
+      console.log(response[i].name)
       let location = "London";
       let address = response[i].formatted_address;
       let lat = response[i].geometry.location.lat;
@@ -51,4 +52,4 @@ const getActivities = async function (db, body) {
   return output;
 };
 
-module.exports = getActivities;
+module.exports = createActivities;
