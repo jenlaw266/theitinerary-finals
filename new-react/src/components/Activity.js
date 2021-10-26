@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -8,14 +8,23 @@ import { Typography } from "@mui/material";
 import { StylesContext } from "@mui/styles";
 
 const Activity = (props) => {
-  console.log("props activity", props.name, props.img);
+  // console.log("props activity", props.name, props.img);
+  const [heart, setHeart] = useState(props.heart);
+
+  // console.log("FROM ACTIVITY", props)
   return (
     <div>
       <Card>
         <CardHeader
-          action={<Checkbox onClick={() => console.log("clicked checkbox")} />}
+          action={<Checkbox 
+          checked={heart}
+          onChange={ (e)=> {
+            console.log(props.name, e.target.checked)
+            setHeart(e.target.checked)
+          }}
+          />}
           title={props.name}
-          subheader={props.city}
+          subheader={props.location}
         />
         <CardMedia
           component="img"

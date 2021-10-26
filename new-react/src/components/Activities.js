@@ -10,14 +10,16 @@ const REACT_APP_API_KEY = process.env.REACT_APP_API_KEY;
 
 const Activities = (props) => {
   const activityCard = props.activities.map((act, id) => {
+    console.log("FROM ACTIVITIES", act)
     return (
       <Grid key={id} item xs={12} sm={6} md={4}>
         <Activity
           key={id}
           name={act.name}
-          city={act.city}
+          location={act.location}
           img={act.image}
           address={act.address}
+          heart={act.heart}
         />
       </Grid>
     );

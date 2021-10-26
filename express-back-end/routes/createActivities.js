@@ -29,7 +29,7 @@ const createActivities = async function (db, body) {
     for (let i = 0; i < response.length; i++) {
       //console.log('response', response[i].photos[0].photo_reference)
       let name = response[i].name;
-      let location = "London";
+      let location = body.city;//"placeholder"//"London";
       let address = response[i].formatted_address;
       let lat = response[i].geometry.location.lat;
       let long = response[i].geometry.location.lng;
@@ -45,7 +45,8 @@ const createActivities = async function (db, body) {
         lat: lat,
         long: long,
         rating: rating,
-        image: imageString
+        image: imageString,
+        heart: heart
       });
       db.query(
         `INSERT INTO activities(name, location, lat, long, heart, image, day_id, itinerary_id)
