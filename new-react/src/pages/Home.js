@@ -24,19 +24,18 @@ const Home = ({ eventData }) => {
     }
 
     async function handleCall() {
-      const data = await getData({
+        await getData({
         city: city,
         start: start,
         end: end,
       }).then((response) => {
-        console.log("Data Sent");
-        axios.get("http://localhost:8080/api/itineraries").then((response) => {
+        setActivities(response.act);
+        axios.get("http://localhost:8080/api/itineraries")
+        .then((response) => {
           const itins = response.data.itineraries;
           setTrips(itins);
         });
       });
-      console.log(data);
-      setActivities(data.act);
     }
 
     handleCall();
