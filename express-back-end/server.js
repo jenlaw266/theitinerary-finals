@@ -34,10 +34,11 @@ App.use("/api/activities", async function (req, res) {
   });
 });
 
-App.use("/api/  ", async function (req, res) {
-  console.log('i am here')
+App.use("/api/itineraries", async function (req, res) {
   const itineraries = await getAllItineraries(db);
-
+  res.json({
+    itineraries: itineraries
+  })
 });
 
 App.listen(PORT, () => {
