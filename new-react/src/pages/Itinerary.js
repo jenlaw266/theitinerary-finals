@@ -34,9 +34,9 @@ const Itinerary = (props) => {
     }).then((data) => data.json());
   }
 
-  // console.log('days', days)
-  // console.log('itin', itinerary)
-  // console.log('act', activities)
+  console.log('days', days)
+  console.log('itin', itinerary)
+  console.log('act', activities)
 
   return (
     <div>
