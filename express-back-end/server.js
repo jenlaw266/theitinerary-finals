@@ -14,6 +14,7 @@ const getName = require('./queries/itineraries');
 const login = require('./routes/login');
 
 const getAllItineraries = require('./routes/getAllItineraries')
+const getItinerary = require('./routes/getItinerary')
 
 // Express Configuration
 App.use(
@@ -45,6 +46,15 @@ App.use("/api/itineraries", async function (req, res) {
   res.json({
     itineraries: itineraries
   })
+});
+
+App.use("/api/itinerary", async function (req, res) {
+  console.log(req.body)
+  const itinerary = await getItinerary(db, req.body.id);
+  console.log('itinerary', itinerary)
+  // res.json({
+  //   itinerary: itinerary
+  // })
 });
 
 App.use("/api/login", async function (req, res) {
