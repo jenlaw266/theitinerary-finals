@@ -12,6 +12,7 @@ const Home = ({ eventData }) => {
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
   const [submit, setSubmit] = useState(false);
+  const [activities, setActivities] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,16 +21,30 @@ const Home = ({ eventData }) => {
       console.log(city, start, end);
     }
 
-    axios
-      .post("http://localhost:8080/api/create/activities", {
+    async function handleCall() {
+      const data = await getData({
         city: city,
         start: start,
-        end: end,
+        end: end
       })
-      .then((response) => {
-        console.log("Data Sent");
-      });
+      console.log(data)
+      setActivities(data.act)
+    }
+
+    handleCall();
   };
+
+  async function getData(data) {
+    return fetch("http://localhost:8080/api/create/activities", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then((data) => data.json());
+  }
+
+  console.log('act', activities)
 
   return (
     <div>
@@ -63,7 +78,7 @@ const Home = ({ eventData }) => {
           Submit
         </Button>
       </form>
-      {submit && <Activities eventData={eventData} />}
+      {submit && <Activities eventData={eventData} activities={activities}/>}
     </div>
   );
 };
