@@ -4,37 +4,39 @@ import { useRouteMatch } from "react-router";
 import ItineraryItem from "../components/ItineraryItem";
 import LoginContext from "../context/LoginContext";
 import { useHistory } from "react-router-dom";
-
-const archivedTrips = [
-  {
-    location: "London",
-    link: "somelink1",
-  },
-  {
-    location: "Vancouver",
-    link: "somelink1",
-  },
-  {
-    location: "Calgary",
-    link: "somelink1",
-  },
-];
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const Itineraries = () => {
   const { path, url } = useRouteMatch();
-  console.log("path", path);
-  console.log("url", url);
+  const [isLoading, setLoading] = useState(true);
+  const [trips, setTrips] = useState();
+  // console.log("path", path);
+  // console.log("url", url);
 
   const { token } = useContext(LoginContext);
   const history = useHistory();
 
-  const trip = archivedTrips.map((city, id) => {
+  useEffect(() => {
+    axios.get("http://localhost:8080/api/itineraries").then((response) => {
+      setTrips(response.data.itineraries);
+      setLoading(false);
+    });
+  }, []);
+  console.log("trips", trips);
+
+  if (isLoading) {
+    return <div className="App">Loading...</div>;
+  }
+
+  const trip = trips.map((itinerary) => {
     return (
-      <ItineraryItem key={id} location={city.location}>
-        <Link to={`itinerary/${id}`}>{city.location}</Link>
+      <ItineraryItem key={itinerary.id} location={itinerary.name}>
+        <Link to={`itinerary/${itinerary.id}`}>{itinerary.id}</Link>
       </ItineraryItem>
     );
   });
+
   return (
     <div>
       {!token && history.push("/login")}
