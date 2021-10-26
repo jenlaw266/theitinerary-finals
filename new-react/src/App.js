@@ -12,9 +12,11 @@ import Loader from "./components/Map/Loader";
 import Chat from "./pages/Chat";
 import axios from "axios";
 import Members from "./components/Members";
+import useToken from "./hooks/useToken";
+import LoginContext from "./context/LoginContext";
 
 function App() {
-  const [login, setLogin] = useState(false);
+  const { token, setToken } = useToken(null);
   const [drawer, setDrawer] = useState(false);
   const [eventData, setEventData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -64,39 +66,44 @@ function App() {
   return (
     <Router>
       <Box sx={{ display: "flex" }}>
-        <Nav login={login} setLogin={setLogin} setDrawer={setDrawer} />
-        {drawer && <Members />}
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-          <Layout>
-            <Switch>
-              <Route path="/login">
-                <Login login={login} setLogin={setLogin} />
-              </Route>
-              <Route path="/register">
-                <Login login={login} setLogin={setLogin} />
-              </Route>
-              <Route path="/itineraries">
-                <Itineraries login={login} />
-              </Route>
-              <Route exact path="/itinerary/:id/map">
-                {!loading ? (
-                  <Map login={login} eventData={eventData} />
-                ) : (
-                  <Loader />
-                )}
-              </Route>
-              <Route exact path="/itinerary/:id/chat">
-                <Chat login={login} />
-              </Route>
-              <Route exact path="/itinerary/:id">
-                <Itinerary login={login} eventData={eventData} />
-              </Route>
-              <Route exact path="/">
-                <Home login={login} eventData={eventData} />
-              </Route>
-            </Switch>
-          </Layout>
-        </Box>
+        <LoginContext.Provider value={{ token }}>
+          <Nav setDrawer={setDrawer} setToken={setToken} />
+          {drawer && <Members />}
+          <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+            <Layout>
+              <Switch>
+                <Route path="/login">
+                  <Login setToken={setToken} />
+                </Route>
+                <Route path="/register">
+                  <Login setToken={setToken} />
+                </Route>
+                <Route path="/itineraries">
+                  <Itineraries />
+                </Route>
+                <Route exact path="/itinerary/:id/map">
+                  {!loading ? (
+                    <Map
+                      {...console.log("RENDERING MAP")}
+                      eventData={eventData}
+                    />
+                  ) : (
+                    <Loader />
+                  )}
+                </Route>
+                <Route exact path="/itinerary/:id/chat">
+                  <Chat />
+                </Route>
+                <Route exact path="/itinerary/:id">
+                  <Itinerary eventData={eventData} />
+                </Route>
+                <Route exact path="/">
+                  <Home eventData={eventData} />
+                </Route>
+              </Switch>
+            </Layout>
+          </Box>
+        </LoginContext.Provider>
       </Box>
     </Router>
   );

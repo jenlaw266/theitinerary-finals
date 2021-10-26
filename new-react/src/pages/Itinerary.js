@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useParams } from "react-router";
 
 const Itinerary = (props) => {

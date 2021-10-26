@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { useRouteMatch } from "react-router";
 import ItineraryItem from "../components/ItineraryItem";
