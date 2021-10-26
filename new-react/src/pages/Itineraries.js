@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { useRouteMatch } from "react-router";
+import { useState, useEffect } from "react";
 import Itinerary from "./Itinerary";
+import axios from "axios";
 
 const archivedTrips = [
   {
@@ -19,13 +21,28 @@ const archivedTrips = [
 
 const Itineraries = () => {
   const { path, url } = useRouteMatch();
+  const [isLoading, setLoading] = useState(true);
+  const [trips, setTrips] = useState()
   console.log("path", path);
   console.log("url", url);
 
-  const trip = archivedTrips.map((city, id) => {
+  useEffect(() => {
+    axios.get("http://localhost:8080/api/itineraries")
+    .then(response => {
+      setTrips(response.data.itineraries);
+      setLoading(false);
+    });
+  }, []);
+  console.log(trips)
+
+  if (isLoading) {
+    return <div className="App">Loading...</div>;
+  }
+
+  const trip = trips.map((itinerary) => {
     return (
-      <Itinerary key={id} location={city.location}>
-        <Link to={`itinerary/${id}`}>{id}</Link>
+      <Itinerary key={itinerary.id} location={itinerary.name}>
+        <Link to={`itinerary/${itinerary.id}`}>{itinerary.id}</Link>
       </Itinerary>
     );
   });

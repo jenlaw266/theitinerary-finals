@@ -13,6 +13,8 @@ db.connect();
 const getName = require('./queries/itineraries');
 const login = require('./routes/login');
 
+const getAllItineraries = require('./routes/getAllItineraries')
+
 // Express Configuration
 App.use(
   cors({
@@ -35,6 +37,14 @@ App.use("/api/activities", async function (req, res) {
     message: "Success, able to get data from api",
     act: activities,
   });
+});
+
+
+App.use("/api/itineraries", async function (req, res) {
+  const itineraries = await getAllItineraries(db);
+  res.json({
+    itineraries: itineraries
+  })
 });
 
 App.use("/api/login", async function (req, res) {
