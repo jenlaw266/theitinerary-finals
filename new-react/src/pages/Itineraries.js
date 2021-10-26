@@ -4,20 +4,20 @@ import { useState, useEffect } from "react";
 import Itinerary from "./Itinerary";
 import axios from "axios";
 
-const archivedTrips = [
-  {
-    location: "London",
-    link: "somelink1",
-  },
-  {
-    location: "Vancouver",
-    link: "somelink1",
-  },
-  {
-    location: "Calgary",
-    link: "somelink1",
-  },
-];
+// const archivedTrips = [
+//   {
+//     location: "London",
+//     link: "somelink1",
+//   },
+//   {
+//     location: "Vancouver",
+//     link: "somelink1",
+//   },
+//   {
+//     location: "Calgary",
+//     link: "somelink1",
+//   },
+// ];
 
 const Itineraries = () => {
   const { path, url } = useRouteMatch();
