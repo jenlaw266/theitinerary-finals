@@ -4,12 +4,12 @@ import GoogleMapReact from 'google-map-react';
 import LocationMarker from '../components/Map/LocationMarker'
 import LocationInfoBox from '../components/Map/LocationInfoBox';
 import DaysCheckbox from '../components/Map/Checkbox';
-// import { color } from '@mui/system';
 
 const Map = ({ eventData, center, zoom }) => {
   const [locationInfo, setLocationInfo] = useState(null);
   const [filteredDays, setFilteredDays] = useState(eventData);
-  const [colorByDay, setColorByDay] = useState(null)
+  const [dayProperties, setDayProperties] = useState(null);
+  const [markers, setMarkers] = useState(null);
 
   // const [map, setMap] = useState(null);
   // const onLoad = useCallback((map) => setMap(map), []);
@@ -40,42 +40,20 @@ const Map = ({ eventData, center, zoom }) => {
 
   const daysList = uniqueDays(eventData)
   const [show, setShow] = useState(daysList); 
-
-  useEffect(() => {
-    const daysWithColor = {};
-    for (const day of daysList) {
-      daysWithColor[day] = Math.floor(Math.random()*16777215).toString(16)
-    };
-    
-    console.log("color by day inside", colorByDay)
-    setColorByDay(daysWithColor)
-  }, [])
+  console.log(eventData)
   
-  console.log("color by day outside", colorByDay)
-
   //assign each day properties
-  const assignDayProperties = (daysList) => {
+  useEffect(() => {
     const daysProps = {};
-    
     daysList.forEach(day => {
-      console.log("day", day)
       daysProps[day] = {};
       daysProps[day].name = day;
-      daysProps[day].visibility = true;
-
-      //assign color based on the 
-      daysProps[day].color = colorByDay[day];
+      daysProps[day].visibility = true;      
+      daysProps[day].color = Math.floor(Math.random()*16777215).toString(16);
     })
-  
-    return daysProps;
-  };
 
-  const dayProperties = assignDayProperties(daysList, eventData);
-
-  const assignMarkerColor = (dayProperties, dayName) => {
-    const color = dayProperties[dayName].color;
-    return color;
-  };
+    setDayProperties(daysProps);
+  }, [])
 
   const handleCallback = (childData) => {
     setShow(childData) // childData = ["day1", "day2", "day3", "day4"]
@@ -83,8 +61,7 @@ const Map = ({ eventData, center, zoom }) => {
 
   //create a filtered list of the days selected from the checkbox.
   useEffect(()=> {
-    console.log({show, filteredDays, daysList})
-
+    // console.log({show, filteredDays, daysList})
     if (show.length === daysList.length) {
       return setFilteredDays(eventData);
     } else {
@@ -99,21 +76,29 @@ const Map = ({ eventData, center, zoom }) => {
   }, [show])
   
   //show only the markers that are enabled on checkbox
+  useEffect(()=> {
+      setMarkers(filteredDays.map(event => {
+        const dayNameFromEvent = event.day
+        console.log(dayProperties)
+
+        const assignedColor = !dayProperties ? '000000' : dayProperties[dayNameFromEvent].color 
+        console.log(assignedColor)
     
-  const markers = filteredDays.map(event => {
-    return (
-      <LocationMarker 
-      key = {event.name}
-      lat={event.lat} 
-      lng={event.lng} 
-      onClick={() => setLocationInfo({
-        name: event.name, 
-        day: event.day, 
-        img: event.img
-      })}
-      color={assignMarkerColor(dayProperties, event.day)}
-      />)
-    })
+        return (
+          <LocationMarker 
+          key = {event.name}
+          lat={event.lat} 
+          lng={event.lng} 
+          onClick={() => setLocationInfo({
+            name: event.name, 
+            day: event.day, 
+            img: event.img
+          })}
+          color={assignedColor}
+          />)
+        })
+      )
+  }, [filteredDays, dayProperties])
 
   return (
     <div className="map">
@@ -129,7 +114,8 @@ const Map = ({ eventData, center, zoom }) => {
        {markers}
       </GoogleMapReact>
       {locationInfo && <LocationInfoBox info={locationInfo}/>}
-      <DaysCheckbox daysList={daysList} dayProperties={dayProperties} parentCallback={handleCallback} />
+      {dayProperties && <DaysCheckbox daysList={daysList} dayProperties={dayProperties} parentCallback={handleCallback} />
+      }
     </div>
   )
 }
