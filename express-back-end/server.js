@@ -21,6 +21,7 @@ const {
 } = require("./routes/getItinerary");
 const deleteItinerary = require("./queries/deleteItinerary");
 const { response } = require("express");
+const getImage = require("./routes/getImage");
 
 // Express Configuration
 App.use(
@@ -37,7 +38,8 @@ App.get("/api/data", (req, res) => res.send(JSON.stringify(data)));
 // Sample GET route
 App.use("/api/create/activities", async function (req, res) {
   const body = req.body;
-  const activities = await createActivities(db, body);
+  const actObj = await createActivities(db, body);
+  const activities = await getImage(db, actObj);
   res.json({
     message: "Success, able to get data from api",
     act: activities,

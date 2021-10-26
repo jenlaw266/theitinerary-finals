@@ -6,6 +6,7 @@ CREATE TABLE activities (
   lat DECIMAL(8,6) NOT NULL,
   long DECIMAL(9,6) NOT NULL,
   heart BOOLEAN NOT NULL DEFAULT false,
+  image VARCHAR(255) NOT NULL,
   day_id INTEGER REFERENCES days(id) ON DELETE CASCADE,
   itinerary_id INTEGER REFERENCES itineraries(id) ON DELETE CASCADE
 );
