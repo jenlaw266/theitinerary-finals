@@ -11,15 +11,17 @@ import Map from "./pages/Map";
 import Loader from "./components/Map/Loader";
 import Chat from "./pages/Chat";
 import axios from "axios";
+import useToken from "./hooks/useToken";
 
 function App() {
+  const { token, setToken } = useToken();
   const [login, setLogin] = useState(false);
   const [eventData, setEventData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [state, setState] = useState({
     message: "",
   });
-
+  
   useEffect(() => {
     const fetchData = () => {
       /*       axios.get("http://localhost:8080/api/activities").then((response) => {
@@ -31,14 +33,15 @@ function App() {
         setLoading(false);
       });
     };
-
+    
+    
     const timer = setTimeout(() => {
       fetchData();
     }, 1000);
-
+    
     return () => clearTimeout(timer);
   }, []);
-
+  
   const fetchActivities = () => {
     axios.get("/api/activities").then((response) => {
       console.log(response.data);
@@ -62,21 +65,21 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Nav login={login} setLogin={setLogin} />
+        <Nav setToken={setToken} />
         <Layout>
           <Switch>
             <Route path="/login">
-              <Login login={login} setLogin={setLogin} />
+              <Login setToken={setToken} />
             </Route>
             <Route path="/register">
-              <Login login={login} setLogin={setLogin} />
+              <Login setToken={setToken} />
             </Route>
             <Route path="/itineraries">
               <Itineraries login={login} />
             </Route>
             <Route exact path="/itinerary/:id/map">
               {!loading ? (
-                <Map login={login} eventData={eventData} />
+                <Map {...console.log("RENDERING MAP")} login={login} eventData={eventData} />
               ) : (
                 <Loader />
               )}
