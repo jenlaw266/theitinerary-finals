@@ -14,7 +14,8 @@ const getName = require('./queries/itineraries');
 const login = require('./routes/login');
 
 const getAllItineraries = require('./routes/getAllItineraries')
-const { getItinerary, getDays, getActivities } = require('./routes/getItinerary')
+const { getItinerary, getDays, getActivities } = require('./routes/getItinerary');
+const getImage = require("./routes/getImage");
 
 // Express Configuration
 App.use(
@@ -33,7 +34,8 @@ App.get('/api/data', (req, res) => res.send(JSON.stringify(data)));
 // Sample GET route
 App.use("/api/create/activities", async function (req, res) {
   const body = req.body
-  const activities = await createActivities(db, body);
+  const actObj = await createActivities(db, body);
+  const activities = await getImage(db, actObj)
   res.json({
     message: "Success, able to get data from api",
     act: activities,
