@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import LoginContext from "../../context/LoginContext";
 import "./chatbox.css";
 
 export default function Messages({ socket }) {
   const [messages, setMessages] = useState({});
+  const { token } = useContext(LoginContext);
 
   useEffect(() => {
     const messageListener = (message) => {
       setMessages((prevMessages) => {
+        // const user = { id: "anon", name: token };
+        // prevMessages["user"] = user;
         const newMessages = { ...prevMessages };
         newMessages[message.id] = message;
+        console.log(newMessages);
         return newMessages;
       });
     };
@@ -29,25 +34,29 @@ export default function Messages({ socket }) {
       socket.off("message", messageListener);
       socket.off("deleteMessage", deleteMessageListener);
     };
-  }, [socket]);
+  }, [socket, token]);
+
+  // console.log(messages);
+  // console.log("object.value ", Object.values(messages));
 
   return (
-    <div className="chat-main">
-      {[...Object.values(messages)]
-        .sort((a, b) => a.time - b.time)
-        .map((message) => (
-          <div
-            key={message.id}
-            className="chat-message"
-            title={`Sent at ${new Date(message.time).toLocaleTimeString()}`}
-          >
-            <span className="chat img">{message.user.name}:</span>
-            <span className="chat-sent">{message.value}</span>
-            <span className="date">
-              {new Date(message.time).toLocaleTimeString()}
-            </span>
-          </div>
-        ))}
+    <div className="message-list">
+      {messages.length &&
+        [...Object.values(messages)]
+          .sort((a, b) => a.time - b.time)
+          .map((message) => (
+            <div
+              key={message.id}
+              className="message-container"
+              title={`Sent at ${new Date(message.time).toLocaleTimeString()}`}
+            >
+              <span className="user">{message.user.name}:</span>
+              <span className="message">{message.value}</span>
+              <span className="date">
+                {new Date(message.time).toLocaleTimeString()}
+              </span>
+            </div>
+          ))}
     </div>
   );
 }

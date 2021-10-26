@@ -14,6 +14,7 @@ import axios from "axios";
 import Members from "./components/Members";
 import useToken from "./hooks/useToken";
 import LoginContext from "./context/LoginContext";
+import DataContext from "./context/DataContext";
 
 function App() {
   const { token, setToken } = useToken(null);
@@ -21,6 +22,7 @@ function App() {
   const [eventData, setEventData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [trips, setTrips] = useState([]);
+  const [currentTrip, setCurrentTrip] = useState();
 
   const [state, setState] = useState({
     message: "",
@@ -47,7 +49,9 @@ function App() {
 
   useEffect(() => {
     axios.get("http://localhost:8080/api/itineraries").then((response) => {
-      setTrips(response.data.itineraries);
+      const itins = response.data.itineraries;
+      setTrips(itins);
+      setCurrentTrip(itins[itins.length - 1]);
       setLoading(false);
     });
   }, []);
@@ -75,14 +79,15 @@ function App() {
   return (
     <Router>
       <Box sx={{ display: "flex" }}>
-        <LoginContext.Provider value={{ token, loading }}>
+        <LoginContext.Provider value={{ token, loading, setTrips }}>
           <Nav
             setDrawer={setDrawer}
             setToken={setToken}
             token={token}
             trips={trips}
+            currentTrip={currentTrip}
           />
-          {drawer && <Members token={token} />}
+          {drawer && <Members />}
           <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
             <Layout>
               <Switch>
@@ -92,28 +97,31 @@ function App() {
                 <Route path="/register">
                   <Login setToken={setToken} />
                 </Route>
-                <Route path="/itineraries">
-                  <Itineraries trips={trips} />
-                </Route>
-                <Route exact path="/itinerary/:id/map">
-                  {!loading ? (
-                    <Map
-                      {...console.log("RENDERING MAP")}
-                      eventData={eventData}
-                    />
-                  ) : (
-                    <Loader />
-                  )}
-                </Route>
-                <Route exact path="/itinerary/:id/chat">
-                  <Chat />
-                </Route>
-                <Route exact path="/itinerary/:id">
-                  <Itinerary eventData={eventData} />
-                </Route>
-                <Route exact path="/">
-                  <Home eventData={eventData} />
-                </Route>
+
+                <DataContext.Provider value={{ setTrips }}>
+                  <Route path="/itineraries">
+                    <Itineraries trips={trips} />
+                  </Route>
+                  <Route exact path="/itinerary/:id/map">
+                    {!loading ? (
+                      <Map
+                        {...console.log("RENDERING MAP")}
+                        eventData={eventData}
+                      />
+                    ) : (
+                      <Loader />
+                    )}
+                  </Route>
+                  <Route exact path="/itinerary/:id/chat">
+                    <Chat currentTrip={currentTrip} />
+                  </Route>
+                  <Route exact path="/itinerary/:id">
+                    <Itinerary currentTrip={currentTrip} />
+                  </Route>
+                  <Route exact path="/">
+                    <Home eventData={eventData} />
+                  </Route>
+                </DataContext.Provider>
               </Switch>
             </Layout>
           </Box>

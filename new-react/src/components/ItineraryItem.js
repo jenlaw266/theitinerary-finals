@@ -1,21 +1,40 @@
-import React from "react";
-import { useParams } from "react-router";
+import { useEffect, useContext } from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
-import Checkbox from "@mui/material/Checkbox";
+import DeleteIcon from "@mui/icons-material/Delete";
+import DataContext from "../context/DataContext";
 import { Typography } from "@mui/material";
 import { StylesContext } from "@mui/styles";
+import axios from "axios";
 
 const ItineraryItem = (props) => {
-  //take the :id from url
-  const params = useParams();
+  const { setTrips } = useContext(DataContext);
+
+  async function deleteData(id) {
+    console.log("clicked delete", id);
+    axios
+      .delete(`http://localhost:8080/api/itineraries/${id}`)
+      .then((response) => {
+        console.log(response);
+        axios.get("http://localhost:8080/api/itineraries").then((response) => {
+          const itins = response.data.itineraries;
+          setTrips(itins);
+        });
+      });
+  }
 
   return (
     <div>
       <Card>
         <CardHeader
-          action={<Checkbox onClick={() => console.log("clicked checkbox")} />}
+          action={
+            <DeleteIcon
+              onClick={() => {
+                deleteData(props.id);
+              }}
+            />
+          }
           title={props.children}
           subheader={props.completed ? "Archived" : "Current"}
         />

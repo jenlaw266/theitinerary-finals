@@ -21,18 +21,23 @@ const Itineraries = ({ trips }) => {
     return <div className="App">Loading...</div>;
   }
 
-  const trip = trips.map((itinerary) => {
-    return (
-      <ItineraryItem
-        key={itinerary.id}
-        completed={itinerary.completed}
-        start_date={itinerary.start_date}
-        end_date={itinerary.end_date}
-      >
-        <Link to={`itinerary/${itinerary.id}`}>{itinerary.name}</Link>
-      </ItineraryItem>
-    );
-  });
+  const trip = trips
+    .slice(0)
+    .reverse()
+    .map((itinerary) => {
+      return (
+        <ItineraryItem
+          key={itinerary.id}
+          id={itinerary.id}
+          name={itinerary.name}
+          completed={itinerary.completed}
+          start_date={itinerary.start_date}
+          end_date={itinerary.end_date}
+        >
+          <Link to={`itinerary/${itinerary.id}`}>{itinerary.name}</Link>
+        </ItineraryItem>
+      );
+    });
 
   return (
     <div>

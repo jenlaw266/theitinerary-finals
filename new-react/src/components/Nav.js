@@ -15,12 +15,6 @@ import { Link, useHistory } from "react-router-dom";
 import LoginContext from "../context/LoginContext";
 import { Typography } from "@mui/material";
 
-const userItineraries = [
-  { id: 1, name: "London" },
-  { id: 2, name: "Vancouver" },
-  { id: 3, name: "Calgary" },
-];
-
 const useStyles = makeStyles({
   // button: { color: "black" },
   text: { color: "pink" },
@@ -29,7 +23,7 @@ const useStyles = makeStyles({
 const Nav = (props) => {
   const classes = useStyles();
   const history = useHistory();
-  const id = userItineraries[userItineraries.length - 1].id;
+  const id = props.currentTrip?.id;
   const { token } = useContext(LoginContext);
 
   const menuId = "primary-search-account-menu";

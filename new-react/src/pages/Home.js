@@ -6,12 +6,14 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import Button from "@mui/material/Button";
 import axios from "axios";
+import DataContext from "../context/DataContext";
 
 const Home = ({ eventData }) => {
   const [city, setCity] = useState(null);
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
   const [submit, setSubmit] = useState(false);
+  const { setTrips } = useContext(DataContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,6 +30,10 @@ const Home = ({ eventData }) => {
       })
       .then((response) => {
         console.log("Data Sent");
+        axios.get("http://localhost:8080/api/itineraries").then((response) => {
+          const itins = response.data.itineraries;
+          setTrips(itins);
+        });
       });
   };
 

@@ -10,7 +10,7 @@ export default function NewMessage({ socket }) {
   };
 
   return (
-    <form onSubmit={submitForm} className="chat form">
+    <form onSubmit={submitForm}>
       <input
         autoFocus
         value={value}

@@ -8,7 +8,7 @@ import { Typography } from "@mui/material";
 import { StylesContext } from "@mui/styles";
 
 const Activity = (props) => {
-  console.log("props activity", props.name, props.img);
+  // console.log("props activity", props.name, props.img);
   return (
     <div>
       <Card>

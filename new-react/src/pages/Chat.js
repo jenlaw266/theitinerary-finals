@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom";
 
 import "../components/Chat/chatbox.css";
 
-export default function Chat() {
+export default function Chat({ currentTrip }) {
   const [socket, setSocket] = useState(null);
   const { token } = useContext(LoginContext);
   const history = useHistory();
@@ -21,9 +21,9 @@ export default function Chat() {
   return (
     <div>
       {!token && history.push("/login")}
-      <header className="chat header">React Chat</header>
+      <header className="app-header">{currentTrip?.name} Trip</header>
       {socket ? (
-        <div className="chat_main">
+        <div className="chat-container">
           <Messages socket={socket} />
           <MessageInput socket={socket} />
         </div>

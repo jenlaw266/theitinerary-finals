@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { makeStyles } from "@mui/styles";
 import Drawer from "@mui/material/Drawer";
 import Toolbar from "@mui/material/Toolbar";
@@ -16,6 +16,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
 import { deepPurple } from "@mui/material/colors";
+import LoginContext from "../context/LoginContext";
 
 const members = ["John", "Mary", "Amy", "Leland", "Ysabel", "Jennifer"];
 
@@ -30,8 +31,9 @@ const useStyles = makeStyles({
   },
 });
 
-const Members = ({ token }) => {
+const Members = () => {
   const classes = useStyles();
+  const { token } = useContext(LoginContext);
   const username = token ? token : "";
   const [addMember, setAddMember] = useState(false);
   const [deleteMember, setDeleteMember] = useState(false);
@@ -40,18 +42,20 @@ const Members = ({ token }) => {
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+    setAddMember(false);
+    setDeleteMember(false);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   const popOutForm = () => {
-    setAddMember((prev) => !prev);
+    setAddMember(true);
     setAnchorEl(null);
   };
 
   const popOutDelete = () => {
-    setDeleteMember((prev) => !prev);
+    setDeleteMember(true);
     setAnchorEl(null);
   };
 
