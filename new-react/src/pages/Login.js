@@ -3,18 +3,39 @@ import { useRouteMatch } from "react-router";
 import { Link, useHistory } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import axios from "axios";
+import PropTypes from 'prop-types';
 
-const Login = (props) => {
+const Login = ({ setToken }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const [title, setTitle] = useState("");
   const history = useHistory();
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async e => {
     e.preventDefault();
-    props.setLogin(true);
-    if (email && password) history.push("/");
-  };
+    const token = await loginUser({
+      username,
+      email,
+      password,
+      title
+    });
+    console.log('token', token)
+    setToken(token);
+  }
+
+  async function loginUser(credentials) {
+    return fetch('http://localhost:8080/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(credentials)
+    })
+      .then(data => data.json())
+   }
 
   const { url } = useRouteMatch();
 
@@ -29,6 +50,12 @@ const Login = (props) => {
       <h1>{title}</h1>
 
       <form noValidate onSubmit={handleSubmit}>
+        <TextField
+            required
+            id="outlined-required"
+            label="Username"
+            onChange={(e) => setUsername(e.target.value)}
+          />
         <TextField
           required
           id="outlined-required"
@@ -57,5 +84,9 @@ const Login = (props) => {
     </div>
   );
 };
+
+Login.propTypes = {
+  setToken: PropTypes.func.isRequired
+}
 
 export default Login;

@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -10,8 +10,8 @@ import IconButton from '@mui/material/IconButton';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 function DaysCheckbox(props) {
-  console.log("propsdaylist inside dayscheckbox", props.daysList);
-  console.log("propsdayproperties inside dayscheckbox", props.dayProperties);
+  // console.log("propsdaylist inside dayscheckbox", props.daysList);
+  // console.log("propsdayproperties inside dayscheckbox", props.dayProperties);
 
   const [checked, setChecked] = useState(props.daysList);
 
@@ -28,14 +28,21 @@ function DaysCheckbox(props) {
     setChecked(newChecked);
 
     //call function to send back checked days 
-    props.parentCallback(daysToMark(checked));
+    props.parentCallback(newChecked);
+
+    console.log(" inside handle toggle, newChecked", newChecked)
+    console.log(" inside handle toggle, checked", checked)
   };
+
+  useEffect(() => {
+    console.log("checked", checked)
+  }, [checked]);
 
   console.log("checked outside handleToggle", checked)
   //send data of days to place on map if box is checked
-  const daysToMark = (checked) => {
-    return checked;
-  }
+  // const daysToMark = (checked) => {
+  //   return checked;
+  // }
 
   return (
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
@@ -72,97 +79,3 @@ function DaysCheckbox(props) {
 }
 
 export default DaysCheckbox;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ----------------------------------------------------------
-
-// import React, { useState } from 'react';
-// import Box from '@mui/material/Box';
-// import FormLabel from '@mui/material/FormLabel';
-// import FormControl from '@mui/material/FormControl';
-// import FormGroup from '@mui/material/FormGroup';
-// import FormControlLabel from '@mui/material/FormControlLabel';
-// import Checkbox from '@mui/material/Checkbox';
-// import LocationOnIcon from '@mui/icons-material/LocationOn';
-
-// function DaysCheckbox(props) {
-//   const [state, setState] = useState({
-//     day1: true,
-//     day2: true,
-//     day3: true,
-//     day4: true
-//   });
-  
-//   // console.log("inside daysheckbox component ", props.daysList)
-//   // console.log("inside daysheckbox component ", props.dayProperties)
-
-//   const handleChange = (event) => {
-//     setState({
-//       ...state,
-//       [event.target.name]: event.target.checked,
-//     });
-//   };
-
-//   const { day1, day2, day3, day4 } = state;
-
-//   return (
-//     <Box sx={{ display: 'flex' }}>
-//       <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-//         <FormLabel component="legend">Days</FormLabel>
-//         <FormGroup>
-//           <FormControlLabel
-//             control={
-//               <Checkbox checked={day1} onChange={handleChange} name="day1" />
-//             }
-//             label="Day 1"
-//           />
-//           <FormControlLabel
-//             control={
-//               <Checkbox checked={day2} onChange={handleChange} name="day2" />
-//             }
-//             label="Day 2"
-//           />
-//           <FormControlLabel
-//             control={
-//               <Checkbox checked={day3} onChange={handleChange} name="day3" />
-//             }
-//             label="Day 3"
-//           />
-//            <FormControlLabel
-//             control={
-//               <Checkbox checked={day4} onChange={handleChange} name="day4" />
-//             }
-//             label="Day 4"
-//           />
-//         </FormGroup>
-//         {/* <FormHelperText>Be careful</FormHelperText> */}
-//       </FormControl>
-//     </Box>
-//   );
-// }
-
-// export default DaysCheckbox;

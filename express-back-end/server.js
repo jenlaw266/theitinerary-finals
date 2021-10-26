@@ -11,6 +11,7 @@ const db = new Pool(dbParams);
 db.connect();
 
 const getName = require('./queries/itineraries');
+const login = require('./routes/login');
 
 const getAllItineraries = require('./routes/getAllItineraries')
 
@@ -24,6 +25,10 @@ App.use(BodyParser.urlencoded({ extended: false }));
 App.use(BodyParser.json());
 App.use(Express.static("public"));
 
+
+App.get('/api/data', (req, res) => res.send(JSON.stringify(data)));
+
+
 // Sample GET route
 App.use("/api/activities", async function (req, res) {
   const body = req.body
@@ -34,10 +39,19 @@ App.use("/api/activities", async function (req, res) {
   });
 });
 
+
 App.use("/api/itineraries", async function (req, res) {
   const itineraries = await getAllItineraries(db);
   res.json({
     itineraries: itineraries
+  })
+});
+
+App.use("/api/login", async function (req, res) {
+  const token = await login(db, req.body);
+  console.log('token', token)
+  res.json({
+    token: token
   })
 });
 
