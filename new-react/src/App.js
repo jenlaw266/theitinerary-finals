@@ -20,6 +20,8 @@ function App() {
   const [drawer, setDrawer] = useState(false);
   const [eventData, setEventData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [trips, setTrips] = useState([]);
+
   const [state, setState] = useState({
     message: "",
   });
@@ -41,6 +43,13 @@ function App() {
     }, 1000);
 
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    axios.get("http://localhost:8080/api/itineraries").then((response) => {
+      setTrips(response.data.itineraries);
+      setLoading(false);
+    });
   }, []);
 
   const fetchActivities = () => {
@@ -66,9 +75,14 @@ function App() {
   return (
     <Router>
       <Box sx={{ display: "flex" }}>
-        <LoginContext.Provider value={{ token }}>
-          <Nav setDrawer={setDrawer} setToken={setToken} />
-          {drawer && <Members />}
+        <LoginContext.Provider value={{ token, loading }}>
+          <Nav
+            setDrawer={setDrawer}
+            setToken={setToken}
+            token={token}
+            trips={trips}
+          />
+          {drawer && <Members token={token} />}
           <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
             <Layout>
               <Switch>
@@ -79,7 +93,7 @@ function App() {
                   <Login setToken={setToken} />
                 </Route>
                 <Route path="/itineraries">
-                  <Itineraries />
+                  <Itineraries trips={trips} />
                 </Route>
                 <Route exact path="/itinerary/:id/map">
                   {!loading ? (

@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import axios from "axios";
 import PropTypes from "prop-types";
 
-const Login = ({ setToken }) => {
+const Login = ({ setToken, setDisplayName }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
@@ -21,7 +21,7 @@ const Login = ({ setToken }) => {
       password,
       title,
     });
-    console.log("token", token);
+    console.log("token", token.token);
     setToken(token);
     history.push("/");
   };
