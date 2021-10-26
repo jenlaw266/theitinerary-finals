@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Activities from "../components/Activities";
 import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
@@ -20,14 +20,15 @@ const Home = ({ eventData }) => {
       console.log(city, start, end);
     }
 
-    axios.post('http://localhost:8080/api/activities', {
-      city: city,
-      start: start,
-      end: end
-    })
-    .then((response) => {
-      console.log('Data Sent')
-    })
+    axios
+      .post("http://localhost:8080/api/activities", {
+        city: city,
+        start: start,
+        end: end,
+      })
+      .then((response) => {
+        console.log("Data Sent");
+      });
   };
 
   return (

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
@@ -12,7 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { makeStyles } from "@mui/styles";
 import { Link, useHistory } from "react-router-dom";
-import Members from "./Members";
+import LoginContext from "../context/LoginContext";
 
 const userItineraries = [
   { id: 1, name: "London" },
@@ -29,12 +29,11 @@ const Nav = (props) => {
   const classes = useStyles();
   const history = useHistory();
   const id = userItineraries[userItineraries.length - 1].id;
+  const { token } = useContext(LoginContext);
 
   const menuId = "primary-search-account-menu";
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
-
-  const [drawer, setDrawer] = useState(false);
 
   const handleMenuOpen = (e) => {
     setAnchorEl(e.currentTarget);
@@ -45,13 +44,14 @@ const Nav = (props) => {
   };
 
   const logout = () => {
-    props.setLogin(false);
+    props.setToken(null);
     setAnchorEl(null);
     history.push("/");
+    console.log("logout", token);
   };
 
   const toggleDrawer = () => {
-    setDrawer(true);
+    props.setDrawer((prev) => !prev);
   };
 
   const renderMenu = (
@@ -70,28 +70,31 @@ const Nav = (props) => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      {!props.login && (
+      {!token && (
         <MenuItem onClick={handleMenuClose} component={Link} to="/login">
           Login
         </MenuItem>
       )}
-      {!props.login && (
+      {!token && (
         <MenuItem onClick={handleMenuClose} component={Link} to="/register">
           Register
         </MenuItem>
       )}
-      {props.login && (
+      {token && (
         <MenuItem onClick={handleMenuClose} component={Link} to="/itineraries">
           Itineraries
         </MenuItem>
       )}
-      {props.login && <MenuItem onClick={toggleDrawer}>Members</MenuItem>}
-      {props.login && <MenuItem onClick={logout}>Logout</MenuItem>}
+      {token && <MenuItem onClick={toggleDrawer}>Members</MenuItem>}
+      {token && <MenuItem onClick={logout}>Logout</MenuItem>}
     </Menu>
   );
 
   return (
-    <AppBar>
+    <AppBar
+      position="fixed"
+      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+    >
       <Toolbar>
         <Box sx={{ flexGrow: 1 }}>
           <Button size="large" color="inherit" component={Link} to="/">
@@ -100,7 +103,7 @@ const Nav = (props) => {
         </Box>
         <IconButton
           // classes={{ root: classes.button }}
-          disabled={props.login ? false : true}
+          disabled={token ? false : true}
           size="large"
           color="inherit"
           component={Link}
@@ -109,7 +112,7 @@ const Nav = (props) => {
           <ListAltIcon />
         </IconButton>
         <IconButton
-          disabled={props.login ? false : true}
+          disabled={token ? false : true}
           size="large"
           color="inherit"
           component={Link}
@@ -118,7 +121,7 @@ const Nav = (props) => {
           <MapIcon />
         </IconButton>
         <IconButton
-          disabled={props.login ? false : true}
+          disabled={token ? false : true}
           size="large"
           color="inherit"
           component={Link}
