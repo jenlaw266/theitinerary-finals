@@ -27,15 +27,17 @@ const createActivities = async function (db, body) {
     const day_id = 1;
     const heart = false;
     for (let i = 0; i < response.length; i++) {
-      console.log('response', response[i].photos[0].photo_reference)
+      //console.log('response', response[i].photos[0].photo_reference)
       let name = response[i].name;
       let location = "London";
       let address = response[i].formatted_address;
       let lat = response[i].geometry.location.lat;
       let long = response[i].geometry.location.lng;
       let rating = response[i].rating;
-      let imageString = response[i].photos
-      
+      let imageString = "null"
+      if (response[i].photos) {
+        imageString = response[i].photos[0].photo_reference
+      }
       output.push({
         name: name,
         location: location,
@@ -46,9 +48,9 @@ const createActivities = async function (db, body) {
         image: imageString
       });
       db.query(
-        `INSERT INTO activities(name, location, lat, long, heart, day_id, itinerary_id)
-                VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
-        [name, body.city, lat, long, heart, day_id, itinerary_id]
+        `INSERT INTO activities(name, location, lat, long, heart, image, day_id, itinerary_id)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
+        [name, body.city, lat, long, heart, imageString, day_id, itinerary_id]
       );
     }
   });
