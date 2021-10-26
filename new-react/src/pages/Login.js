@@ -1,30 +1,28 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useRouteMatch } from "react-router";
 import { Link, useHistory } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import PropTypes from "prop-types";
-import LoginContext from "../context/LoginContext";
 
 const Login = ({ setToken }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [title, setTitle] = useState("");
-  const { token } = useContext(LoginContext);
   const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const currentToken = await loginUser({
+    const token = await loginUser({
       username,
       email,
       password,
       title,
     });
-    console.log("token", currentToken);
-    setToken(currentToken);
+    console.log("token", token);
+    setToken(token);
     history.push("/");
   };
 

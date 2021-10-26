@@ -4,10 +4,14 @@ import GoogleMapReact from "google-map-react";
 import LocationMarker from "../components/Map/LocationMarker";
 import LocationInfoBox from "../components/Map/LocationInfoBox";
 import DaysCheckbox from "../components/Map/Checkbox";
+import { useHistory } from "react-router-dom";
+import LoginContext from "../context/LoginContext";
 
 const Map = ({ eventData, center, zoom }) => {
   const [locationInfo, setLocationInfo] = useState(null);
   const [filteredDays, setFilteredDays] = useState(eventData);
+  const history = useHistory();
+  const { token } = useContext(LoginContext);
 
   // const [map, setMap] = useState(null);
   // const onLoad = useCallback((map) => setMap(map), []);
@@ -109,6 +113,7 @@ const Map = ({ eventData, center, zoom }) => {
 
   return (
     <div className="map">
+      {!token && history.push("/login")}
       <GoogleMapReact
         bootstrapURLKeys={{
           key:
