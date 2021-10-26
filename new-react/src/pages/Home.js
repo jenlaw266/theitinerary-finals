@@ -21,7 +21,7 @@ const Home = ({ eventData }) => {
     }
 
     axios
-      .post("http://localhost:8080/api/activities", {
+      .post("http://localhost:8080/api/create/activities", {
         city: city,
         start: start,
         end: end,
