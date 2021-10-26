@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import './Messages.css';
+import React, { useEffect, useState } from "react";
+import "./chatbox.css";
 
 export default function Messages({ socket }) {
   const [messages, setMessages] = useState({});
@@ -7,46 +7,47 @@ export default function Messages({ socket }) {
   useEffect(() => {
     const messageListener = (message) => {
       setMessages((prevMessages) => {
-        const newMessages = {...prevMessages};
+        const newMessages = { ...prevMessages };
         newMessages[message.id] = message;
         return newMessages;
       });
     };
-  
+
     const deleteMessageListener = (messageID) => {
       setMessages((prevMessages) => {
-        const newMessages = {...prevMessages};
+        const newMessages = { ...prevMessages };
         delete newMessages[messageID];
         return newMessages;
       });
     };
-  
-    socket.on('message', messageListener);
-    socket.on('deleteMessage', deleteMessageListener);
-    socket.emit('getMessages');
+
+    socket.on("message", messageListener);
+    socket.on("deleteMessage", deleteMessageListener);
+    socket.emit("getMessages");
 
     return () => {
-      socket.off('message', messageListener);
-      socket.off('deleteMessage', deleteMessageListener);
+      socket.off("message", messageListener);
+      socket.off("deleteMessage", deleteMessageListener);
     };
   }, [socket]);
 
   return (
-    <div className="message-list">
+    <div className="chat-main">
       {[...Object.values(messages)]
         .sort((a, b) => a.time - b.time)
         .map((message) => (
           <div
             key={message.id}
-            className="message-container"
+            className="chat-message"
             title={`Sent at ${new Date(message.time).toLocaleTimeString()}`}
           >
-            <span className="user">{message.user.name}:</span>
-            <span className="message">{message.value}</span>
-            <span className="date">{new Date(message.time).toLocaleTimeString()}</span>
+            <span className="chat img">{message.user.name}:</span>
+            <span className="chat-sent">{message.value}</span>
+            <span className="date">
+              {new Date(message.time).toLocaleTimeString()}
+            </span>
           </div>
-        ))
-      }
+        ))}
     </div>
   );
 }

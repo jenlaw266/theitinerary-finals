@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import './MessageInput.css';
+import React, { useState } from "react";
+import "./chatbox.css";
 
-export default function NewMessage({socket}) {
-  const [value, setValue] = useState('');
+export default function NewMessage({ socket }) {
+  const [value, setValue] = useState("");
   const submitForm = (e) => {
     e.preventDefault();
-    socket.emit('message', value);
-    setValue('');
+    socket.emit("message", value);
+    setValue("");
   };
 
   return (
-    <form onSubmit={submitForm}>
+    <form onSubmit={submitForm} className="chat form">
       <input
         autoFocus
         value={value}
@@ -21,4 +21,4 @@ export default function NewMessage({socket}) {
       />
     </form>
   );
-};
+}

@@ -11,9 +11,11 @@ import ListItemText from "@mui/material/ListItemText";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
-import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
+import RemoveIcon from "@mui/icons-material/Remove";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Avatar from "@mui/material/Avatar";
+import { deepPurple } from "@mui/material/colors";
 
 const members = ["John", "Mary", "Amy", "Leland", "Ysabel", "Jennifer"];
 
@@ -69,7 +71,10 @@ const Members = ({ token }) => {
       <Box sx={{ overflow: "auto" }}>
         <List>
           <ListItem>
-            <ListItemText primary={username + "'s Group Members"} />
+            <ListItemIcon>
+              <Avatar sx={{ bgcolor: deepPurple[500] }}>{username[0]}</Avatar>
+            </ListItemIcon>
+            <ListItemText primary={username + "'s Group"} />
             <ListItemIcon>
               <IconButton
                 aria-label="more"
@@ -122,14 +127,17 @@ const Members = ({ token }) => {
         <List>
           {members.map((text, index) => (
             <ListItem button key={text}>
+              <ListItemIcon>
+                <Avatar sx={{ width: 24, height: 24 }}>{text[0]}</Avatar>
+              </ListItemIcon>
+              <ListItemText primary={text} />
               {deleteMember && (
                 <ListItemIcon>
                   <IconButton onClick={popOutForm}>
-                    <IndeterminateCheckBoxIcon />
+                    <RemoveIcon />
                   </IconButton>
                 </ListItemIcon>
               )}
-              <ListItemText primary={text} />
             </ListItem>
           ))}
         </List>

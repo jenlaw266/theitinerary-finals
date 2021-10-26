@@ -13,6 +13,7 @@ import Menu from "@mui/material/Menu";
 import { makeStyles } from "@mui/styles";
 import { Link, useHistory } from "react-router-dom";
 import LoginContext from "../context/LoginContext";
+import { Typography } from "@mui/material";
 
 const userItineraries = [
   { id: 1, name: "London" },
@@ -139,6 +140,7 @@ const Nav = (props) => {
         >
           <AccountCircle />
         </IconButton>
+        <Typography>{token}</Typography>
       </Toolbar>
       {renderMenu}
     </AppBar>
