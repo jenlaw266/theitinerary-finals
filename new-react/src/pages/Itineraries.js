@@ -21,27 +21,28 @@ const archivedTrips = [
 
 const Itineraries = () => {
   const { path, url } = useRouteMatch();
-  const [trips, setTrips] = useState();
+  const [isLoading, setLoading] = useState(true);
+  const [trips, setTrips] = useState()
   console.log("path", path);
   console.log("url", url);
 
   useEffect(() => {
-    const fetchData = () => {
-      axios.get("http://localhost:8080/api/itineraries")
-      .then((response) => {
-        setTrips({
-          itineraries: response.data
-        });
-      });
-    };
-
+    axios.get("http://localhost:8080/api/itineraries")
+    .then(response => {
+      setTrips(response.data.itineraries);
+      setLoading(false);
+    });
   }, []);
+  console.log(trips)
 
+  if (isLoading) {
+    return <div className="App">Loading...</div>;
+  }
 
-  const trip = archivedTrips.map((city, id) => {
+  const trip = trips.map((itinerary) => {
     return (
-      <Itinerary key={id} location={city.location}>
-        <Link to={`itinerary/${id}`}>{id}</Link>
+      <Itinerary key={itinerary.id} location={itinerary.name}>
+        <Link to={`itinerary/${itinerary.id}`}>{itinerary.id}</Link>
       </Itinerary>
     );
   });
