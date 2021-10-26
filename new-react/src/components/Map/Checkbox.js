@@ -30,8 +30,8 @@ function DaysCheckbox(props) {
     //call function to send back checked days 
     props.parentCallback(newChecked);
 
-    console.log(" inside handle toggle, newChecked", newChecked)
-    console.log(" inside handle toggle, checked", checked)
+    // console.log(" inside handle toggle, newChecked", newChecked)
+    // console.log(" inside handle toggle, checked", checked)
   };
 
   useEffect(() => {
