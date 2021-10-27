@@ -24,8 +24,10 @@ const createActivities = async function (db, body) {
 
   let output = [];
   await getApi(body.city).then((response) => {
+    console.log("BODY", body)
     const day_id = 1;
     const heart = false;
+    console.log('response', response) //from google
     for (let i = 0; i < response.length; i++) {
       //console.log('response', response[i].photos[0].photo_reference)
       let name = response[i].name;
@@ -40,6 +42,7 @@ const createActivities = async function (db, body) {
       }
       output.push({
         itinerary_id: itinerary_id, //id for itinerary only
+        activity_id: 'PLACEHOLDER',
         name: name,
         location: location,
         address: address,

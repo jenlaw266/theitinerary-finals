@@ -6,13 +6,16 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import Button from "@mui/material/Button";
 import axios from "axios";
+import DataContext from "../context/DataContext";
 
 const Home = ({ eventData }) => {
   const [city, setCity] = useState(null);
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
   const [submit, setSubmit] = useState(false);
+  const { setTrips } = useContext(DataContext);
   const [activities, setActivities] = useState([]);
+  const [activityID, setActivityID] = useState([])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -22,13 +25,21 @@ const Home = ({ eventData }) => {
     }
 
     async function handleCall() {
-      const data = await getData({
+        await getData({
         city: city,
         start: start,
-        end: end
-      })
-      console.log(data)
-      setActivities(data.act)
+        end: end,
+      }).then((response) => {
+        setActivities(response.act);
+        setActivityID(response.id)
+        console.log("RESPONSE1", response)
+        axios.get("http://localhost:8080/api/itineraries")
+        .then((response) => {
+          const itins = response.data.itineraries;
+          setTrips(itins);
+          console.log('RESPONSE2', response)
+        });
+      });
     }
 
     handleCall();
@@ -44,7 +55,7 @@ const Home = ({ eventData }) => {
     }).then((data) => data.json());
   }
 
-  console.log('act', activities)
+  console.log("act", activities);
 
   return (
     <div>
@@ -78,7 +89,7 @@ const Home = ({ eventData }) => {
           Submit
         </Button>
       </form>
-      {submit && <Activities eventData={eventData} activities={activities}/>}
+      {submit && <Activities eventData={eventData} activities={activities} />}
     </div>
   );
 };

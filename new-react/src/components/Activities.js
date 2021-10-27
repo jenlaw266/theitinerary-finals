@@ -12,6 +12,7 @@ const REACT_APP_API_KEY = process.env.REACT_APP_API_KEY;
 const Activities = (props) => {
   const [selectedActivities, setSelectedActivities] = useState([]);
   const originalActivities = props.activities;
+  // console.log("ORIGINAL ACTIVITIES", originalActivities)
   const fakeActivities = originalActivities.map((act, index) => {
     return {...act, id: index}
   });
