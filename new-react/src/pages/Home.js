@@ -7,39 +7,41 @@ import DatePicker from "@mui/lab/DatePicker";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import DataContext from "../context/DataContext";
+import LoginContext from "../context/LoginContext";
 
-const Home = ({ currentTrip }) => {
+const Home = ({ currentTrip, setCurrentTrip }) => {
   const [city, setCity] = useState(null);
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
   const [submit, setSubmit] = useState(false);
   const { setTrips } = useContext(DataContext);
   const [activities, setActivities] = useState([]);
+  const [activityID, setActivityID] = useState([]);
+  const { token } = useContext(LoginContext);
+  const username = token ? token : "";
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (city && start && end) {
-      async function handleCall() {
-        console.log(city, start, end);
-        await getData({
-          city: city,
-          start: start,
-          end: end,
-        }).then((response) => {
-          setActivities(response.act);
-          axios
-            .get("http://localhost:8080/api/itineraries")
-            .then((response) => {
-              const itins = response.data.itineraries;
-              setTrips(itins);
-              setSubmit(true);
-            });
+    async function handleCall() {
+      await getData({
+        city: city,
+        start: start,
+        end: end,
+        username: username,
+      }).then((response) => {
+        setActivities(response.act);
+        setActivityID(response.id);
+        axios.get("http://localhost:8080/api/itineraries").then((response) => {
+          const itins = response.data.itineraries;
+          setTrips(itins);
+          setCurrentTrip(itins[itins.length - 1]);
+          setSubmit(true);
         });
-      }
-
-      handleCall();
+      });
     }
+
+    handleCall();
   };
 
   async function getData(data) {
@@ -49,10 +51,13 @@ const Home = ({ currentTrip }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    }).then((data) => data.json());
+    }).then((data) => {
+      return data.json();
+    });
   }
 
   console.log("act", activities);
+  console.log("act id", activityID);
 
   return (
     <div>

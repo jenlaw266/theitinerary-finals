@@ -6,12 +6,14 @@ import LocationInfoBox from "../components/Map/LocationInfoBox";
 import DaysCheckbox from "../components/Map/Checkbox";
 import { useHistory } from "react-router-dom";
 import LoginContext from "../context/LoginContext";
+import DataContext from "../context/DataContext"
 
 const Map = ({ eventData, center, zoom }) => {
   const [locationInfo, setLocationInfo] = useState(null);
   const [filteredDays, setFilteredDays] = useState(eventData);
   const history = useHistory();
   const { token } = useContext(LoginContext);
+  const { currentTrip } = useContext(DataContext);
   const [dayProperties, setDayProperties] = useState(null);
   const [markers, setMarkers] = useState(null);
 
@@ -104,6 +106,8 @@ const Map = ({ eventData, center, zoom }) => {
         })
       )
   }, [filteredDays, dayProperties])
+
+  console.log('current', currentTrip)
 
   return (
     <div className="map">

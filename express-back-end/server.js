@@ -12,6 +12,9 @@ db.connect();
 
 const getName = require("./queries/itineraries");
 const login = require("./routes/login");
+const getActivityId = require('./queries/getActivityId')
+const getMembers = require('./routes/getMembers')
+const addMember = require('./routes/addMember')
 
 const getAllItineraries = require("./routes/getAllItineraries");
 const {
@@ -39,9 +42,11 @@ App.use("/api/create/activities", async function (req, res) {
   const body = req.body;
   const actObj = await createActivities(db, body);
   const activities = await getImage(db, actObj);
+  const activity_id = await getActivityId(db, activities[0].itinerary_id)
   res.json({
     message: "Success, able to get data from api",
     act: activities,
+    id: activity_id
   });
 });
 
@@ -74,9 +79,25 @@ App.use("/api/itinerary", async function (req, res) {
 
 App.use("/api/login", async function (req, res) {
   const token = await login(db, req.body);
+  console.log('token', token)
   res.json({
     token: token,
   });
+});
+
+App.use("/api/members", async function(req, res) {
+  const id = req.body.id
+  const members = await getMembers(db, id)
+  console.log('mem', members)
+  res.json({
+    members: members
+  })
+});
+
+App.use("/api/member/add", async function(req, res) {
+  const username = req.body.username;
+  const itineraryID = req.body.itinerary_id;
+  const member = await addMember(db, username, itineraryID)
 });
 
 App.listen(PORT, () => {
