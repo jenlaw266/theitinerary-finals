@@ -22,8 +22,11 @@ const createActivities = async function (db, body) {
     days--;
   }
 
-  // await db.query(`INSERT INTO main_parties(user_id, itinerary_id, creator)
-  //                 VALUES ($1, $2, $3) RETURNING *`, [body.username, itinerary_id, true]);
+  const query = await db.query(`SELECT id FROM users WHERE username = $1;`, [body.username])
+  const userID = query.rows[0].id
+
+  await db.query(`INSERT INTO main_parties(user_id, itinerary_id, creator)
+                  VALUES ($1, $2, $3) RETURNING *`, [userID, itinerary_id, true]);
 
   let output = [];
   await getApi(body.city).then((response) => {
