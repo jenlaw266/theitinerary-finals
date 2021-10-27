@@ -32,12 +32,11 @@ const Home = ({ eventData }) => {
       }).then((response) => {
         setActivities(response.act);
         // setActivityID(response.id)
-        console.log("RESPONSE1", response)
+        // console.log("RESPONSE", response)
         axios.get("http://localhost:8080/api/itineraries")
         .then((response) => {
           const itins = response.data.itineraries;
           setTrips(itins);
-          console.log('RESPONSE2', response)
         });
       });
     }

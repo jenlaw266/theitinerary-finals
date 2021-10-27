@@ -58,7 +58,7 @@ const Activities = (props) => {
           selectedActivities={selectedActivities}
           toggleSelectedActivityId={() => {
             toggleSelectedActivityId(act.id)
-            console.log("FROM ACTIVITIES", act)
+            // console.log("FROM ACTIVITIES", act)
           }}
           isChecked={activityAlreadySelected(act.id)}
         />
