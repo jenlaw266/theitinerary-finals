@@ -6,6 +6,8 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import Button from "@mui/material/Button";
 import axios from "axios";
+import DataContext from "../context/DataContext";
+import LoginContext from "../context/LoginContext";
 
 const Home = ({ eventData }) => {
   const [city, setCity] = useState(null);
@@ -13,6 +15,9 @@ const Home = ({ eventData }) => {
   const [end, setEnd] = useState(null);
   const [submit, setSubmit] = useState(false);
   const [activities, setActivities] = useState([]);
+  const [activityID, setActivityID] = useState([]);
+  const { token } = useContext(LoginContext);
+  const username = token ? token : "";
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -22,13 +27,20 @@ const Home = ({ eventData }) => {
     }
 
     async function handleCall() {
-      const data = await getData({
+      await getData({
         city: city,
         start: start,
-        end: end
-      })
-      console.log(data)
-      setActivities(data.act)
+        end: end,
+        username: username
+      }).then((response) => {
+        setActivities(response.act);
+        setActivityID(response.id)
+        axios.get("http://localhost:8080/api/itineraries")
+        .then((response) => {
+          const itins = response.data.itineraries;
+          setTrips(itins);
+        });
+      });
     }
 
     handleCall();
@@ -44,7 +56,8 @@ const Home = ({ eventData }) => {
     }).then((data) => data.json());
   }
 
-  console.log('act', activities)
+  console.log("act", activities);
+  console.log('act id', activityID)
 
   return (
     <div>

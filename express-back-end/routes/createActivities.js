@@ -22,6 +22,9 @@ const createActivities = async function (db, body) {
     days--;
   }
 
+  // await db.query(`INSERT INTO main_parties(user_id, itinerary_id, creator)
+  //                 VALUES ($1, $2, $3) RETURNING *`, [body.username, itinerary_id, true]);
+
   let output = [];
   await getApi(body.city).then((response) => {
     const day_id = 1;
@@ -39,6 +42,7 @@ const createActivities = async function (db, body) {
         imageString = response[i].photos[0].photo_reference
       }
       output.push({
+        itinerary_id: itinerary_id,
         name: name,
         location: location,
         address: address,
