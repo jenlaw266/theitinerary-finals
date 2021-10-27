@@ -15,7 +15,7 @@ const Home = ({ eventData }) => {
   const [submit, setSubmit] = useState(false);
   const { setTrips } = useContext(DataContext);
   const [activities, setActivities] = useState([]);
-  const [activityID, setActivityID] = useState([])
+  // const [activityID, setActivityID] = useState([])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -31,7 +31,7 @@ const Home = ({ eventData }) => {
         end: end,
       }).then((response) => {
         setActivities(response.act);
-        setActivityID(response.id)
+        // setActivityID(response.id)
         console.log("RESPONSE1", response)
         axios.get("http://localhost:8080/api/itineraries")
         .then((response) => {

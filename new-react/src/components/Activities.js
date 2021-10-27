@@ -13,9 +13,9 @@ const Activities = (props) => {
   const [selectedActivities, setSelectedActivities] = useState([]);
   const originalActivities = props.activities;
   // console.log("ORIGINAL ACTIVITIES", originalActivities)
-  const fakeActivities = originalActivities.map((act, index) => {
-    return {...act, id: index}
-  });
+  // const fakeActivities = originalActivities.map((act, index) => {
+  //   return {...act, id: index}
+  // });
 
   //add selected activties
   const addToSelectedActivities = (activityId) => {
@@ -45,7 +45,7 @@ const Activities = (props) => {
   console.log("selectedACtivities", selectedActivities);
 
   //swap fakeActivities for originalActivities
-  const activityCard = fakeActivities.map((act, index) => {
+  const activityCard = originalActivities.map((act, index) => {
     return (
       <Grid key={index} item xs={12} sm={6} md={4}>
         <Activity
