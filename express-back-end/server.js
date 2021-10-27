@@ -15,6 +15,7 @@ const login = require("./routes/login");
 const getActivityId = require('./queries/getActivityId')
 const getMembers = require('./routes/getMembers')
 const addMember = require('./routes/addMember')
+const deleteMember = require('./routes/deleteMember')
 
 const getAllItineraries = require("./routes/getAllItineraries");
 const {
@@ -96,8 +97,26 @@ App.use("/api/members", async function(req, res) {
 
 App.use("/api/member/add", async function(req, res) {
   const username = req.body.username;
-  const itineraryID = req.body.itinerary_id;
-  const member = await addMember(db, username, itineraryID)
+  const itineraryID = req.body.itineraryID;
+  await addMember(db, username, itineraryID)
+  const member = []
+  member.push(username)
+  res.json({
+    member: member
+  })
+});
+
+App.use("/api/member/delete", async function(req, res) {
+  console.log('req', req.body)
+  const username = req.body.username;
+  const itineraryID = req.body.id;
+  console.log('itin', itineraryID)
+  await deleteMember(db, username, itineraryID)
+  const members = await getMembers(db, itineraryID)
+  console.log(members)
+  res.json({
+    members: members
+  })
 });
 
 App.listen(PORT, () => {

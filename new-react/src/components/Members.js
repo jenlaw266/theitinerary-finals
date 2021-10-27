@@ -18,6 +18,7 @@ import Avatar from "@mui/material/Avatar";
 import { deepPurple } from "@mui/material/colors";
 import LoginContext from "../context/LoginContext";
 import DataContext from "../context/DataContext"
+import axios from "axios";
 
 
 //const members = ["John", "Mary", "Amy", "Leland", "Ysabel", "Jennifer"];
@@ -64,6 +65,9 @@ const Members = () => {
       body: JSON.stringify(id),
     }).then((data) => data.json());
   }
+  console.log('members', members)
+
+  console.log('current', currentTrip.id)
 
 
   const handleKeyDown = (e) => {
@@ -73,7 +77,7 @@ const Members = () => {
           username: search,
           itineraryID: currentTrip.id
         }).then((response) => {
-          setMembers(...response.member);
+          setMembers(prevState => [...prevState, response.member[0]])
         });
       }
       handleCall();
@@ -82,6 +86,26 @@ const Members = () => {
 
   async function addMember(data) {
     return fetch("http://localhost:8080/api/member/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then((data) => data.json());
+  }
+
+  async function handleDelete(username, id) {
+    await delMember({
+      username: username,
+      id: id
+    })
+    .then((response) => {
+      setMembers(response.members)
+    })
+  };
+
+  async function delMember(data) {
+    return fetch("http://localhost:8080/api/member/delete", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -194,7 +218,10 @@ const Members = () => {
               <ListItemText primary={text} />
               {deleteMember && (
                 <ListItemIcon>
-                  <IconButton onClick={popOutForm}>
+                  <IconButton onClick={() => {
+                    popOutForm();
+                    handleDelete(text, currentTrip.id);
+                  }}>
                     <RemoveIcon />
                   </IconButton>
                 </ListItemIcon>
