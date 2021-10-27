@@ -1,6 +1,8 @@
 const getApi = require("./getApi");
 const getName = require("../queries/itineraries");
 const dayDiff = require("../helpers/convertDate");
+const getActivityId = require('../queries/getActivityId')
+
 
 const createActivities = async function (db, body) {
   await db.query(
@@ -24,10 +26,8 @@ const createActivities = async function (db, body) {
 
   let output = [];
   await getApi(body.city).then((response) => {
-    console.log("BODY", body)
     const day_id = 1;
     const heart = false;
-    console.log('response', response) //from google
     for (let i = 0; i < response.length; i++) {
       //console.log('response', response[i].photos[0].photo_reference)
       let name = response[i].name;
@@ -60,7 +60,15 @@ const createActivities = async function (db, body) {
       );
     }
   });
-  return output;
+  console.log(output)
+
+  let outputWithActivityIds = [];
+  await getActivityId(db, output[0].itinerary_id).then((response) => {
+    console.log("outputWithActivityIds response", response)
+    outputWithActivityIds = response
+    
+  })
+  return outputWithActivityIds;
 };
 
 module.exports = createActivities;
