@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 import axios from "axios";
 import DataContext from "../context/DataContext";
 
-const Home = ({ eventData }) => {
+const Home = ({ currentTrip }) => {
   const [city, setCity] = useState(null);
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
@@ -18,28 +18,28 @@ const Home = ({ eventData }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubmit(true);
+
     if (city && start && end) {
-      console.log(city, start, end);
-    }
-
-    async function handleCall() {
-      const data = await getData({
-        city: city,
-        start: start,
-        end: end,
-      }).then((response) => {
-        console.log("Data Sent");
-        axios.get("http://localhost:8080/api/itineraries").then((response) => {
-          const itins = response.data.itineraries;
-          setTrips(itins);
+      async function handleCall() {
+        console.log(city, start, end);
+        await getData({
+          city: city,
+          start: start,
+          end: end,
+        }).then((response) => {
+          setActivities(response.act);
+          axios
+            .get("http://localhost:8080/api/itineraries")
+            .then((response) => {
+              const itins = response.data.itineraries;
+              setTrips(itins);
+              setSubmit(true);
+            });
         });
-      });
-      console.log(data);
-      setActivities(data.act);
-    }
+      }
 
-    handleCall();
+      handleCall();
+    }
   };
 
   async function getData(data) {
@@ -86,7 +86,9 @@ const Home = ({ eventData }) => {
           Submit
         </Button>
       </form>
-      {submit && <Activities eventData={eventData} activities={activities} />}
+      {submit && (
+        <Activities activities={activities} currentTrip={currentTrip} />
+      )}
     </div>
   );
 };

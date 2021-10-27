@@ -119,7 +119,7 @@ function App() {
                     <Itinerary currentTrip={currentTrip} />
                   </Route>
                   <Route exact path="/">
-                    <Home eventData={eventData} />
+                    <Home currentTrip={currentTrip} />
                   </Route>
                 </DataContext.Provider>
               </Switch>

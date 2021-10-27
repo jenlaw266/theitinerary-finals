@@ -3,6 +3,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { useState } from "react";
+import Activities from "./Activities";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -25,11 +26,19 @@ function TabPanel(props) {
 }
 
 function a11yProps(index) {
-  return {
+  /*   return {
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
-  };
+  }; */
 }
+
+const alt = (value) => {
+  return (
+    <TabPanel value={value} index={0}>
+      Item
+    </TabPanel>
+  );
+};
 
 const Day = () => {
   const [value, setValue] = useState(0);
@@ -37,6 +46,7 @@ const Day = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -45,13 +55,13 @@ const Day = () => {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="Day 1" {...a11yProps(0)} />
+          <Tab label="Alt 1" {...a11yProps(1)} />
+          <Tab label="Alt 2" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        Item One
+        {/* <Activities /> */}
       </TabPanel>
       <TabPanel value={value} index={1}>
         Item Two

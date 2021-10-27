@@ -3,10 +3,6 @@ import Grid from "@mui/material/Grid";
 import { Container } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
-import axios from "axios";
-const REACT_APP_API_KEY = process.env.REACT_APP_API_KEY;
-
-//diff list for different cities  
 
 const Activities = (props) => {
   const activityCard = props.activities.map((act, id) => {
@@ -22,13 +18,12 @@ const Activities = (props) => {
       </Grid>
     );
   });
-  const id = props.eventData.length;
+  const id = props.currentTrip?.id;
   return (
     <Container>
       <Grid container spacing={3}>
         {activityCard}
       </Grid>
-      {/* axios - check if the button generates after getting data */}
       {activityCard && (
         <Button variant="outlined" component={Link} to={`itinerary/${id}`}>
           Itinerary

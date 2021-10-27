@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
 import LoginContext from "../context/LoginContext";
+import Days from "../components/Days";
 import axios from "axios";
 
 const Itinerary = ({ currentTrip }) => {
@@ -14,6 +15,7 @@ const Itinerary = ({ currentTrip }) => {
   const [activities, setActivities] = useState({});
 
   useEffect(() => {
+    console.log("useEffect in itinerary fired");
     async function handleCall() {
       const data = await getData({ id: params.id });
       setItinerary(data.itinerary);
@@ -31,21 +33,20 @@ const Itinerary = ({ currentTrip }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(id),
-    }).then((data) => data.json());
+    }).then((data) => {
+      return data.json();
+    });
   }
 
-  console.log("current trip", currentTrip);
+  // console.log("current trip", currentTrip);
   console.log("days", days);
-  console.log("itin", itinerary);
-  console.log("act", activities);
+  // console.log("itin", itinerary);
+  // console.log("act", activities);
 
   return (
     <div>
       {!token && history.push("/login")}
-
-      {/*  <h1> {days}</h1>
-      <h2>{itinerary}</h2>
-      <h3> {activities} </h3> */}
+      <Days></Days>
     </div>
   );
 };
