@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import Activity from "./Activity";
 import Grid from "@mui/material/Grid";
 import { Container } from "@mui/material";
@@ -9,17 +10,56 @@ const REACT_APP_API_KEY = process.env.REACT_APP_API_KEY;
 //diff list for different cities  
 
 const Activities = (props) => {
-  const activityCard = props.activities.map((act, id) => {
-    console.log("FROM ACTIVITIES", act)
+  const [selectedActivities, setSelectedActivities] = useState([]);
+  const originalActivities = props.activities;
+  const fakeActivities = originalActivities.map((act, index) => {
+    return {...act, id: index}
+  });
+
+  //add selected activties
+  const addToSelectedActivities = (activityId) => {
+    setSelectedActivities([...selectedActivities, activityId]);
+  };
+
+  //remove from selecyed activities if user unselects. 
+  const removeFromSelectedActivities = (activityId) => {
+    const updatedSelectedActivities = selectedActivities.filter( (currentActivityId) => { 
+      return currentActivityId !== activityId
+    });
+
+    setSelectedActivities(updatedSelectedActivities);
+  };
+
+  const activityAlreadySelected = (activityId) => selectedActivities.includes(activityId);
+
+  const toggleSelectedActivityId = (activityId) => {
+    //if activity already exists in the selectedActivities
+    if (activityAlreadySelected(activityId)) { 
+      return removeFromSelectedActivities(activityId)
+    };
+
+    return addToSelectedActivities(activityId);
+  };
+
+  console.log("selectedACtivities", selectedActivities);
+
+  //swap fakeActivities for originalActivities
+  const activityCard = fakeActivities.map((act, index) => {
     return (
-      <Grid key={id} item xs={12} sm={6} md={4}>
+      <Grid key={index} item xs={12} sm={6} md={4}>
         <Activity
-          key={id}
+          key={index}
           name={act.name}
           location={act.location}
           img={act.image}
           address={act.address}
           heart={act.heart}
+          selectedActivities={selectedActivities}
+          toggleSelectedActivityId={() => {
+            toggleSelectedActivityId(act.id)
+            console.log("FROM ACTIVITIES", act)
+          }}
+          isChecked={activityAlreadySelected(act.id)}
         />
       </Grid>
     );

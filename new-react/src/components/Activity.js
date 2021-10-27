@@ -9,18 +9,16 @@ import { StylesContext } from "@mui/styles";
 
 const Activity = (props) => {
   // console.log("props activity", props.name, props.img);
-  const [heart, setHeart] = useState(props.heart);
+  const { toggleSelectedActivityId, isChecked } = props;
 
-  // console.log("FROM ACTIVITY", props)
   return (
     <div>
       <Card>
         <CardHeader
           action={<Checkbox 
-          checked={heart}
-          onChange={ (e)=> {
-            console.log(props.name, e.target.checked)
-            setHeart(e.target.checked)
+          checked={isChecked}
+          onChange={() => {
+            toggleSelectedActivityId()
           }}
           />}
           title={props.name}
