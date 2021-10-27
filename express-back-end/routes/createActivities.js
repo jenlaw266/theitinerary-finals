@@ -39,6 +39,7 @@ const createActivities = async function (db, body) {
         imageString = response[i].photos[0].photo_reference
       }
       output.push({
+        itinerary_id: itinerary_id, //id for itinerary only
         name: name,
         location: location,
         address: address,
@@ -48,6 +49,7 @@ const createActivities = async function (db, body) {
         image: imageString,
         heart: heart
       });
+      
       db.query(
         `INSERT INTO activities(name, location, lat, long, heart, image, day_id, itinerary_id)
                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
