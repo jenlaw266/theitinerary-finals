@@ -7,6 +7,7 @@ import DatePicker from "@mui/lab/DatePicker";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import DataContext from "../context/DataContext";
+import LoginContext from "../context/LoginContext";
 
 const Home = ({ eventData }) => {
   const [city, setCity] = useState(null);
@@ -15,6 +16,9 @@ const Home = ({ eventData }) => {
   const [submit, setSubmit] = useState(false);
   const { setTrips } = useContext(DataContext);
   const [activities, setActivities] = useState([]);
+  const [activityID, setActivityID] = useState([]);
+  const { token } = useContext(LoginContext);
+  const username = token ? token : "";
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,12 +28,14 @@ const Home = ({ eventData }) => {
     }
 
     async function handleCall() {
-        await getData({
+      await getData({
         city: city,
         start: start,
         end: end,
+        username: username
       }).then((response) => {
         setActivities(response.act);
+        setActivityID(response.id)
         axios.get("http://localhost:8080/api/itineraries")
         .then((response) => {
           const itins = response.data.itineraries;
@@ -52,6 +58,7 @@ const Home = ({ eventData }) => {
   }
 
   console.log("act", activities);
+  console.log('act id', activityID)
 
   return (
     <div>
