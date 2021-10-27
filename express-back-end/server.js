@@ -24,7 +24,6 @@ const {
   getActivities,
 } = require("./routes/getItinerary");
 const deleteItinerary = require("./queries/deleteItinerary");
-const { response } = require("express");
 const getImage = require("./routes/getImage");
 
 // Express Configuration

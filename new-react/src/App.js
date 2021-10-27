@@ -79,7 +79,7 @@ function App() {
   return (
     <Router>
       <Box sx={{ display: "flex" }}>
-        <LoginContext.Provider value={{ token, loading, currentTrip}}>
+        <LoginContext.Provider value={{ token, loading, currentTrip }}>
           <Nav
             setDrawer={setDrawer}
             setToken={setToken}
@@ -119,7 +119,10 @@ function App() {
                     <Itinerary currentTrip={currentTrip} />
                   </Route>
                   <Route exact path="/">
-                    <Home eventData={eventData} />
+                    <Home
+                      currentTrip={currentTrip}
+                      setCurrentTrip={setCurrentTrip}
+                    />
                   </Route>
                 </DataContext.Provider>
               </Switch>

@@ -9,7 +9,7 @@ import axios from "axios";
 import DataContext from "../context/DataContext";
 import LoginContext from "../context/LoginContext";
 
-const Home = ({ eventData }) => {
+const Home = ({ currentTrip, setCurrentTrip }) => {
   const [city, setCity] = useState(null);
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
@@ -22,24 +22,21 @@ const Home = ({ eventData }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubmit(true);
-    if (city && start && end) {
-      console.log(city, start, end);
-    }
 
     async function handleCall() {
       await getData({
         city: city,
         start: start,
         end: end,
-        username: username
+        username: username,
       }).then((response) => {
         setActivities(response.act);
-        setActivityID(response.id)
-        axios.get("http://localhost:8080/api/itineraries")
-        .then((response) => {
+        setActivityID(response.id);
+        axios.get("http://localhost:8080/api/itineraries").then((response) => {
           const itins = response.data.itineraries;
           setTrips(itins);
+          setCurrentTrip(itins[itins.length - 1]);
+          setSubmit(true);
         });
       });
     }
@@ -54,11 +51,13 @@ const Home = ({ eventData }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    }).then((data) => data.json());
+    }).then((data) => {
+      return data.json();
+    });
   }
 
   console.log("act", activities);
-  console.log('act id', activityID)
+  console.log("act id", activityID);
 
   return (
     <div>
@@ -92,7 +91,9 @@ const Home = ({ eventData }) => {
           Submit
         </Button>
       </form>
-      {submit && <Activities eventData={eventData} activities={activities} />}
+      {submit && (
+        <Activities activities={activities} currentTrip={currentTrip} />
+      )}
     </div>
   );
 };
