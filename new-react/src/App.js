@@ -113,7 +113,7 @@ function App() {
                     )}
                   </Route>
                   <Route exact path="/itinerary/:id/chat">
-                    <Chat currentTrip={currentTrip} />
+                    <Chat />
                   </Route>
                   <Route exact path="/itinerary/:id">
                     <Itinerary currentTrip={currentTrip} />

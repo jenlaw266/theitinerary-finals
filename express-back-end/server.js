@@ -12,10 +12,10 @@ db.connect();
 
 const getName = require("./queries/itineraries");
 const login = require("./routes/login");
-const getActivityId = require('./queries/getActivityId')
-const getMembers = require('./routes/getMembers')
-const addMember = require('./routes/addMember')
-const deleteMember = require('./routes/deleteMember')
+const getActivityId = require("./queries/getActivityId");
+const getMembers = require("./routes/getMembers");
+const addMember = require("./routes/addMember");
+const deleteMember = require("./routes/deleteMember");
 
 const getAllItineraries = require("./routes/getAllItineraries");
 const {
@@ -25,6 +25,7 @@ const {
 } = require("./routes/getItinerary");
 const deleteItinerary = require("./queries/deleteItinerary");
 const getImage = require("./routes/getImage");
+const deleteDays = require("./queries/deleteDay");
 
 // Express Configuration
 App.use(
@@ -43,10 +44,11 @@ App.use("/api/create/activities", async function (req, res) {
   const body = req.body;
   const actObj = await createActivities(db, body);
   const activities = await getImage(db, actObj);
-  //const activity_id = await getActivityId(db, activities[0].itinerary_id)
+  const activity_id = await getActivityId(db, activities[0].itinerary_id);
   res.json({
     message: "Success, able to get data from api",
-    act: activities
+    act: activities,
+    id: activity_id,
   });
 });
 
@@ -79,41 +81,50 @@ App.use("/api/itinerary/:id", async function (req, res) {
 
 App.use("/api/login", async function (req, res) {
   const token = await login(db, req.body);
-  console.log('token', token)
+  console.log("token", token);
   res.json({
     token: token,
   });
 });
 
-App.use("/api/members", async function(req, res) {
-  const id = req.body.id
-  const members = await getMembers(db, id)
-  console.log('mem', members)
+App.use("/api/members", async function (req, res) {
+  const id = req.body.id;
+  const members = await getMembers(db, id);
+  console.log("mem", members);
   res.json({
-    members: members
-  })
+    members: members,
+  });
 });
 
-App.use("/api/member/add", async function(req, res) {
+App.use("/api/member/add", async function (req, res) {
   const username = req.body.username;
   const itineraryID = req.body.itineraryID;
-  await addMember(db, username, itineraryID)
-  const member = []
-  member.push(username)
+  await addMember(db, username, itineraryID);
+  const member = [];
+  member.push(username);
   res.json({
-    member: member
-  })
+    member: member,
+  });
 });
 
-App.use("/api/member/delete", async function(req, res) {
-  console.log('req', req.body)
+App.use("/api/member/delete", async function (req, res) {
+  console.log("req", req.body);
   const username = req.body.username;
   const itineraryID = req.body.id;
-  await deleteMember(db, username, itineraryID)
-  const members = await getMembers(db, itineraryID)
+  console.log("itin", itineraryID);
+  await deleteMember(db, username, itineraryID);
+  const members = await getMembers(db, itineraryID);
+  console.log(members);
   res.json({
-    members: members
-  })
+    members: members,
+  });
+});
+
+App.delete("/api/days/:id", async function (req, res) {
+  await deleteDays(db, req.params.id).then((response) => {
+    console.log("deleteDays", response);
+    res.status(200).send("delete success");
+  });
 });
 
 App.listen(PORT, () => {
