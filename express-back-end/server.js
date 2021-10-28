@@ -77,6 +77,7 @@ App.use("/api/itinerary", async function (req, res) {
   const onlySelectedActivities = await getSelectedActivities(db, id, activities, selectedActivityIds)
 
   console.log("GET SELECTED ACT ONLY", onlySelectedActivities)
+  console.log("GET SELECTED ACT ONLY IDS", selectedActivityIds)
 
   res.json({
     itinerary: itinerary,
