@@ -9,7 +9,8 @@ const createActivities = async function (db, body) {
     [body.city, body.start, body.end, false]
   );
   const databaseQuery = await getName(db, body.city);
-  const itinerary_id = databaseQuery.rows[0].id;
+  const last = databaseQuery.rows.length - 1;
+  const itinerary_id = databaseQuery.rows[last].id;
 
   let days = dayDiff(body.start, body.end);
 

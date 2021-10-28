@@ -7,15 +7,43 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import Cloud from "@mui/icons-material/Cloud";
 import Menu from "@mui/material/Menu";
+import axios from "axios";
 
-export default function IconMenu({ setAnchorEl, anchorEl }) {
+export default function IconMenu({ setAnchorEl, anchorEl, allOptions }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
   const open = Boolean(anchorEl);
 
+  const deleteAlt = (id) => {
+    console.log("clicked delete dropdown", id);
+    axios.delete(`http://localhost:8080/api/days/${id}`);
+    /*  .then((response) => {
+        console.log(response);
+        axios.get("http://localhost:8080/api/itineraries").then((response) => {
+          const itins = response.data.itineraries;
+          setTrips(itins);
+        });
+      }); */
+  };
+
+  const altList = allOptions.map((day, id) => {
+    let text = "";
+    if (id !== 0) {
+      text = `Delete Alternative ${id}`;
+    } else {
+      text = `Delete ${day.day}`;
+    }
+    return (
+      <MenuItem onClick={() => deleteAlt(day.id)}>
+        <ListItemText>{text}</ListItemText>
+        <ListItemIcon>
+          <DeleteOutlineIcon fontSize="small" />
+        </ListItemIcon>
+      </MenuItem>
+    );
+  });
   return (
     <Menu
       id="basic-menu"
@@ -32,7 +60,14 @@ export default function IconMenu({ setAnchorEl, anchorEl }) {
             <ListItemIcon>
               <AddIcon fontSize="small" />
             </ListItemIcon>
-            <ListItemText>Add Alt Day</ListItemText>
+            <ListItemText>Add Alternative Day</ListItemText>
+          </MenuItem>
+
+          {/* <MenuItem onClick={() => console.log("clicked add")}>
+            <ListItemIcon>
+              <AddIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Add Alternative Day</ListItemText>
             <Typography variant="body2" color="text.secondary">
               +
             </Typography>
@@ -41,18 +76,14 @@ export default function IconMenu({ setAnchorEl, anchorEl }) {
             <ListItemIcon>
               <DeleteOutlineIcon fontSize="small" />
             </ListItemIcon>
-            <ListItemText>Delete Alt Day</ListItemText>
+            <ListItemText>Delete Alternative Day</ListItemText>
             <Typography variant="body2" color="text.secondary">
               -
             </Typography>
-          </MenuItem>
+          </MenuItem> */}
           <Divider />
-          <MenuItem>
-            <ListItemIcon>
-              <Cloud fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>Add Activities</ListItemText>
-          </MenuItem>
+
+          {altList}
         </MenuList>
       </Paper>
     </Menu>

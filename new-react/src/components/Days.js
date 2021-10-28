@@ -4,9 +4,9 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { useState } from "react";
-import Activities from "./Activities";
 import DaysDropDown from "./DaysDropDown";
 import Button from "@mui/material/Button";
+import Activity from "./Activity";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -19,7 +19,6 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === 100 && <DaysDropDown />}
       {value === index && (
         <Box sx={{ p: 3 }}>
           <Typography>{children}</Typography>
@@ -36,25 +35,31 @@ function a11yProps(index) {
   };
 }
 
-const dayTab = (name) => {
-  return <Tab label={name} {...a11yProps(0)} />;
+const dayTab = (all) => {
+  return all.map((each, id) => <Tab label={each.day} {...a11yProps(id)} />);
 };
 
-const alt = (value, activitiesList) => {
+const alt = (value, dayActivities) => {
+  //missing alt column
+  const activityCard = dayActivities.map((activity, id) => {
+    return (
+      <Activity
+        key={id}
+        name={activity.name}
+        city={activity.location}
+        img={activity.image}
+      />
+    );
+  });
   return (
     <TabPanel value={value} index={0}>
-      {activitiesList}
+      {activityCard}
     </TabPanel>
   );
 };
 
-const edit = () => {
-  return <Tab label="Edit" {...a11yProps(1)} />;
-};
-
 const Day = (props) => {
   const [value, setValue] = useState(0);
-  const [prevValue, setprevValue] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -62,14 +67,7 @@ const Day = (props) => {
   };
 
   const handleChange = (event, newValue) => {
-    if (newValue !== 100) {
-      setValue((prev) => {
-        setprevValue(prev);
-        return newValue;
-      });
-    } else {
-      setValue(newValue);
-    }
+    setValue(newValue);
   };
 
   return (
@@ -81,12 +79,10 @@ const Day = (props) => {
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            {dayTab(props.day)}
-            {/* {edit()} */}
+            {dayTab(props.allOptions)}
           </Tabs>
         </Box>
-        {alt(value, props.children)}
-        {/* <TabPanel value={value} index={100}></TabPanel> */}
+        {alt(value, props.dayActivities)}
       </Box>
       <Box sx={{ width: "10%" }}>
         <Button
@@ -98,7 +94,11 @@ const Day = (props) => {
         >
           Edit
         </Button>
-        <DaysDropDown setAnchorEl={setAnchorEl} anchorEl={anchorEl} />
+        <DaysDropDown
+          setAnchorEl={setAnchorEl}
+          anchorEl={anchorEl}
+          allOptions={props.allOptions}
+        />
       </Box>
     </Grid>
   );
