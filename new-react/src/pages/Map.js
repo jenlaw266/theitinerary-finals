@@ -6,12 +6,14 @@ import LocationInfoBox from "../components/Map/LocationInfoBox";
 import DaysCheckbox from "../components/Map/Checkbox";
 import { useHistory } from "react-router-dom";
 import LoginContext from "../context/LoginContext";
+import DataContext from "../context/DataContext";
 
 const Map = ({ eventData, center, zoom }) => {
   const [locationInfo, setLocationInfo] = useState(null);
   const [filteredDays, setFilteredDays] = useState(eventData);
   const history = useHistory();
   const { token } = useContext(LoginContext);
+  const { currentTrip } = useContext(DataContext);
   const [dayProperties, setDayProperties] = useState(null);
   const [markers, setMarkers] = useState(null);
 
@@ -19,20 +21,20 @@ const Map = ({ eventData, center, zoom }) => {
   // const onLoad = useCallback((map) => setMap(map), []);
 
   // useEffect(() => {
-    // MUST FIGURE OUT HOW TO AUTOZOOM, AUTOCENTER, FIND THE CENTER!
-    //   if (map) {
-      //     const bounds = new window.google.maps.LatLngBounds();
-      //     eventData.map(marker => {
-        //       bounds.extend({
-          //         lat: marker.latitude,
-          //         lng: marker.longitude,
-          //       });
-          //     });
-          //     map.fitBounds(bounds);
-          //   }
-          // }, [map, eventData]);
-          // }, [])
-    
+  // MUST FIGURE OUT HOW TO AUTOZOOM, AUTOCENTER, FIND THE CENTER!
+  //   if (map) {
+  //     const bounds = new window.google.maps.LatLngBounds();
+  //     eventData.map(marker => {
+  //       bounds.extend({
+  //         lat: marker.latitude,
+  //         lng: marker.longitude,
+  //       });
+  //     });
+  //     map.fitBounds(bounds);
+  //   }
+  // }, [map, eventData]);
+  // }, [])
+
   const uniqueDays = (eventData) => {
     const allDays = [];
     eventData.map((event) => allDays.push(event.day));
@@ -50,22 +52,22 @@ const Map = ({ eventData, center, zoom }) => {
   //assign each day properties
   useEffect(() => {
     const daysProps = {};
-    daysList.forEach(day => {
+    daysList.forEach((day) => {
       daysProps[day] = {};
       daysProps[day].name = day;
-      daysProps[day].visibility = true;      
-      daysProps[day].color = Math.floor(Math.random()*16777215).toString(16);
-    })
+      daysProps[day].visibility = true;
+      daysProps[day].color = Math.floor(Math.random() * 16777215).toString(16);
+    });
 
     setDayProperties(daysProps);
-  }, [])
+  }, []);
 
   const handleCallback = (childData) => {
     setShow(childData); // childData = ["day1", "day2", "day3", "day4"]
   };
 
   //create a filtered list of the days selected from the checkbox.
-  useEffect(()=> {
+  useEffect(() => {
     // console.log({show, filteredDays, daysList})
     if (show.length === daysList.length) {
       return setFilteredDays(eventData);
@@ -81,29 +83,37 @@ const Map = ({ eventData, center, zoom }) => {
   }, [show]);
 
   //show only the markers that are enabled on checkbox
-  useEffect(()=> {
-      setMarkers(filteredDays.map(event => {
-        const dayNameFromEvent = event.day
-        console.log(dayProperties)
+  useEffect(() => {
+    setMarkers(
+      filteredDays.map((event) => {
+        const dayNameFromEvent = event.day;
+        console.log(dayProperties);
 
-        const assignedColor = !dayProperties ? '000000' : dayProperties[dayNameFromEvent].color 
-        console.log(assignedColor)
-    
+        const assignedColor = !dayProperties
+          ? "000000"
+          : dayProperties[dayNameFromEvent].color;
+        console.log(assignedColor);
+
         return (
-          <LocationMarker 
-          key = {event.name}
-          lat={event.lat} 
-          lng={event.lng} 
-          onClick={() => setLocationInfo({
-            name: event.name, 
-            day: event.day, 
-            img: event.img
-          })}
-          color={assignedColor}
-          />)
-        })
-      )
-  }, [filteredDays, dayProperties])
+          <LocationMarker
+            key={event.name}
+            lat={event.lat}
+            lng={event.lng}
+            onClick={() =>
+              setLocationInfo({
+                name: event.name,
+                day: event.day,
+                img: event.img,
+              })
+            }
+            color={assignedColor}
+          />
+        );
+      })
+    );
+  }, [filteredDays, dayProperties]);
+
+  console.log("current", currentTrip);
 
   return (
     <div className="map">
@@ -120,9 +130,14 @@ const Map = ({ eventData, center, zoom }) => {
       >
         {markers}
       </GoogleMapReact>
-      {locationInfo && <LocationInfoBox info={locationInfo}/>}
-      {dayProperties && <DaysCheckbox daysList={daysList} dayProperties={dayProperties} parentCallback={handleCallback} />
-      }
+      {locationInfo && <LocationInfoBox info={locationInfo} />}
+      {dayProperties && (
+        <DaysCheckbox
+          daysList={daysList}
+          dayProperties={dayProperties}
+          parentCallback={handleCallback}
+        />
+      )}
     </div>
   );
 };

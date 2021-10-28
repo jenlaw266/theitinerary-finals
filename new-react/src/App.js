@@ -57,6 +57,7 @@ function App() {
     });
   }, []);
 
+
   const fetchActivities = () => {
     axios.get("/api/activities").then((response) => {
       console.log(response.data);
@@ -66,6 +67,7 @@ function App() {
         message: response.data.message,
         act: response.data.act[6].name,
       });
+
     });
   };
 
@@ -80,7 +82,7 @@ function App() {
   return (
     <Router>
       <Box sx={{ display: "flex" }}>
-        <LoginContext.Provider value={{ token, loading, setTrips }}>
+        <LoginContext.Provider value={{ token, loading, currentTrip }}>
           <Nav
             setDrawer={setDrawer}
             setToken={setToken}
@@ -99,7 +101,7 @@ function App() {
                   <Login setToken={setToken} />
                 </Route>
 
-                <DataContext.Provider value={{ setTrips, selectedActivities, setSelectedActivities }}>
+                <DataContext.Provider value={{ setTrips, currentTrip, selectedActivities, setSelectedActivities }}>
                   <Route path="/itineraries">
                     <Itineraries trips={trips} />
                   </Route>
@@ -113,13 +115,16 @@ function App() {
                     )}
                   </Route>
                   <Route exact path="/itinerary/:id/chat">
-                    <Chat currentTrip={currentTrip} />
+                    <Chat />
                   </Route>
                   <Route exact path="/itinerary/:id">
-                    <Itinerary currentTrip={currentTrip} />
+                    <Itinerary currentTrip={currentTrip} selectedActivities={selectedActivities}/>
                   </Route>
                   <Route exact path="/">
-                    <Home eventData={eventData} />
+                    <Home
+                      currentTrip={currentTrip}
+                      setCurrentTrip={setCurrentTrip}
+                    />
                   </Route>
                 </DataContext.Provider>
               </Switch>

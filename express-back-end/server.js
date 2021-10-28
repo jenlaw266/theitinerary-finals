@@ -13,6 +13,9 @@ db.connect();
 const getName = require("./queries/itineraries");
 const login = require("./routes/login");
 // const getActivityId = require('./queries/getActivityId')
+const getMembers = require("./routes/getMembers");
+const addMember = require("./routes/addMember");
+const deleteMember = require("./routes/deleteMember");
 
 const getAllItineraries = require("./routes/getAllItineraries");
 const {
@@ -22,8 +25,8 @@ const {
   getSelectedActivities
 } = require("./routes/getItinerary");
 const deleteItinerary = require("./queries/deleteItinerary");
-const { response } = require("express");
 const getImage = require("./routes/getImage");
+const deleteDays = require("./queries/deleteDay");
 
 // Express Configuration
 App.use(
@@ -42,11 +45,11 @@ App.use("/api/create/activities", async function (req, res) {
   const body = req.body;
   const actObj = await createActivities(db, body);
   const activities = await getImage(db, actObj);
-  // const activity_id = await getActivityId(db, activities[0].itinerary_id)
+  // const activity_id = await getActivityId(db, activities[0].itinerary_id);
   res.json({
     message: "Success, able to get data from api",
     act: activities,
-    // id: activity_id
+    // id: activity_id,
   });
 });
 
@@ -64,27 +67,71 @@ App.use("/api/itineraries", async function (req, res) {
   });
 });
 
-App.use("/api/itinerary/:id", async function (req, res) {
-  const id = req.params.id;
+App.use("/api/itinerary", async function (req, res) {
+  console.log("SERVER FILE", req.body, req.body.act)
+  const id = req.body.id;
   const selectedActivityIds = req.body.act;
   const itinerary = await getItinerary(db, id);
   const days = await getDays(db, id);
   const activities = await getActivities(db, id);
-  // const onlySelectedActivities = await getSelectedActivities(db, id, activities, selectedActivityIds)
+  const onlySelectedActivities = await getSelectedActivities(db, id, activities, selectedActivityIds)
+
+  console.log("GET SELECTED ACT ONLY", onlySelectedActivities)
 
   res.json({
-    selectedActivityIds: selectedActivityIds,
     itinerary: itinerary,
     days: days,
     activities: activities,
-    // onlySelectedActivities: onlySelectedActivities
+    selectedActivityIds: selectedActivityIds,
+    onlySelectedActivities: onlySelectedActivities
   });
 });
 
 App.use("/api/login", async function (req, res) {
   const token = await login(db, req.body);
+  console.log("token", token);
   res.json({
     token: token,
+  });
+});
+
+App.use("/api/members", async function (req, res) {
+  const id = req.body.id;
+  const members = await getMembers(db, id);
+  console.log("mem", members);
+  res.json({
+    members: members,
+  });
+});
+
+App.use("/api/member/add", async function (req, res) {
+  const username = req.body.username;
+  const itineraryID = req.body.itineraryID;
+  await addMember(db, username, itineraryID);
+  const member = [];
+  member.push(username);
+  res.json({
+    member: member,
+  });
+});
+
+App.use("/api/member/delete", async function (req, res) {
+  console.log("req", req.body);
+  const username = req.body.username;
+  const itineraryID = req.body.id;
+  console.log("itin", itineraryID);
+  await deleteMember(db, username, itineraryID);
+  const members = await getMembers(db, itineraryID);
+  console.log(members);
+  res.json({
+    members: members,
+  });
+});
+
+App.delete("/api/days/:id", async function (req, res) {
+  await deleteDays(db, req.params.id).then((response) => {
+    console.log("deleteDays", response);
+    res.status(200).send("delete success");
   });
 });
 

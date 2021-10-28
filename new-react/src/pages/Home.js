@@ -7,36 +7,37 @@ import DatePicker from "@mui/lab/DatePicker";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import DataContext from "../context/DataContext";
+import LoginContext from "../context/LoginContext";
 
-const Home = ({ eventData }) => {
+const Home = ({ currentTrip, setCurrentTrip }) => {
   const [city, setCity] = useState(null);
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
   const [submit, setSubmit] = useState(false);
   const { setTrips } = useContext(DataContext);
   const [activities, setActivities] = useState([]);
-  // const [activityID, setActivityID] = useState([])
+  // const [activityID, setActivityID] = useState([]);
+  const { token } = useContext(LoginContext);
+  const username = token ? token : "";
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubmit(true);
-    if (city && start && end) {
-      console.log(city, start, end);
-    }
 
     async function handleCall() {
-        await getData({
+      await getData({
         city: city,
         start: start,
         end: end,
+        username: username,
       }).then((response) => {
+        console.log("HOME", response)
         setActivities(response.act);
-        // setActivityID(response.id)
-        // console.log("RESPONSE", response)
-        axios.get("http://localhost:8080/api/itineraries")
-        .then((response) => {
+        // setActivityID(response.selectedActivityIds)
+        axios.get("http://localhost:8080/api/itineraries").then((response) => {
           const itins = response.data.itineraries;
           setTrips(itins);
+          setCurrentTrip(itins[itins.length - 1]);
+          setSubmit(true);
         });
       });
     }
@@ -51,11 +52,15 @@ const Home = ({ eventData }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    }).then((data) => data.json());
+    }).then((data) => {
+      return data.json();
+    });
   }
 
   console.log("act", activities);
-
+  // console.log("act id", activityID);
+  // console.log("selectedActivties", selectedActivities)
+  
   return (
     <div>
       <h1>home</h1>
@@ -88,7 +93,9 @@ const Home = ({ eventData }) => {
           Submit
         </Button>
       </form>
-      {submit && <Activities eventData={eventData} activities={activities} />}
+      {submit && (
+        <Activities activities={activities} currentTrip={currentTrip}/>
+      )}
     </div>
   );
 };

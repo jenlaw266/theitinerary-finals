@@ -20,6 +20,7 @@ const login = async function (db, body) {
         [username, email, hashPassword]
       );
     }
+    
     return username;
   }
 

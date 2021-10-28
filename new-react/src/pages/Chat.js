@@ -4,13 +4,15 @@ import Messages from "../components/Chat/Messages";
 import MessageInput from "../components/Chat/MessageInput";
 import LoginContext from "../context/LoginContext";
 import { useHistory } from "react-router-dom";
+import DataContext from "../context/DataContext";
 
 import "../components/Chat/chatbox.css";
 
-export default function Chat({ currentTrip }) {
+export default function Chat() {
   const [socket, setSocket] = useState(null);
   const { token } = useContext(LoginContext);
   const history = useHistory();
+  const { currentTrip } = useContext(DataContext);
 
   useEffect(() => {
     const newSocket = io(`http://${window.location.hostname}:3001`);

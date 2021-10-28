@@ -46,7 +46,7 @@ const Activities = (props) => {
     return addToSelectedActivities(activityId);
   };
 
-  console.log("selectedACtivities", selectedActivities);
+  console.log("selectedACtivitiesID", selectedActivities);
 
   //swap fakeActivities for originalActivities
   const activityCard = originalActivities.map((act, index) => {
@@ -76,7 +76,6 @@ const Activities = (props) => {
       <Grid container spacing={3}>
         {activityCard}
       </Grid>
-      {/* axios - check if the button generates after getting data */}
       {activityCard && (
         <Button variant="outlined" component={Link} to={`itinerary/${id}`}>
           Itinerary

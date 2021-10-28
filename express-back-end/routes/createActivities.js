@@ -11,7 +11,8 @@ const createActivities = async function (db, body) {
     [body.city, body.start, body.end, false]
   );
   const databaseQuery = await getName(db, body.city);
-  const itinerary_id = databaseQuery.rows[0].id;
+  const last = databaseQuery.rows.length - 1;
+  const itinerary_id = databaseQuery.rows[last].id;
 
   let days = dayDiff(body.start, body.end);
 
@@ -23,6 +24,12 @@ const createActivities = async function (db, body) {
     );
     days--;
   }
+
+  const query = await db.query(`SELECT id FROM users WHERE username = $1;`, [body.username])
+  const userID = query.rows[0].id
+
+  await db.query(`INSERT INTO main_parties(user_id, itinerary_id, creator)
+                  VALUES ($1, $2, $3) RETURNING *`, [userID, itinerary_id, true]);
 
   let output = [];
   await getApi(body.city).then((response) => {
@@ -41,7 +48,7 @@ const createActivities = async function (db, body) {
         imageString = response[i].photos[0].photo_reference
       }
       output.push({
-        itinerary_id: itinerary_id, //id for itinerary only
+        itinerary_id: itinerary_id,
         activity_id: 'PLACEHOLDER',
         name: name,
         location: location,
@@ -60,7 +67,7 @@ const createActivities = async function (db, body) {
       );
     }
   });
-  console.log(output)
+  // console.log(output)
 
   let outputWithActivityIds = [];
   await getActivityId(db, output[0].itinerary_id).then((response) => {
