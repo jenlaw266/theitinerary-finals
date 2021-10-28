@@ -19,6 +19,7 @@ const {
   getItinerary,
   getDays,
   getActivities,
+  getSelectedActivities
 } = require("./routes/getItinerary");
 const deleteItinerary = require("./queries/deleteItinerary");
 const { response } = require("express");
@@ -63,16 +64,20 @@ App.use("/api/itineraries", async function (req, res) {
   });
 });
 
-App.use("/api/itinerary", async function (req, res) {
-  const id = req.body.id;
+App.use("/api/itinerary/:id", async function (req, res) {
+  const id = req.params.id;
+  const selectedActivityIds = req.body.act;
   const itinerary = await getItinerary(db, id);
   const days = await getDays(db, id);
   const activities = await getActivities(db, id);
+  // const onlySelectedActivities = await getSelectedActivities(db, id, activities, selectedActivityIds)
 
   res.json({
+    selectedActivityIds: selectedActivityIds,
     itinerary: itinerary,
     days: days,
     activities: activities,
+    // onlySelectedActivities: onlySelectedActivities
   });
 });
 

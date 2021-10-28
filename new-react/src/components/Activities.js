@@ -1,17 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Activity from "./Activity";
 import Grid from "@mui/material/Grid";
 import { Container } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import DataContext from "../context/DataContext";
 const REACT_APP_API_KEY = process.env.REACT_APP_API_KEY;
 
-//diff list for different cities  
+
+//diff list for different cities
 
 const Activities = (props) => {
-  const [selectedActivities, setSelectedActivities] = useState([]);
   const originalActivities = props.activities;
+  const { selectedActivities, setSelectedActivities } = useContext(DataContext);
   // console.log("ORIGINAL ACTIVITIES", originalActivities)
   // const fakeActivities = originalActivities.map((act, index) => {
   //   return {...act, id: index}
@@ -27,6 +29,8 @@ const Activities = (props) => {
     const updatedSelectedActivities = selectedActivities.filter( (currentActivityId) => { 
       return currentActivityId !== activityId
     });
+
+  
 
     setSelectedActivities(updatedSelectedActivities);
   };
