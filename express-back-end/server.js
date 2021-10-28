@@ -43,11 +43,10 @@ App.use("/api/create/activities", async function (req, res) {
   const body = req.body;
   const actObj = await createActivities(db, body);
   const activities = await getImage(db, actObj);
-  const activity_id = await getActivityId(db, activities[0].itinerary_id)
+  //const activity_id = await getActivityId(db, activities[0].itinerary_id)
   res.json({
     message: "Success, able to get data from api",
-    act: activities,
-    id: activity_id
+    act: activities
   });
 });
 
@@ -65,7 +64,7 @@ App.use("/api/itineraries", async function (req, res) {
   });
 });
 
-App.use("/api/itinerary", async function (req, res) {
+App.use("/api/itinerary/:id", async function (req, res) {
   const id = req.body.id;
   const itinerary = await getItinerary(db, id);
   const days = await getDays(db, id);
@@ -110,10 +109,8 @@ App.use("/api/member/delete", async function(req, res) {
   console.log('req', req.body)
   const username = req.body.username;
   const itineraryID = req.body.id;
-  console.log('itin', itineraryID)
   await deleteMember(db, username, itineraryID)
   const members = await getMembers(db, itineraryID)
-  console.log(members)
   res.json({
     members: members
   })

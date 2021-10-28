@@ -28,7 +28,7 @@ const Itinerary = ({ currentTrip }) => {
   }, [params.id]);
 
   async function getData(id) {
-    return fetch("http://localhost:8080/api/itinerary", {
+    return fetch("http://localhost:8080/api/itinerary/:id", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
