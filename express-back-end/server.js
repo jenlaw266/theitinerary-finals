@@ -12,7 +12,7 @@ db.connect();
 
 const getName = require("./queries/itineraries");
 const login = require("./routes/login");
-const getActivityId = require("./queries/getActivityId");
+// const getActivityId = require('./queries/getActivityId')
 const getMembers = require("./routes/getMembers");
 const addMember = require("./routes/addMember");
 const deleteMember = require("./routes/deleteMember");
@@ -22,6 +22,7 @@ const {
   getItinerary,
   getDays,
   getActivities,
+  getSelectedActivities
 } = require("./routes/getItinerary");
 const deleteItinerary = require("./queries/deleteItinerary");
 const getImage = require("./routes/getImage");
@@ -44,11 +45,11 @@ App.use("/api/create/activities", async function (req, res) {
   const body = req.body;
   const actObj = await createActivities(db, body);
   const activities = await getImage(db, actObj);
-  const activity_id = await getActivityId(db, activities[0].itinerary_id);
+  // const activity_id = await getActivityId(db, activities[0].itinerary_id);
   res.json({
     message: "Success, able to get data from api",
     act: activities,
-    id: activity_id,
+    // id: activity_id,
   });
 });
 
@@ -67,15 +68,23 @@ App.use("/api/itineraries", async function (req, res) {
 });
 
 App.use("/api/itinerary", async function (req, res) {
+  console.log("SERVER FILE", req.body, req.body.act)
   const id = req.body.id;
+  const selectedActivityIds = req.body.act;
   const itinerary = await getItinerary(db, id);
   const days = await getDays(db, id);
   const activities = await getActivities(db, id);
+  const onlySelectedActivities = await getSelectedActivities(db, id, activities, selectedActivityIds)
+
+  console.log("GET SELECTED ACT ONLY", onlySelectedActivities)
+  console.log("GET SELECTED ACT ONLY IDS", selectedActivityIds)
 
   res.json({
     itinerary: itinerary,
     days: days,
     activities: activities,
+    selectedActivityIds: selectedActivityIds,
+    onlySelectedActivities: onlySelectedActivities
   });
 });
 

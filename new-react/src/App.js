@@ -23,6 +23,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [trips, setTrips] = useState([]);
   const [currentTrip, setCurrentTrip] = useState();
+  const [selectedActivities, setSelectedActivities] = useState([]);
 
   const [state, setState] = useState({
     message: "",
@@ -56,6 +57,7 @@ function App() {
     });
   }, []);
 
+
   const fetchActivities = () => {
     axios.get("/api/activities").then((response) => {
       console.log(response.data);
@@ -65,6 +67,7 @@ function App() {
         message: response.data.message,
         act: response.data.act[6].name,
       });
+
     });
   };
 
@@ -98,14 +101,13 @@ function App() {
                   <Login setToken={setToken} />
                 </Route>
 
-                <DataContext.Provider value={{ setTrips, currentTrip }}>
+                <DataContext.Provider value={{ setTrips, currentTrip, selectedActivities, setSelectedActivities }}>
                   <Route path="/itineraries">
                     <Itineraries trips={trips} />
                   </Route>
                   <Route exact path="/itinerary/:id/map">
                     {!loading ? (
                       <Map
-                        {...console.log("RENDERING MAP")}
                         eventData={eventData}
                       />
                     ) : (
@@ -116,7 +118,7 @@ function App() {
                     <Chat />
                   </Route>
                   <Route exact path="/itinerary/:id">
-                    <Itinerary currentTrip={currentTrip} />
+                    <Itinerary currentTrip={currentTrip} selectedActivities={selectedActivities}/>
                   </Route>
                   <Route exact path="/">
                     <Home
