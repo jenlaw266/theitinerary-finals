@@ -69,7 +69,8 @@ const Activities = (props) => {
       </Grid>
     );
   });
-  const id = props.eventData.length;
+  
+  const id = props.currentTrip?.id;
   return (
     <Container>
       <Grid container spacing={3}>
