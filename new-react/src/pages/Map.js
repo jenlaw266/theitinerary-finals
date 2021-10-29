@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 // import React, { useState, useCallback, useEffect } from 'react';
+import { useParams } from "react-router";
 import GoogleMapReact from "google-map-react";
 import LocationMarker from "../components/Map/LocationMarker";
 import LocationInfoBox from "../components/Map/LocationInfoBox";
@@ -17,7 +18,35 @@ const Map = ({ eventData, center, zoom }) => {
   const { currentTrip, selectedActivities } = useContext(DataContext);
   const [dayProperties, setDayProperties] = useState(null);
   const [markers, setMarkers] = useState(null);
-  
+  const [onlySelectedActivities, setOnlySelectedActivities] = useState([]);
+  const params = useParams();
+
+  //-----------------------
+  useEffect(() => {
+    console.log("useEffect in itinerary fired");
+    async function handleCall() {
+      const data = await getData({ id: params.id, act: selectedActivities });
+      setOnlySelectedActivities(data.onlySelectedActivities)
+    }
+
+
+    handleCall();
+
+  }, [params.id]);
+
+  async function getData(id) {
+    return fetch("http://localhost:8080/api/itinerary", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      }, 
+      body: JSON.stringify(id),
+    }).then((data) => {
+      return data.json();
+    });
+  }
+  //----------------------
+
   const uniqueDays = (eventData) => {
     const allDays = [];
     eventData.map((event) => allDays.push(event.day));
@@ -96,8 +125,9 @@ const Map = ({ eventData, center, zoom }) => {
     );
   }, [filteredDays, dayProperties]);
 
-  console.log("current", currentTrip);
-  console.log("selectedActivities", selectedActivities);
+  console.log(" MAP current", currentTrip);
+  console.log(" MAP selectedActivitiesIds", selectedActivities);
+  console.log(" MAP onlySelectedActivities", onlySelectedActivities);
 
   const start_date = new Date(currentTrip.start_date);
   const end_date = new Date(currentTrip.end_date);
