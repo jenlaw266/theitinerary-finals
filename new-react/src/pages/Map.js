@@ -87,12 +87,12 @@ const Map = ({ eventData, center, zoom }) => {
     setMarkers(
       filteredDays.map((event) => {
         const dayNameFromEvent = event.day;
-        console.log(dayProperties);
+        // console.log(dayProperties);
 
         const assignedColor = !dayProperties
           ? "000000"
           : dayProperties[dayNameFromEvent].color;
-        console.log(assignedColor);
+        // console.log(assignedColor);
 
         return (
           <LocationMarker
@@ -115,9 +115,14 @@ const Map = ({ eventData, center, zoom }) => {
 
   console.log("current", currentTrip);
 
+  const start_date = new Date(currentTrip.start_date);
+  const end_date = new Date(currentTrip.end_date);
+
   return (
     <div className="map">
       {!token && history.push("/login")}
+      <h2>{currentTrip.name} Tripz</h2>
+      <h3>{start_date.toDateString()} to {end_date.toDateString()}</h3>
       <GoogleMapReact
         bootstrapURLKeys={{
           key:
@@ -142,6 +147,8 @@ const Map = ({ eventData, center, zoom }) => {
   );
 };
 
+
+//need to swwap out the center default to average center from all points.
 Map.defaultProps = {
   center: {
     lat: 49.2827,
