@@ -13,27 +13,9 @@ const Map = ({ eventData, center, zoom }) => {
   const [filteredDays, setFilteredDays] = useState(eventData);
   const history = useHistory();
   const { token } = useContext(LoginContext);
-  const { currentTrip } = useContext(DataContext);
+  const { currentTrip, selectedActivities } = useContext(DataContext);
   const [dayProperties, setDayProperties] = useState(null);
   const [markers, setMarkers] = useState(null);
-
-  // const [map, setMap] = useState(null);
-  // const onLoad = useCallback((map) => setMap(map), []);
-
-  // useEffect(() => {
-  // MUST FIGURE OUT HOW TO AUTOZOOM, AUTOCENTER, FIND THE CENTER!
-  //   if (map) {
-  //     const bounds = new window.google.maps.LatLngBounds();
-  //     eventData.map(marker => {
-  //       bounds.extend({
-  //         lat: marker.latitude,
-  //         lng: marker.longitude,
-  //       });
-  //     });
-  //     map.fitBounds(bounds);
-  //   }
-  // }, [map, eventData]);
-  // }, [])
 
   const uniqueDays = (eventData) => {
     const allDays = [];
@@ -114,6 +96,7 @@ const Map = ({ eventData, center, zoom }) => {
   }, [filteredDays, dayProperties]);
 
   console.log("current", currentTrip);
+  console.log("selectedActivities", selectedActivities);
 
   const start_date = new Date(currentTrip.start_date);
   const end_date = new Date(currentTrip.end_date);

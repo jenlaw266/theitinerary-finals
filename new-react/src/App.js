@@ -23,7 +23,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [trips, setTrips] = useState([]);
   const [currentTrip, setCurrentTrip] = useState();
-  const [selectedActivities, setSelectedActivities] = useState([]);
+  const [selectedActivities, setSelectedActivities] = useState([1, 2, 3, 4, "test"]);
 
   const [state, setState] = useState({
     message: "",
