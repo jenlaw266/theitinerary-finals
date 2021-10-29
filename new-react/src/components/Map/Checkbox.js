@@ -50,8 +50,8 @@ function DaysCheckbox(props) {
             key={value}
             secondaryAction={
               <IconButton edge="end" aria-label="comments">
-                {/* <LocationOnIcon style={{ color: props.dayProperties[value].color}} /> */}
-                <LocationOnIcon style={{ color: '000000'}} />
+                <LocationOnIcon style={{ color: props.dayProperties[value].color}} />
+                {/* <LocationOnIcon style={{ color: '000000'}} /> */}
               </IconButton>
             }
             disablePadding

@@ -16,7 +16,7 @@ const Map = ({ eventData, center, zoom }) => {
   const history = useHistory();
   const { token } = useContext(LoginContext);
   const { currentTrip, selectedActivities } = useContext(DataContext);
-  const [dayProperties, setDayProperties] = useState(null);
+  const [dayProperties, setDayProperties] = useState([]);
   const [markers, setMarkers] = useState(null);
   const [onlySelectedActivities, setOnlySelectedActivities] = useState([]);
   const params = useParams();
@@ -99,11 +99,11 @@ const Map = ({ eventData, center, zoom }) => {
     setMarkers(
       filteredDays.map((activity) => {
         const dayNameFromEvent = activity.day_id;
-        // console.log(dayProperties);
+        console.log(dayProperties);
 
-        // const assignedColor = !dayProperties ? "000000" : dayProperties[dayNameFromEvent].color;
-        const assignedColor = '000000'
-        console.log(assignedColor);
+        const assignedColor = !dayProperties ? "000000" : dayProperties[dayNameFromEvent].color;
+        // const assignedColor = '000000'
+        // console.log(assignedColor);
 
         return (
           <LocationMarker
