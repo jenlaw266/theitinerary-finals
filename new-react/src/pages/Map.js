@@ -8,6 +8,7 @@ import { useHistory } from "react-router-dom";
 import LoginContext from "../context/LoginContext";
 import DataContext from "../context/DataContext";
 
+
 const Map = ({ eventData, center, zoom }) => {
   const [locationInfo, setLocationInfo] = useState(null);
   const [filteredDays, setFilteredDays] = useState(eventData);
@@ -16,7 +17,7 @@ const Map = ({ eventData, center, zoom }) => {
   const { currentTrip, selectedActivities } = useContext(DataContext);
   const [dayProperties, setDayProperties] = useState(null);
   const [markers, setMarkers] = useState(null);
-
+  
   const uniqueDays = (eventData) => {
     const allDays = [];
     eventData.map((event) => allDays.push(event.day));
