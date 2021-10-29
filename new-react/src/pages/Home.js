@@ -16,7 +16,7 @@ const Home = ({ currentTrip, setCurrentTrip }) => {
   const [submit, setSubmit] = useState(false);
   const { setTrips } = useContext(DataContext);
   const [activities, setActivities] = useState([]);
-  const [activityID, setActivityID] = useState([]);
+  // const [activityID, setActivityID] = useState([]);
   const { token } = useContext(LoginContext);
   const username = token ? token : "";
 
@@ -30,8 +30,9 @@ const Home = ({ currentTrip, setCurrentTrip }) => {
         end: end,
         username: username,
       }).then((response) => {
+        console.log("HOME", response)
         setActivities(response.act);
-        setActivityID(response.id);
+        // setActivityID(response.selectedActivityIds)
         axios.get("http://localhost:8080/api/itineraries").then((response) => {
           const itins = response.data.itineraries;
           setTrips(itins);
@@ -57,8 +58,9 @@ const Home = ({ currentTrip, setCurrentTrip }) => {
   }
 
   console.log("act", activities);
-  console.log("act id", activityID);
-
+  // console.log("act id", activityID);
+  // console.log("selectedActivties", selectedActivities)
+  
   return (
     <div>
       <h1>home</h1>
@@ -92,7 +94,7 @@ const Home = ({ currentTrip, setCurrentTrip }) => {
         </Button>
       </form>
       {submit && (
-        <Activities activities={activities} currentTrip={currentTrip} />
+        <Activities activities={activities} currentTrip={currentTrip}/>
       )}
     </div>
   );

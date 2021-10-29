@@ -12,7 +12,7 @@ const addAltDay = async function (db, day, itineraryID) {
   }
 
   const newDay = await db.query(
-    `INSERT INTO days(id, day, day_type_id, itinerary_id) VALUES ($1, $2, $3, $4) returning *`,
+    `INSERT INTO days(id, day, day_type_id, itinerary_id) VALUES ($1, $2, $3, $4) RETURNING *`,
     [Number(lastId) + 1, dayName, 2, itineraryID]
   );
   return newDay.rows[0];

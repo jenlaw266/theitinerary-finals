@@ -35,14 +35,10 @@ function DaysCheckbox(props) {
   };
 
   useEffect(() => {
-    console.log("checked", checked)
+    // console.log("checked", checked)
   }, [checked]);
 
-  console.log("checked outside handleToggle", checked)
-  //send data of days to place on map if box is checked
-  // const daysToMark = (checked) => {
-  //   return checked;
-  // }
+  // console.log("checked outside handleToggle", checked)
 
   return (
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>

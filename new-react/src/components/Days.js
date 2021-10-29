@@ -101,6 +101,7 @@ const Day = (props) => {
           anchorEl={anchorEl}
           allOptions={props.allOptions}
           setDays={props.setDays}
+          itineraryId={props.itineraryId}
         />
       </Box>
     </Grid>

@@ -19,6 +19,7 @@ export default function IconMenu({
   anchorEl,
   allOptions,
   setDays,
+  itineraryId,
 }) {
   const handleClose = () => {
     setAnchorEl(null);
@@ -70,8 +71,9 @@ export default function IconMenu({
     );
   });
 
-  const genActivities = () => {
+  const genActivities = (id) => {
     //get activities from table with itinerary ID
+
     return (
       <MenuItem onClick={() => console.log("click delete")}>
         <ListItemText>{/*text*/}</ListItemText>
@@ -150,6 +152,7 @@ export default function IconMenu({
                   </ListItemIcon>
                   <ListItemText>Activities</ListItemText>
                 </MenuItem>
+                {genActivities(itineraryId)}
               </div>
             </CSSTransition>
           </MenuList>

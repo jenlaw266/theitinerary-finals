@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 // import React, { useState, useCallback, useEffect } from 'react';
+import { useParams } from "react-router";
 import GoogleMapReact from "google-map-react";
 import LocationMarker from "../components/Map/LocationMarker";
 import LocationInfoBox from "../components/Map/LocationInfoBox";
@@ -8,32 +9,43 @@ import { useHistory } from "react-router-dom";
 import LoginContext from "../context/LoginContext";
 import DataContext from "../context/DataContext";
 
+
 const Map = ({ eventData, center, zoom }) => {
   const [locationInfo, setLocationInfo] = useState(null);
   const [filteredDays, setFilteredDays] = useState(eventData);
   const history = useHistory();
   const { token } = useContext(LoginContext);
-  const { currentTrip } = useContext(DataContext);
+  const { currentTrip, selectedActivities } = useContext(DataContext);
   const [dayProperties, setDayProperties] = useState(null);
   const [markers, setMarkers] = useState(null);
+  const [onlySelectedActivities, setOnlySelectedActivities] = useState([]);
+  const params = useParams();
 
-  // const [map, setMap] = useState(null);
-  // const onLoad = useCallback((map) => setMap(map), []);
+  //-----------------------
+  useEffect(() => {
+    console.log("useEffect in itinerary fired");
+    async function handleCall() {
+      const data = await getData({ id: params.id, act: selectedActivities });
+      setOnlySelectedActivities(data.onlySelectedActivities)
+    }
 
-  // useEffect(() => {
-  // MUST FIGURE OUT HOW TO AUTOZOOM, AUTOCENTER, FIND THE CENTER!
-  //   if (map) {
-  //     const bounds = new window.google.maps.LatLngBounds();
-  //     eventData.map(marker => {
-  //       bounds.extend({
-  //         lat: marker.latitude,
-  //         lng: marker.longitude,
-  //       });
-  //     });
-  //     map.fitBounds(bounds);
-  //   }
-  // }, [map, eventData]);
-  // }, [])
+
+    handleCall();
+
+  }, [params.id]);
+
+  async function getData(id) {
+    return fetch("http://localhost:8080/api/itinerary", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      }, 
+      body: JSON.stringify(id),
+    }).then((data) => {
+      return data.json();
+    });
+  }
+  //----------------------
 
   const uniqueDays = (eventData) => {
     const allDays = [];
@@ -87,12 +99,12 @@ const Map = ({ eventData, center, zoom }) => {
     setMarkers(
       filteredDays.map((event) => {
         const dayNameFromEvent = event.day;
-        console.log(dayProperties);
+        // console.log(dayProperties);
 
         const assignedColor = !dayProperties
           ? "000000"
           : dayProperties[dayNameFromEvent].color;
-        console.log(assignedColor);
+        // console.log(assignedColor);
 
         return (
           <LocationMarker
@@ -113,11 +125,18 @@ const Map = ({ eventData, center, zoom }) => {
     );
   }, [filteredDays, dayProperties]);
 
-  console.log("current", currentTrip);
+  console.log(" MAP current", currentTrip);
+  console.log(" MAP selectedActivitiesIds", selectedActivities);
+  console.log(" MAP onlySelectedActivities", onlySelectedActivities);
+
+  const start_date = new Date(currentTrip.start_date);
+  const end_date = new Date(currentTrip.end_date);
 
   return (
     <div className="map">
       {!token && history.push("/login")}
+      <h2>{currentTrip.name} Tripz</h2>
+      <h3>{start_date.toDateString()} to {end_date.toDateString()}</h3>
       <GoogleMapReact
         bootstrapURLKeys={{
           key:
@@ -142,6 +161,8 @@ const Map = ({ eventData, center, zoom }) => {
   );
 };
 
+
+//need to swwap out the center default to average center from all points.
 Map.defaultProps = {
   center: {
     lat: 49.2827,
