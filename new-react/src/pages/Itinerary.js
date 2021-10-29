@@ -15,9 +15,9 @@ const Itinerary = ({ props }) => {
   const { token } = useContext(LoginContext);
   const history = useHistory();
   const [itinerary, setItinerary] = useState({});
-  const [days, setDays] = useState({});
+  const [days, setDays] = useState([]);
   const [activities, setActivities] = useState({});
-  const [selectedActivityIds, setSelectedActivityIds] = useState({});
+  // const [selectedActivityIds, setSelectedActivityIds] = useState({});
   const [onlySelectedActivities, setOnlySelectedActivities] = useState([]);
   const { selectedActivities, currentTrip } = useContext(DataContext);
 
@@ -32,7 +32,7 @@ const Itinerary = ({ props }) => {
       setItinerary(data.itinerary);
       setDays(data.days);
       setActivities(data.activities);
-      setSelectedActivityIds(data.selectedActivityIds);
+      // setSelectedActivityIds(data.selectedActivityIds);
       setOnlySelectedActivities(data.onlySelectedActivities)
     }
 
@@ -57,50 +57,50 @@ const Itinerary = ({ props }) => {
   console.log("days", days);
   console.log("itin", itinerary);
   console.log("act", activities);
-  console.log("likedactivitiesids", selectedActivityIds);
+  // console.log("likedactivitiesids", selectedActivityIds);
   console.log("likedactivities", onlySelectedActivities)
 
-  // const primaryDays = days.filter((day) => day.day_type_id === 1);
-  // const altDays = days.filter((day) => day.day_type_id !== 1);
+  const primaryDays = days.filter((day) => day.day_type_id === 1);
+  const altDays = days.filter((day) => day.day_type_id !== 1);
 
-  // const dayTab = primaryDays.map((day, id) => {
-  //   const alt = altDays.map((altDay) => {
-  //     if (day.day.split(" ")[1] === altDay.day.split(" ")[1]) {
-  //       return altDay;
-  //     }
-  //   });
-  //   const allOptions = [day].concat(alt);
+  const dayTab = primaryDays.map((day, id) => {
+    const alt = altDays.map((altDay) => {
+      if (day.day.split(" ")[1] === altDay.day.split(" ")[1]) {
+        return altDay;
+      }
+    });
+    const allOptions = [day].concat(alt);
 
-  //   const dayActivities = activities.filter(
-  //     (activity) => activity.day_id === Number(day.day.split(" ")[1])
-  //   );
+    const dayActivities = onlySelectedActivities.filter(
+      (activity) => activity.day_id === Number(day.day.split(" ")[1])
+    );
 
-  //   return (
-  //     <Days
-  //       key={id}
-  //       allOptions={allOptions}
-  //       dayActivities={dayActivities}
-  //     ></Days>
-  //   );
-  // });
-
-  const likedActivitiesInfo = onlySelectedActivities.map((likedActivity) => {
     return (
-      <div>
-        <h1>      </h1>
-        <img src={likedActivity.image}></img>
-        <h2>Name: {likedActivity.name}</h2>
-        <h2>Location: {likedActivity.location} {likedActivity.itinerary_id}</h2>
-        <h3>Day: Day {likedActivity.day_id}</h3>
-      </div>
-    )
+      <Days
+        key={id}
+        allOptions={allOptions}
+        dayActivities={dayActivities}
+      ></Days>
+    );
   });
+
+  // const likedActivitiesInfo = onlySelectedActivities.map((likedActivity) => {
+  //   return (
+  //     <div>
+  //       <h1>      </h1>
+  //       <img src={likedActivity.image}></img>
+  //       <h2>Name: {likedActivity.name}</h2>
+  //       <h2>Location: {likedActivity.location} {likedActivity.itinerary_id}</h2>
+  //       <h3>Day: Day {likedActivity.day_id}</h3>
+  //     </div>
+  //   )
+  // });
 
   return (
     <div>
       {!token && history.push("/login")}
-      {/* {dayTab} */}
-      {  onlySelectedActivities.length ? likedActivitiesInfo : <h2>LOADING ITINERARY</h2> }
+      {dayTab}
+      {/* {  onlySelectedActivities.length ? likedActivitiesInfo : <h2>LOADING ITINERARY</h2> } */}
 
     </div>
   );
