@@ -12,7 +12,7 @@ import DataContext from "../context/DataContext";
 
 const Map = ({ eventData, center, zoom }) => {
   const [locationInfo, setLocationInfo] = useState(null);
-  const [filteredDays, setFilteredDays] = useState(eventData);
+  const [filteredDays, setFilteredDays] = useState([]);
   const history = useHistory();
   const { token } = useContext(LoginContext);
   const { currentTrip, selectedActivities } = useContext(DataContext);
@@ -47,18 +47,18 @@ const Map = ({ eventData, center, zoom }) => {
   }
   //----------------------
 
-  const uniqueDays = (eventData) => {
+  const uniqueDays = (onlySelectedActivities) => {
     const allDays = [];
-    eventData.map((event) => allDays.push(event.day));
+    onlySelectedActivities.map((activity) => allDays.push(activity.day_id));
 
     const days = allDays.filter(
       (value, index, self) => self.indexOf(value) === index
     );
 
-    return days;
+    return days.sort();
   };
 
-  const daysList = uniqueDays(eventData);
+  const daysList = uniqueDays(onlySelectedActivities);
   const [show, setShow] = useState(daysList);
 
   //assign each day properties
@@ -82,11 +82,11 @@ const Map = ({ eventData, center, zoom }) => {
   useEffect(() => {
     // console.log({show, filteredDays, daysList})
     if (show.length === daysList.length) {
-      return setFilteredDays(eventData);
+      return setFilteredDays(onlySelectedActivities);
     } else {
-      const newFilteredDays = eventData.filter((event) => {
-        if (show.includes(event.day)) {
-          return event;
+      const newFilteredDays = onlySelectedActivities.filter((activity) => {
+        if (show.includes(activity.day_id)) {
+          return activity;
         }
       });
 
@@ -97,25 +97,24 @@ const Map = ({ eventData, center, zoom }) => {
   //show only the markers that are enabled on checkbox
   useEffect(() => {
     setMarkers(
-      filteredDays.map((event) => {
-        const dayNameFromEvent = event.day;
+      filteredDays.map((activity) => {
+        const dayNameFromEvent = activity.day_id;
         // console.log(dayProperties);
 
-        const assignedColor = !dayProperties
-          ? "000000"
-          : dayProperties[dayNameFromEvent].color;
-        // console.log(assignedColor);
+        // const assignedColor = !dayProperties ? "000000" : dayProperties[dayNameFromEvent].color;
+        const assignedColor = '000000'
+        console.log(assignedColor);
 
         return (
           <LocationMarker
-            key={event.name}
-            lat={event.lat}
-            lng={event.lng}
+            key={activity.name}
+            lat={activity.lat}
+            lng={activity.long}
             onClick={() =>
               setLocationInfo({
-                name: event.name,
-                day: event.day,
-                img: event.img,
+                name: activity.name,
+                day_id: activity.day_id,
+                image: activity.image,
               })
             }
             color={assignedColor}
@@ -125,9 +124,10 @@ const Map = ({ eventData, center, zoom }) => {
     );
   }, [filteredDays, dayProperties]);
 
-  console.log(" MAP current", currentTrip);
-  console.log(" MAP selectedActivitiesIds", selectedActivities);
+  // console.log(" MAP current", currentTrip);
+  // console.log(" MAP selectedActivitiesIds", selectedActivities);
   console.log(" MAP onlySelectedActivities", onlySelectedActivities);
+  console.log(" day props", dayProperties);
 
   const start_date = new Date(currentTrip.start_date);
   const end_date = new Date(currentTrip.end_date);
