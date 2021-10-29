@@ -24,7 +24,14 @@ export default function IconMenu({
     setAnchorEl(null);
   };
   const open = Boolean(anchorEl);
+
   const [active, setActive] = useState("default");
+  const [height, setHeight] = useState(null);
+
+  const calcHeight = (el) => {
+    const height = el.offsetHeight;
+    setHeight(height);
+  };
 
   const addAlt = (data) => {
     fetch("http://localhost:8080/api/days/add", {
@@ -79,63 +86,75 @@ export default function IconMenu({
     return prev === "default" ? "activity" : "default";
   };
 
-  return (
-    <Paper sx={{ width: 320, maxWidth: "100%" }}>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        <MenuList>
-          <CSSTransition
-            in={active === "default"}
-            unmountOnExit
-            timeout={500}
-            className="menu-primary"
-          >
-            <div className="menu">
-              <MenuItem
-                onClick={() => addAlt(allOptions[allOptions.length - 1])}
-              >
-                <ListItemIcon>
-                  <AddIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText>Add Alternative Day</ListItemText>
-              </MenuItem>
+  /*   anchorOrigin={{
+    vertical: "bottom",
+    horizontal: "left",
+  }} */
 
-              <MenuItem onClick={() => setActive((prev) => toggleMenu(prev))}>
-                <ListItemIcon>
-                  <ArrowBackIosNewIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText>Add Activity</ListItemText>
-              </MenuItem>
-              <Divider />
-              {altList}
-            </div>
-          </CSSTransition>
-          <CSSTransition
-            in={active === "activity"}
-            unmountOnExit
-            timeout={500}
-            className="menu-secondary"
-          >
-            <MenuItem
-              onClick={
-                () => setActive((prev) => toggleMenu(prev)) /*genActivities*/
-              }
+  return (
+    <div className="dropdown">
+      <Paper sx={{ width: 320, maxWidth: "100%" }}>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <MenuList>
+            <CSSTransition
+              style={{ height: height }}
+              in={active === "default"}
+              unmountOnExit
+              timeout={500}
+              className="menu-primary"
+              onEnter={calcHeight}
             >
-              <ListItemIcon>
-                <ArrowForwardIosIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>Activities</ListItemText>
-            </MenuItem>
-          </CSSTransition>
-        </MenuList>
-      </Menu>
-    </Paper>
+              <div className="menu">
+                <MenuItem
+                  onClick={() => addAlt(allOptions[allOptions.length - 1])}
+                >
+                  <ListItemIcon>
+                    <AddIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>Add Alternative Day</ListItemText>
+                </MenuItem>
+
+                <MenuItem onClick={() => setActive((prev) => toggleMenu(prev))}>
+                  <ListItemIcon>
+                    <ArrowBackIosNewIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>Add Activity</ListItemText>
+                </MenuItem>
+                <Divider />
+                {altList}
+              </div>
+            </CSSTransition>
+            <CSSTransition
+              in={active === "activity"}
+              unmountOnExit
+              timeout={500}
+              className="menu-secondary"
+            >
+              <div className="menu">
+                <MenuItem
+                  onClick={
+                    () =>
+                      setActive((prev) => toggleMenu(prev)) /*genActivities*/
+                  }
+                >
+                  <ListItemIcon>
+                    <ArrowForwardIosIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>Activities</ListItemText>
+                </MenuItem>
+              </div>
+            </CSSTransition>
+          </MenuList>
+        </Menu>
+      </Paper>
+    </div>
   );
 }

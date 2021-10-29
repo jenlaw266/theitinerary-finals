@@ -90,3 +90,10 @@ body {
   transform: translateX(110%);
   transition: all var(--speed) ease;
 }
+
+.dropdown {
+  position: absolute;
+  transform: translateX(-45%);
+  overflow: hidden;
+  transition: height var(--speed) ease;
+}
