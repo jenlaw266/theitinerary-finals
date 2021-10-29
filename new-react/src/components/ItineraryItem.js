@@ -4,8 +4,13 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DataContext from "../context/DataContext";
+import { CardActions } from "@mui/material";
 import { Typography } from "@mui/material";
 import { StylesContext } from "@mui/styles";
+import IconButton from "@mui/material/IconButton";
+import MapIcon from "@mui/icons-material/Map";
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const ItineraryItem = (props) => {
@@ -16,9 +21,8 @@ const ItineraryItem = (props) => {
     axios
       .delete(`http://localhost:8080/api/itineraries/${id}`)
       .then((response) => {
-        console.log(response);
-        axios.get("http://localhost:8080/api/itineraries").then((response) => {
-          const itins = response.data.itineraries;
+        axios.get("http://localhost:8080/api/itineraries").then((res) => {
+          const itins = res.data.itineraries;
           setTrips(itins);
         });
       });
@@ -43,6 +47,22 @@ const ItineraryItem = (props) => {
           <Typography>
             Date: {props.start_date} to {props.end_date}
           </Typography>
+          <CardActions disableSpacing>
+            <IconButton
+              aria-label="go to map"
+              component={Link}
+              to={`/itinerary/${props.id}/map`}
+            >
+              <MapIcon />
+            </IconButton>
+            <IconButton
+              aria-label="go to chat"
+              component={Link}
+              to={`/itinerary/${props.id}/chat`}
+            >
+              <ChatBubbleIcon />
+            </IconButton>
+          </CardActions>
         </CardContent>
       </Card>
     </div>

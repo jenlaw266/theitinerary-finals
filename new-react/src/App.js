@@ -57,7 +57,6 @@ function App() {
     });
   }, []);
 
-
   const fetchActivities = () => {
     axios.get("/api/activities").then((response) => {
       console.log(response.data);
@@ -67,7 +66,6 @@ function App() {
         message: response.data.message,
         act: response.data.act[6].name,
       });
-
     });
   };
 
@@ -101,24 +99,25 @@ function App() {
                   <Login setToken={setToken} />
                 </Route>
 
-                <DataContext.Provider value={{ setTrips, currentTrip, selectedActivities, setSelectedActivities }}>
+                <DataContext.Provider
+                  value={{
+                    setTrips,
+                    currentTrip,
+                    selectedActivities,
+                    setSelectedActivities,
+                  }}
+                >
                   <Route path="/itineraries">
                     <Itineraries trips={trips} />
                   </Route>
                   <Route exact path="/itinerary/:id/map">
-                    {!loading ? (
-                      <Map
-                        eventData={eventData}
-                      />
-                    ) : (
-                      <Loader />
-                    )}
+                    {!loading ? <Map eventData={eventData} /> : <Loader />}
                   </Route>
                   <Route exact path="/itinerary/:id/chat">
                     <Chat />
                   </Route>
                   <Route exact path="/itinerary/:id">
-                    <Itinerary currentTrip={currentTrip} selectedActivities={selectedActivities}/>
+                    <Itinerary currentTrip={currentTrip} />
                   </Route>
                   <Route exact path="/">
                     <Home
