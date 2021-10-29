@@ -36,6 +36,7 @@ function a11yProps(index) {
 }
 
 const dayTab = (all) => {
+  console.log("dayTab", all);
   return all.map((each, id) => <Tab label={each.day} {...a11yProps(id)} />);
 };
 
@@ -94,10 +95,12 @@ const Day = (props) => {
         >
           Edit
         </Button>
+
         <DaysDropDown
           setAnchorEl={setAnchorEl}
           anchorEl={anchorEl}
           allOptions={props.allOptions}
+          setDays={props.setDays}
         />
       </Box>
     </Grid>

@@ -43,16 +43,22 @@ const Itinerary = ({ currentTrip }) => {
   console.log("days", days, itinerary, activities);
 
   const primaryDays = days.filter((day) => day.day_type_id === 1);
-  const altDays = days.filter((day) => day.day_type_id !== 1);
 
   const dayTab = primaryDays.map((day, id) => {
+    const dayNum = day.day[4];
+
+    const altDays = days.filter(
+      (alt) => alt.day_type_id !== 1 && alt.day[4] === dayNum
+    );
+
     const alt = altDays.map((altDay) => {
-      if (day.day.split(" ")[1] === altDay.day.split(" ")[1]) {
+      if (day.day[4] === altDay.day[4]) {
         return altDay;
       }
     });
-    const allOptions = [day].concat(alt);
 
+    const allOptions = [day].concat(alt);
+    console.log("allOptions", allOptions);
     const dayActivities = activities.filter(
       (activity) => activity.day_id === Number(day.day.split(" ")[1])
     );
@@ -61,6 +67,7 @@ const Itinerary = ({ currentTrip }) => {
       <Days
         key={id}
         allOptions={allOptions}
+        setDays={setDays}
         dayActivities={dayActivities}
       ></Days>
     );

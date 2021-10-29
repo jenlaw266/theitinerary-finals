@@ -16,9 +16,8 @@ const ItineraryItem = (props) => {
     axios
       .delete(`http://localhost:8080/api/itineraries/${id}`)
       .then((response) => {
-        console.log(response);
-        axios.get("http://localhost:8080/api/itineraries").then((response) => {
-          const itins = response.data.itineraries;
+        axios.get("http://localhost:8080/api/itineraries").then((res) => {
+          const itins = res.data.itineraries;
           setTrips(itins);
         });
       });

@@ -9,23 +9,41 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Menu from "@mui/material/Menu";
 import axios from "axios";
+import { CSSTransition } from "react-transition-group";
+import { useState } from "react";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
-export default function IconMenu({ setAnchorEl, anchorEl, allOptions }) {
+export default function IconMenu({
+  setAnchorEl,
+  anchorEl,
+  allOptions,
+  setDays,
+}) {
   const handleClose = () => {
     setAnchorEl(null);
   };
   const open = Boolean(anchorEl);
+  const [active, setActive] = useState("default");
 
-  const deleteAlt = (id) => {
-    console.log("clicked delete dropdown", id);
-    axios.delete(`http://localhost:8080/api/days/${id}`);
-    /*  .then((response) => {
-        console.log(response);
-        axios.get("http://localhost:8080/api/itineraries").then((response) => {
-          const itins = response.data.itineraries;
-          setTrips(itins);
-        });
-      }); */
+  const addAlt = (data) => {
+    fetch("http://localhost:8080/api/days/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then(async (response) => {
+      const result = await response.json();
+      setDays((prev) => [...prev, result]);
+    });
+  };
+
+  const deleteAlt = (dayId) => {
+    console.log("clicked delete dropdown", dayId);
+    axios.delete(`http://localhost:8080/api/days/${dayId}`).then((response) => {
+      setDays((prev) => prev.filter((day) => day.id !== dayId));
+    });
   };
 
   const altList = allOptions.map((day, id) => {
@@ -37,55 +55,87 @@ export default function IconMenu({ setAnchorEl, anchorEl, allOptions }) {
     }
     return (
       <MenuItem onClick={() => deleteAlt(day.id)}>
+        <ListItemIcon>
+          <DeleteOutlineIcon fontSize="small" />
+        </ListItemIcon>
         <ListItemText>{text}</ListItemText>
+      </MenuItem>
+    );
+  });
+
+  const genActivities = () => {
+    //get activities from table with itinerary ID
+    return (
+      <MenuItem onClick={() => console.log("click delete")}>
+        <ListItemText>{/*text*/}</ListItemText>
         <ListItemIcon>
           <DeleteOutlineIcon fontSize="small" />
         </ListItemIcon>
       </MenuItem>
     );
-  });
+  };
+
+  const toggleMenu = (prev) => {
+    return prev === "default" ? "activity" : "default";
+  };
+
   return (
-    <Menu
-      id="basic-menu"
-      anchorEl={anchorEl}
-      open={open}
-      onClose={handleClose}
-      MenuListProps={{
-        "aria-labelledby": "basic-button",
-      }}
-    >
-      <Paper sx={{ width: 320, maxWidth: "100%" }}>
+    <Paper sx={{ width: 320, maxWidth: "100%" }}>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
         <MenuList>
-          <MenuItem>
-            <ListItemIcon>
-              <AddIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>Add Alternative Day</ListItemText>
-          </MenuItem>
+          <CSSTransition
+            in={active === "default"}
+            unmountOnExit
+            timeout={500}
+            className="menu-primary"
+          >
+            <div className="menu">
+              <MenuItem
+                onClick={() => addAlt(allOptions[allOptions.length - 1])}
+              >
+                <ListItemIcon>
+                  <AddIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Add Alternative Day</ListItemText>
+              </MenuItem>
 
-          {/* <MenuItem onClick={() => console.log("clicked add")}>
-            <ListItemIcon>
-              <AddIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>Add Alternative Day</ListItemText>
-            <Typography variant="body2" color="text.secondary">
-              +
-            </Typography>
-          </MenuItem>
-          <MenuItem>
-            <ListItemIcon>
-              <DeleteOutlineIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>Delete Alternative Day</ListItemText>
-            <Typography variant="body2" color="text.secondary">
-              -
-            </Typography>
-          </MenuItem> */}
-          <Divider />
-
-          {altList}
+              <MenuItem onClick={() => setActive((prev) => toggleMenu(prev))}>
+                <ListItemIcon>
+                  <ArrowBackIosNewIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Add Activity</ListItemText>
+              </MenuItem>
+              <Divider />
+              {altList}
+            </div>
+          </CSSTransition>
+          <CSSTransition
+            in={active === "activity"}
+            unmountOnExit
+            timeout={500}
+            className="menu-secondary"
+          >
+            <MenuItem
+              onClick={
+                () => setActive((prev) => toggleMenu(prev)) /*genActivities*/
+              }
+            >
+              <ListItemIcon>
+                <ArrowForwardIosIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>Activities</ListItemText>
+            </MenuItem>
+          </CSSTransition>
         </MenuList>
-      </Paper>
-    </Menu>
+      </Menu>
+    </Paper>
   );
 }
