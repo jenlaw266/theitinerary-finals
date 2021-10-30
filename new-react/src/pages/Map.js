@@ -129,51 +129,53 @@ const Map = ({ eventData, center, zoom }) => {
 
   //create a filtered list of the days selected from the checkbox.
   useEffect(() => {
-    // console.log({show, filteredDays, daysList})
+    console.log("USEEFFECT - ", {show, filteredDays, daysList})
     if (show.length === daysList.length) {
-      return setFilteredDays(onlySelectedActivities);
+      setFilteredDays(activities);
     } else {
-      const newFilteredDays = onlySelectedActivities.filter((activity) => {
+      const newFilteredDays = activities.filter((activity) => {
         if (show.includes(activity.day_id)) {
           return activity;
         }
       });
 
-      return setFilteredDays(newFilteredDays);
+      setFilteredDays(newFilteredDays);
     }
   }, [show]);
 
   console.log("show outside useeffect", show)
+  console.log("filteredDays outside useeffect", filteredDays)
 
-  // //show only the markers that are enabled on checkbox
-  // useEffect(() => {
-  //   setMarkers(
-  //     filteredDays.map((activity) => {
-  //       const dayNameFromEvent = activity.day_id;
-  //       console.log(dayProperties);
+  //show only the markers that are enabled on checkbox
+  useEffect(() => {
+    console.log("INSIDE USEFFECT - filteredDays", filteredDays)
+    console.log("INSIDE USEFFECT - dayProperties", dayProperties);
+    setMarkers(
+      filteredDays.map((activity) => {
+        const dayNameFromEvent = activity.day_id;
 
-  //       const assignedColor = !dayProperties ? "000000" : dayProperties[dayNameFromEvent].color;
-  //       // const assignedColor = '000000'
-  //       // console.log(assignedColor);
+        const assignedColor = !dayProperties ? "000000" : dayProperties[dayNameFromEvent].color;
+        // const assignedColor = '000000'
+        // console.log(assignedColor);
 
-  //       return (
-  //         <LocationMarker
-  //           key={activity.name}
-  //           lat={activity.lat}
-  //           lng={activity.long}
-  //           onClick={() =>
-  //             setLocationInfo({
-  //               name: activity.name,
-  //               day_id: activity.day_id,
-  //               image: activity.image,
-  //             })
-  //           }
-  //           color={assignedColor}
-  //         />
-  //       );
-  //     })
-  //   );
-  // }, [filteredDays, dayProperties]);
+        return (
+          <LocationMarker
+            key={activity.name}
+            lat={activity.lat}
+            lng={activity.long}
+            onClick={() =>
+              setLocationInfo({
+                name: activity.name,
+                day_id: activity.day_id,
+                image: activity.image,
+              })
+            }
+            color={assignedColor}
+          />
+        );
+      })
+    );
+  }, [filteredDays, dayProperties]);
 
   // // console.log(" MAP current", currentTrip);
   // // console.log(" MAP selectedActivitiesIds", selectedActivities);
@@ -183,41 +185,41 @@ const Map = ({ eventData, center, zoom }) => {
   const start_date = new Date(itinerary.start_date);
   const end_date = new Date(itinerary.end_date);
 
-  // return (
-  //   <div className="map">
-  //     {!token && history.push("/login")}
-  //     <h2>{currentTrip.name} Tripz</h2>
-  //     <h3>{start_date.toDateString()} to {end_date.toDateString()}</h3>
-  //     <GoogleMapReact
-  //       bootstrapURLKeys={{
-  //         key:
-  //           // process.env.REACT_GOOGLE_MAP_API
-  //           "AIzaSyBTwu8B2_jxWotAM4c_9uEJJJoTmiBE7Aw",
-  //       }}
-  //       defaultCenter={center}
-  //       defaultZoom={zoom}
-  //       // onLoad={onLoad}
-  //     >
-  //       {markers}
-  //     </GoogleMapReact>
-  //     {locationInfo && <LocationInfoBox info={locationInfo} />}
-  //     {dayProperties && (
-  //       <DaysCheckbox
-  //         daysList={daysList}
-  //         dayProperties={dayProperties}
-  //         parentCallback={handleCallback}
-  //       />
-  //     )}
-  //   </div>
-  // );
-
   return (
     <div className="map">
       {!token && history.push("/login")}
       <h2>{itinerary.name} Tripz</h2>
       <h3>{start_date.toDateString()} to {end_date.toDateString()}</h3>
+      <GoogleMapReact
+        bootstrapURLKeys={{
+          key:
+            // process.env.REACT_GOOGLE_MAP_API
+            "AIzaSyBTwu8B2_jxWotAM4c_9uEJJJoTmiBE7Aw",
+        }}
+        defaultCenter={center}
+        defaultZoom={zoom}
+        // onLoad={onLoad}
+      >
+        {markers}
+      </GoogleMapReact>
+      {locationInfo && <LocationInfoBox info={locationInfo} />}
+      {dayProperties && (
+        <DaysCheckbox
+          daysList={daysList}
+          dayProperties={dayProperties}
+          parentCallback={handleCallback}
+        />
+      )}
     </div>
   );
+
+  // return (
+  //   <div className="map">
+  //     {!token && history.push("/login")}
+  //     <h2>{itinerary.name} Tripz</h2>
+  //     <h3>{start_date.toDateString()} to {end_date.toDateString()}</h3>
+  //   </div>
+  // );
 };
 
 
