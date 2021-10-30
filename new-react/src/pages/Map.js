@@ -10,7 +10,7 @@ import LoginContext from "../context/LoginContext";
 import DataContext from "../context/DataContext";
 
 
-const Map = ({ eventData, center, zoom }) => {
+const Map = ({ zoom }) => {
   const [locationInfo, setLocationInfo] = useState(null);
   const [filteredDays, setFilteredDays] = useState([]);
   const history = useHistory();
@@ -28,7 +28,7 @@ const Map = ({ eventData, center, zoom }) => {
   const [daysList, setDaysList] = useState([]);
   const [show, setShow] = useState(daysList);
 
-  const [center, setCenter] = useState({});
+  const [center, setCenter] = useState({ lat: 49.2827, lng: -123.1207 })
 
 
 
@@ -176,11 +176,14 @@ const Map = ({ eventData, center, zoom }) => {
 
   const start_date = new Date(itinerary.start_date);
   const end_date = new Date(itinerary.end_date);
+
+
   
   //----------------------- USE EFFECT 6
   useEffect(() => {
     let centerLat = 0;
     let centerLong = 0;
+    let activitiesLength = 0.000001;
 
     for (const activity of activities) {
       // console.log("--- USE EFFECT 6 --- actitivites", activity)
@@ -188,32 +191,39 @@ const Map = ({ eventData, center, zoom }) => {
       // console.log("--- USE EFFECT 6 --- long", activity.lat)
       centerLat += Number(activity.lat);
       centerLong += Number(activity.long);
+      activitiesLength++;
     }
 
-    centerLat = centerLat/activities.length;
-    centerLong = centerLong/activities.length;
-
-    setCenter({lat: centerLat, long: centerLong});
+    centerLat = centerLat/activitiesLength;
+    centerLong = centerLong/activitiesLength;
+    setCenter({lat: centerLat, lng: centerLong});
+    console.log("--- USE EFFECT 6 --- centerlat", centerLat, typeof centerLat)
+    console.log("--- USE EFFECT 6 --- centerlong", centerLong, typeof centerLong)
+    console.log("--- USE EFFECT 6 --- center", center)
 
   }, [activities])
+
+
 
   return (
     <div className="map">
       {!token && history.push("/login")}
       <h2>{itinerary.name} Tripz</h2>
       <h3>{start_date.toDateString()} to {end_date.toDateString()}</h3>
+      {activities.length > 0 && 
       <GoogleMapReact
         bootstrapURLKeys={{
           key:
             // process.env.REACT_GOOGLE_MAP_API
             "AIzaSyBTwu8B2_jxWotAM4c_9uEJJJoTmiBE7Aw",
         }}
-        defaultCenter={center}
+        center={center}
         defaultZoom={zoom}
         // onLoad={onLoad}
       >
         {markers}
       </GoogleMapReact>
+      }
       {locationInfo && <LocationInfoBox info={locationInfo} />}
       {Object.keys(dayProperties).length > 0 && (
         <DaysCheckbox
@@ -224,23 +234,10 @@ const Map = ({ eventData, center, zoom }) => {
       )}
     </div>
   );
-
-  // return (
-  //   <div className="map">
-  //     {!token && history.push("/login")}
-  //     <h2>{itinerary.name} Tripz</h2>
-  //     <h3>{start_date.toDateString()} to {end_date.toDateString()}</h3>
-  //   </div>
-  // );
 };
 
 
-//need to swwap out the center default to average center from all points.
 Map.defaultProps = {
-  // center: {
-  //   lat: 49.2827,
-  //   lng: -123.1207,
-  // },
   zoom: 12,
 };
 
