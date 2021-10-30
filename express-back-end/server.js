@@ -30,6 +30,7 @@ const deleteItinerary = require("./queries/deleteItinerary");
 const getImage = require("./routes/getImage");
 const deleteDays = require("./queries/deleteDay");
 const addAltDay = require("./queries/addAltDay");
+const updateDays = require("./helpers/groupDays")
 
 // Express Configuration
 App.use(
@@ -85,31 +86,12 @@ App.use("/api/itinerary/:id", async function (req, res) {
 });
 
 App.use("/api/itinerary", async function (req, res) {
-  console.log("SERVER FILE", req.body);
   const { id, currentSelected } = req.body;
-  // const selectedActivityIds = req.body.act;
-  // const itinerary = await getItinerary(db, id);
-  // const days = await getDays(db, id);
-  // const activities = await getActivities(db, id);
-  // const onlySelectedActivities = await getSelectedActivities(
-  //   db,
-  //   id
-  // selectedActivityIds
-  // );
-
+  const days = await getDays(db, id);
+  const activities = await getActivities(db, currentSelected);
+  updateDays(db, activities, days);
   await updateSelectedActivities(db, id, currentSelected);
   res.send("success posted to db");
-  // console.log("ID", id);
-  // console.log("GET SELECTED ACT ONLY IDS", selectedActivityIds);
-  /* console.log("activities from server", activities);
-
-  res.json({
-    itinerary: itinerary,
-    days: days,
-    activities: activities,
-    // selectedActivityIds: selectedActivityIds,
-    onlySelectedActivities: onlySelectedActivities,
-  }); */
 });
 
 App.use("/api/itinerary/:id/map", async function (req, res) {
