@@ -17,7 +17,7 @@ const Itinerary = ({ props }) => {
   const [days, setDays] = useState([]);
   const [activities, setActivities] = useState([]);
   // const [selectedActivityIds, setSelectedActivityIds] = useState({});
-  const [onlySelectedActivities, setOnlySelectedActivities] = useState([]);
+  // const [onlySelectedActivities, setOnlySelectedActivities] = useState([]);
   const { currentTrip, setSelectedActivties } = useContext(DataContext);
 
   // console.log("ITINERARY PAGE2 --> SELECTED ACTIVITIES", selectedActivities);
@@ -51,9 +51,10 @@ const Itinerary = ({ props }) => {
   console.log("days", days);
   console.log("itin", itinerary);
   console.log("act", activities);
-  console.log("onlySelectedActivities", onlySelectedActivities);
+  // console.log("onlySelectedActivities", onlySelectedActivities);
 
   const primaryDays = days.filter((day) => day.day_type_id === 1);
+  // console.log("primaryDays from itinerary", primaryDays)
 
   const dayTab = primaryDays.map((day, id) => {
     const dayNum = day.day[4];
@@ -62,26 +63,31 @@ const Itinerary = ({ props }) => {
       (alt) => alt.day_type_id !== 1 && alt.day[4] === dayNum
     );
 
+    
     const alt = altDays.map((altDay) => {
       if (day.day[4] === altDay.day[4]) {
         return altDay;
       }
     });
-
+    
     const allOptions = [day].concat(alt);
+    console.log("day.day",day.day, day.id)
     console.log("allOptions", allOptions);
     const dayActivities = activities.filter(
-      (activity) => activity.day_id === Number(day.day.split(" ")[1])
+      // (activity) => activity.day_id === Number(day.day.split(" ")[1])
+      (activity) => activity.day_id === Number(day.id)
     );
-
+    
+    console.log("activities", activities)
+    console.log("dayActivities", dayActivities)
     return (
       <Days
         key={id}
         itineraryId={params.id}
         allOptions={allOptions}
         dayActivities={dayActivities}
-      ></Days>
-    );
+        ></Days>
+        );
   });
 
   // const likedActivitiesInfo = onlySelectedActivities.map((likedActivity) => {
@@ -107,11 +113,6 @@ const Itinerary = ({ props }) => {
     <div>
       {!token && history.push("/login")}
       {dayTab}
-      {/* {onlySelectedActivities.length ? (
-        likedActivitiesInfo
-      ) : (
-        <h2>LOADING ITINERARY</h2>
-      )} */}
     </div>
   );
 };
