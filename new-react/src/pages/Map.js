@@ -19,144 +19,187 @@ const Map = ({ eventData, center, zoom }) => {
   const [dayProperties, setDayProperties] = useState([]);
   const [markers, setMarkers] = useState(null);
   const [onlySelectedActivities, setOnlySelectedActivities] = useState([]);
+
+  const [itinerary, setItinerary] = useState({});
+  const [days, setDays] = useState([]);
+  const [activities, setActivities] = useState([]);
   const params = useParams();
 
   //-----------------------
+
   useEffect(() => {
-    console.log("useEffect in itinerary fired");
-    async function handleCall() {
-      const data = await getData({ id: params.id, act: selectedActivities });
-      setOnlySelectedActivities(data.onlySelectedActivities)
-    }
-
-
-    handleCall();
-
+    getData(params.id).then((data) => {
+      console.log("data that front end got back - mapp page", data);
+      console.log("params.id", params.id);
+      // console.log("data ONLYselectedActivities", data.onlySelectedActivities);
+      setActivities(data.activities);
+      // setSelectedActivityIds(data.selectedActivityIds);
+      setItinerary(data.itinerary);
+      setDays(data.days);
+      // setOnlySelectedActivities(data.onlySelectedActivities); */
+    });
   }, [params.id]);
 
   async function getData(id) {
-    return fetch("http://localhost:8080/api/itinerary", {
-      method: "POST",
+    return fetch(`http://localhost:8080/api/itinerary/${id}/map`, {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
-      }, 
-      body: JSON.stringify(id),
+      },
+      // body: { id }, //use this when passing an object/variable to the backend
     }).then((data) => {
+      // setSelectedActivities()
+      console.log("MAP PAGE ---- activities", activities)
+      console.log("MAP PAGE ---- days", days)
+      console.log("MAP PAGE ---- itinerary", itinerary)
       return data.json();
     });
   }
-  //----------------------
 
-  const uniqueDays = (onlySelectedActivities) => {
-    const allDays = [];
-    onlySelectedActivities.map((activity) => allDays.push(activity.day_id));
 
-    const days = allDays.filter(
-      (value, index, self) => self.indexOf(value) === index
-    );
+ //----------------------
+  // useEffect(() => {
+  //   console.log("useEffect in itinerary fired");
+  //   async function handleCall() {
+  //     const data = await getData({ id: params.id, act: selectedActivities });
+  //     setOnlySelectedActivities(data.onlySelectedActivities)
+  //   }
 
-    return days.sort();
-  };
 
-  const daysList = uniqueDays(onlySelectedActivities);
-  const [show, setShow] = useState(daysList);
+  //   handleCall();
 
-  //assign each day properties
-  useEffect(() => {
-    const daysProps = {};
-    daysList.forEach((day) => {
-      daysProps[day] = {};
-      daysProps[day].name = day;
-      daysProps[day].visibility = true;
-      daysProps[day].color = Math.floor(Math.random() * 16777215).toString(16);
-    });
+  // }, [params.id]);
 
-    setDayProperties(daysProps);
-  }, []);
+  // async function getData(id) {
+  //   return fetch("http://localhost:8080/api/itinerary", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     }, 
+  //     body: JSON.stringify(id),
+  //   }).then((data) => {
+  //     return data.json();
+  //   });
+  // }
+  // //----------------------
 
-  const handleCallback = (childData) => {
-    setShow(childData); // childData = ["day1", "day2", "day3", "day4"]
-  };
+  // const uniqueDays = (onlySelectedActivities) => {
+  //   const allDays = [];
+  //   onlySelectedActivities.map((activity) => allDays.push(activity.day_id));
 
-  //create a filtered list of the days selected from the checkbox.
-  useEffect(() => {
-    // console.log({show, filteredDays, daysList})
-    if (show.length === daysList.length) {
-      return setFilteredDays(onlySelectedActivities);
-    } else {
-      const newFilteredDays = onlySelectedActivities.filter((activity) => {
-        if (show.includes(activity.day_id)) {
-          return activity;
-        }
-      });
+  //   const days = allDays.filter(
+  //     (value, index, self) => self.indexOf(value) === index
+  //   );
 
-      return setFilteredDays(newFilteredDays);
-    }
-  }, [show]);
+  //   return days.sort();
+  // };
 
-  //show only the markers that are enabled on checkbox
-  useEffect(() => {
-    setMarkers(
-      filteredDays.map((activity) => {
-        const dayNameFromEvent = activity.day_id;
-        console.log(dayProperties);
+  // const daysList = uniqueDays(onlySelectedActivities);
+  // const [show, setShow] = useState(daysList);
 
-        const assignedColor = !dayProperties ? "000000" : dayProperties[dayNameFromEvent].color;
-        // const assignedColor = '000000'
-        // console.log(assignedColor);
+  // //assign each day properties
+  // useEffect(() => {
+  //   const daysProps = {};
+  //   daysList.forEach((day) => {
+  //     daysProps[day] = {};
+  //     daysProps[day].name = day;
+  //     daysProps[day].visibility = true;
+  //     daysProps[day].color = Math.floor(Math.random() * 16777215).toString(16);
+  //   });
 
-        return (
-          <LocationMarker
-            key={activity.name}
-            lat={activity.lat}
-            lng={activity.long}
-            onClick={() =>
-              setLocationInfo({
-                name: activity.name,
-                day_id: activity.day_id,
-                image: activity.image,
-              })
-            }
-            color={assignedColor}
-          />
-        );
-      })
-    );
-  }, [filteredDays, dayProperties]);
+  //   setDayProperties(daysProps);
+  // }, []);
 
-  // console.log(" MAP current", currentTrip);
-  // console.log(" MAP selectedActivitiesIds", selectedActivities);
-  console.log(" MAP onlySelectedActivities", onlySelectedActivities);
-  console.log(" day props", dayProperties);
+  // const handleCallback = (childData) => {
+  //   setShow(childData); // childData = ["day1", "day2", "day3", "day4"]
+  // };
 
-  const start_date = new Date(currentTrip.start_date);
-  const end_date = new Date(currentTrip.end_date);
+  // //create a filtered list of the days selected from the checkbox.
+  // useEffect(() => {
+  //   // console.log({show, filteredDays, daysList})
+  //   if (show.length === daysList.length) {
+  //     return setFilteredDays(onlySelectedActivities);
+  //   } else {
+  //     const newFilteredDays = onlySelectedActivities.filter((activity) => {
+  //       if (show.includes(activity.day_id)) {
+  //         return activity;
+  //       }
+  //     });
+
+  //     return setFilteredDays(newFilteredDays);
+  //   }
+  // }, [show]);
+
+  // //show only the markers that are enabled on checkbox
+  // useEffect(() => {
+  //   setMarkers(
+  //     filteredDays.map((activity) => {
+  //       const dayNameFromEvent = activity.day_id;
+  //       console.log(dayProperties);
+
+  //       const assignedColor = !dayProperties ? "000000" : dayProperties[dayNameFromEvent].color;
+  //       // const assignedColor = '000000'
+  //       // console.log(assignedColor);
+
+  //       return (
+  //         <LocationMarker
+  //           key={activity.name}
+  //           lat={activity.lat}
+  //           lng={activity.long}
+  //           onClick={() =>
+  //             setLocationInfo({
+  //               name: activity.name,
+  //               day_id: activity.day_id,
+  //               image: activity.image,
+  //             })
+  //           }
+  //           color={assignedColor}
+  //         />
+  //       );
+  //     })
+  //   );
+  // }, [filteredDays, dayProperties]);
+
+  // // console.log(" MAP current", currentTrip);
+  // // console.log(" MAP selectedActivitiesIds", selectedActivities);
+  // console.log(" MAP onlySelectedActivities", onlySelectedActivities);
+  // console.log(" day props", dayProperties);
+
+  // const start_date = new Date(currentTrip.start_date);
+  // const end_date = new Date(currentTrip.end_date);
+
+  // return (
+  //   <div className="map">
+  //     {!token && history.push("/login")}
+  //     <h2>{currentTrip.name} Tripz</h2>
+  //     <h3>{start_date.toDateString()} to {end_date.toDateString()}</h3>
+  //     <GoogleMapReact
+  //       bootstrapURLKeys={{
+  //         key:
+  //           // process.env.REACT_GOOGLE_MAP_API
+  //           "AIzaSyBTwu8B2_jxWotAM4c_9uEJJJoTmiBE7Aw",
+  //       }}
+  //       defaultCenter={center}
+  //       defaultZoom={zoom}
+  //       // onLoad={onLoad}
+  //     >
+  //       {markers}
+  //     </GoogleMapReact>
+  //     {locationInfo && <LocationInfoBox info={locationInfo} />}
+  //     {dayProperties && (
+  //       <DaysCheckbox
+  //         daysList={daysList}
+  //         dayProperties={dayProperties}
+  //         parentCallback={handleCallback}
+  //       />
+  //     )}
+  //   </div>
+  // );
 
   return (
     <div className="map">
       {!token && history.push("/login")}
-      <h2>{currentTrip.name} Tripz</h2>
-      <h3>{start_date.toDateString()} to {end_date.toDateString()}</h3>
-      <GoogleMapReact
-        bootstrapURLKeys={{
-          key:
-            // process.env.REACT_GOOGLE_MAP_API
-            "AIzaSyBTwu8B2_jxWotAM4c_9uEJJJoTmiBE7Aw",
-        }}
-        defaultCenter={center}
-        defaultZoom={zoom}
-        // onLoad={onLoad}
-      >
-        {markers}
-      </GoogleMapReact>
-      {locationInfo && <LocationInfoBox info={locationInfo} />}
-      {dayProperties && (
-        <DaysCheckbox
-          daysList={daysList}
-          dayProperties={dayProperties}
-          parentCallback={handleCallback}
-        />
-      )}
+      <h2>{currentTrip.name} Tripz</h2>)
     </div>
   );
 };

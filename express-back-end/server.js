@@ -75,7 +75,7 @@ App.use("/api/itinerary/:id", async function (req, res) {
   const activities = await getActivitiesForItinerary(db, id);
   const days = await getDays(db, id);
   const itinerary = await getItinerary(db, id);
-  // console.log("data", itinerary, days, activities);
+  // console.log("data, in itinerary page", itinerary, days, activities);
   res.json({ itinerary, days, activities });
 });
 
@@ -105,6 +105,15 @@ App.use("/api/itinerary", async function (req, res) {
     // selectedActivityIds: selectedActivityIds,
     onlySelectedActivities: onlySelectedActivities,
   }); */
+});
+
+App.use("/api/itinerary/:id/map", async function (req, res) {
+  const id = req.params.id;
+  const activities = await getActivitiesForItinerary(db, id);
+  const days = await getDays(db, id);
+  const itinerary = await getItinerary(db, id);
+  console.log("data from map page", itinerary, days, activities);
+  res.json({ itinerary, days, activities });
 });
 
 App.use("/api/login", async function (req, res) {

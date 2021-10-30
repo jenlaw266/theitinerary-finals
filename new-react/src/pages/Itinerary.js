@@ -51,7 +51,6 @@ const Itinerary = ({ props }) => {
   console.log("days", days);
   console.log("itin", itinerary);
   console.log("act", activities);
-  // console.log("likedactivitiesids", selectedActivityIds);
   console.log("onlySelectedActivities", onlySelectedActivities);
 
   const primaryDays = days.filter((day) => day.day_type_id === 1);
