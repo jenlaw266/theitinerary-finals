@@ -18,7 +18,6 @@ const Map = ({ zoom }) => {
   const { currentTrip, selectedActivities } = useContext(DataContext);
   const [dayProperties, setDayProperties] = useState([]);
   const [markers, setMarkers] = useState(null);
-  // const [onlySelectedActivities, setOnlySelectedActivities] = useState([]);
 
   const [itinerary, setItinerary] = useState({});
   const [days, setDays] = useState([]);
@@ -34,10 +33,10 @@ const Map = ({ zoom }) => {
 
   //----------------------- USE EFFECT 1
   useEffect(() => {
-    console.log("--- USE EFFECT 1 ---")
+    // console.log("--- USE EFFECT 1 ---")
     getData(params.id).then((data) => {
-      console.log("--- USE EFFECT 1 ---, data that front end got back on MAP PAGE: ", data)
-      console.log("--- USE EFFECT 1 --- params.id", params.id)
+      // console.log("--- USE EFFECT 1 ---, data that front end got back on MAP PAGE: ", data)
+      // console.log("--- USE EFFECT 1 --- params.id", params.id)
       setActivities(data.activities);
       setItinerary(data.itinerary);
       setDays(data.days);
@@ -61,7 +60,7 @@ const Map = ({ zoom }) => {
 
   //----------------------- USE EFFECT 2
   useEffect(() => {
-    console.log("--- USE EFFECT 2 ---")
+    // console.log("--- USE EFFECT 2 ---")
     const uniqueDays = (activities) => {
       const allDays = [];
       activities.map((activity) => allDays.push(activity.day_id));
@@ -76,26 +75,26 @@ const Map = ({ zoom }) => {
     let daysArray = uniqueDays(activities);
     setDaysList(daysArray);
     setShow(daysArray);
-    console.log("--- USE EFFECT 2 ---", {daysArray, daysList})
+    // console.log("--- USE EFFECT 2 ---", {daysArray, daysList})
   }, [activities]);
   
-  console.log("OUTSIDE USEEFFECT", {daysList, show})
+  // console.log("OUTSIDE USEEFFECT", {daysList, show})
 
 
 
   //----------------------- USE EFFECT 3
   //assign each day properties
   useEffect(() => {
-    console.log("--- USE EFFECT 3 ---")
-    console.log("--- USE EFFECT 3 --- daysList", daysList)
+    // console.log("--- USE EFFECT 3 ---")
+    // console.log("--- USE EFFECT 3 --- daysList", daysList)
 
     const dayIdWithName = {};
-    console.log("--- USE EFFECT 3 --- days", days)
+    // console.log("--- USE EFFECT 3 --- days", days)
     for (const day of days) {
       dayIdWithName[day.id] = day.day
     };
 
-    console.log("--- USE EFFECT 3 --- dayIdWithName", dayIdWithName)
+    // console.log("--- USE EFFECT 3 --- dayIdWithName", dayIdWithName)
 
     const daysProps = {};
     daysList.forEach((day) => {
@@ -106,12 +105,12 @@ const Map = ({ zoom }) => {
       daysProps[day].color = Math.floor(Math.random() * 16777215).toString(16);
     });
 
-    console.log("--- USE EFFECT 3 --- daysProps", daysProps)
+    // console.log("--- USE EFFECT 3 --- daysProps", daysProps)
     setDayProperties(daysProps);
-    console.log("--- USE EFFECT 3 --- dayProperties", dayProperties)
+    // console.log("--- USE EFFECT 3 --- dayProperties", dayProperties)
   }, [daysList, days]);
 
-  console.log("OUTSIDE USEEFFECT - dayProperties", dayProperties)
+  // console.log("OUTSIDE USEEFFECT - dayProperties", dayProperties)
   
   const handleCallback = (childData) => {
     setShow(childData); // childData = ["day1", "day2", "day3", "day4"]
@@ -122,7 +121,7 @@ const Map = ({ zoom }) => {
   //----------------------- USE EFFECT 4
   //create a filtered list of the days selected from the checkbox.
   useEffect(() => {
-    console.log("--- USE EFFECT 4 ---", {show, filteredDays, daysList})
+    // console.log("--- USE EFFECT 4 ---", {show, filteredDays, daysList})
     if (show.length === daysList.length) {
       setFilteredDays(activities);
     } else {
@@ -136,24 +135,22 @@ const Map = ({ zoom }) => {
     }
   }, [show]);
 
-  console.log("OUTSIDE USEEFFECT - show", show)
-  console.log("OUTSIDE USEEFFECT - filteredDays", filteredDays)
+  // console.log("OUTSIDE USEEFFECT - show", show)
+  // console.log("OUTSIDE USEEFFECT - filteredDays", filteredDays)
 
 
 
   //----------------------- USE EFFECT 5
   //show only the markers that are enabled on checkbox
   useEffect(() => {
-    console.log("--- USE EFFECT 5 ---")
-    console.log("--- USE EFFECT 5 --- filteredDays", filteredDays)
-    console.log("--- USE EFFECT 5 --- dayProperties", dayProperties);
+    // console.log("--- USE EFFECT 5 ---")
+    // console.log("--- USE EFFECT 5 --- filteredDays", filteredDays)
+    // console.log("--- USE EFFECT 5 --- dayProperties", dayProperties);
     setMarkers(
       filteredDays.map((activity) => {
         const dayNameFromEvent = activity.day_id;
 
         const assignedColor = !dayProperties ? "000000" : dayProperties[dayNameFromEvent].color;
-        // const assignedColor = '000000'
-        // console.log(assignedColor);
 
         return (
           <LocationMarker
@@ -186,9 +183,6 @@ const Map = ({ zoom }) => {
     let activitiesLength = 0.000001;
 
     for (const activity of activities) {
-      // console.log("--- USE EFFECT 6 --- actitivites", activity)
-      // console.log("--- USE EFFECT 6 --- lat", activity.long)
-      // console.log("--- USE EFFECT 6 --- long", activity.lat)
       centerLat += Number(activity.lat);
       centerLong += Number(activity.long);
       activitiesLength++;
@@ -197,9 +191,9 @@ const Map = ({ zoom }) => {
     centerLat = centerLat/activitiesLength;
     centerLong = centerLong/activitiesLength;
     setCenter({lat: centerLat, lng: centerLong});
-    console.log("--- USE EFFECT 6 --- centerlat", centerLat, typeof centerLat)
-    console.log("--- USE EFFECT 6 --- centerlong", centerLong, typeof centerLong)
-    console.log("--- USE EFFECT 6 --- center", center)
+    // console.log("--- USE EFFECT 6 --- centerlat", centerLat, typeof centerLat)
+    // console.log("--- USE EFFECT 6 --- centerlong", centerLong, typeof centerLong)
+    // console.log("--- USE EFFECT 6 --- center", center)
 
   }, [activities])
 
