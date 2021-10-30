@@ -113,6 +113,7 @@ App.use("/api/itinerary/:id/map", async function (req, res) {
   const days = await getDays(db, id);
   const itinerary = await getItinerary(db, id);
   console.log("data from map page", itinerary, days, activities);
+  console.log("data from map page id", id);
   res.json({ itinerary, days, activities });
 });
 

@@ -25,6 +25,9 @@ const Map = ({ eventData, center, zoom }) => {
   const [activities, setActivities] = useState([]);
   const params = useParams();
 
+  const [daysList, setDaysList] = useState([]);
+  const [show, setShow] = useState(daysList);
+
   //-----------------------
 
   useEffect(() => {
@@ -37,6 +40,9 @@ const Map = ({ eventData, center, zoom }) => {
       setItinerary(data.itinerary);
       setDays(data.days);
       // setOnlySelectedActivities(data.onlySelectedActivities); */
+      console.log("MAP PAGE ---- activities", activities)
+      console.log("MAP PAGE ---- days", days)
+      console.log("MAP PAGE ---- itinerary", itinerary)
     });
   }, [params.id]);
 
@@ -49,9 +55,6 @@ const Map = ({ eventData, center, zoom }) => {
       // body: { id }, //use this when passing an object/variable to the backend
     }).then((data) => {
       // setSelectedActivities()
-      console.log("MAP PAGE ---- activities", activities)
-      console.log("MAP PAGE ---- days", days)
-      console.log("MAP PAGE ---- itinerary", itinerary)
       return data.json();
     });
   }
@@ -83,52 +86,64 @@ const Map = ({ eventData, center, zoom }) => {
   // }
   // //----------------------
 
-  // const uniqueDays = (onlySelectedActivities) => {
-  //   const allDays = [];
-  //   onlySelectedActivities.map((activity) => allDays.push(activity.day_id));
+  useEffect(() => {
+    const uniqueDays = (activities) => {
+      const allDays = [];
+      activities.map((activity) => allDays.push(activity.day_id));
+  
+      const days = allDays.filter(
+        (value, index, self) => self.indexOf(value) === index
+      );
+  
+      return days.sort();
+    };
+  
+    let daysArray = uniqueDays(activities);
+    setDaysList(daysArray);
+    setShow(daysArray);
+    console.log({daysArray, daysList})
+  }, [activities]);
+  
+  console.log("outside useeffect", {daysList, show})
 
-  //   const days = allDays.filter(
-  //     (value, index, self) => self.indexOf(value) === index
-  //   );
+  //assign each day properties
+  useEffect(() => {
+    const daysProps = {};
+    daysList.forEach((day) => {
+      daysProps[day] = {};
+      daysProps[day].name = day;
+      daysProps[day].visibility = true;
+      daysProps[day].color = Math.floor(Math.random() * 16777215).toString(16);
+    });
 
-  //   return days.sort();
-  // };
+    console.log("daysProps", daysProps)
+    setDayProperties(daysProps);
+    console.log("dayProperties inside useeffect", dayProperties)
+  }, [daysList]);
 
-  // const daysList = uniqueDays(onlySelectedActivities);
-  // const [show, setShow] = useState(daysList);
+  console.log("dayProperties outside useeffect", dayProperties)
+  
+  const handleCallback = (childData) => {
+    setShow(childData); // childData = ["day1", "day2", "day3", "day4"]
+  };
 
-  // //assign each day properties
-  // useEffect(() => {
-  //   const daysProps = {};
-  //   daysList.forEach((day) => {
-  //     daysProps[day] = {};
-  //     daysProps[day].name = day;
-  //     daysProps[day].visibility = true;
-  //     daysProps[day].color = Math.floor(Math.random() * 16777215).toString(16);
-  //   });
+  //create a filtered list of the days selected from the checkbox.
+  useEffect(() => {
+    // console.log({show, filteredDays, daysList})
+    if (show.length === daysList.length) {
+      return setFilteredDays(onlySelectedActivities);
+    } else {
+      const newFilteredDays = onlySelectedActivities.filter((activity) => {
+        if (show.includes(activity.day_id)) {
+          return activity;
+        }
+      });
 
-  //   setDayProperties(daysProps);
-  // }, []);
+      return setFilteredDays(newFilteredDays);
+    }
+  }, [show]);
 
-  // const handleCallback = (childData) => {
-  //   setShow(childData); // childData = ["day1", "day2", "day3", "day4"]
-  // };
-
-  // //create a filtered list of the days selected from the checkbox.
-  // useEffect(() => {
-  //   // console.log({show, filteredDays, daysList})
-  //   if (show.length === daysList.length) {
-  //     return setFilteredDays(onlySelectedActivities);
-  //   } else {
-  //     const newFilteredDays = onlySelectedActivities.filter((activity) => {
-  //       if (show.includes(activity.day_id)) {
-  //         return activity;
-  //       }
-  //     });
-
-  //     return setFilteredDays(newFilteredDays);
-  //   }
-  // }, [show]);
+  console.log("show outside useeffect", show)
 
   // //show only the markers that are enabled on checkbox
   // useEffect(() => {
@@ -165,8 +180,8 @@ const Map = ({ eventData, center, zoom }) => {
   // console.log(" MAP onlySelectedActivities", onlySelectedActivities);
   // console.log(" day props", dayProperties);
 
-  // const start_date = new Date(currentTrip.start_date);
-  // const end_date = new Date(currentTrip.end_date);
+  const start_date = new Date(itinerary.start_date);
+  const end_date = new Date(itinerary.end_date);
 
   // return (
   //   <div className="map">
@@ -199,7 +214,8 @@ const Map = ({ eventData, center, zoom }) => {
   return (
     <div className="map">
       {!token && history.push("/login")}
-      <h2>{currentTrip.name} Tripz</h2>)
+      <h2>{itinerary.name} Tripz</h2>
+      <h3>{start_date.toDateString()} to {end_date.toDateString()}</h3>
     </div>
   );
 };
