@@ -28,6 +28,8 @@ const Map = ({ eventData, center, zoom }) => {
   const [daysList, setDaysList] = useState([]);
   const [show, setShow] = useState(daysList);
 
+  const [center, setCenter] = useState({});
+
 
 
   //----------------------- USE EFFECT 1
@@ -174,6 +176,26 @@ const Map = ({ eventData, center, zoom }) => {
 
   const start_date = new Date(itinerary.start_date);
   const end_date = new Date(itinerary.end_date);
+  
+  //----------------------- USE EFFECT 6
+  useEffect(() => {
+    let centerLat = 0;
+    let centerLong = 0;
+
+    for (const activity of activities) {
+      // console.log("--- USE EFFECT 6 --- actitivites", activity)
+      // console.log("--- USE EFFECT 6 --- lat", activity.long)
+      // console.log("--- USE EFFECT 6 --- long", activity.lat)
+      centerLat += Number(activity.lat);
+      centerLong += Number(activity.long);
+    }
+
+    centerLat = centerLat/activities.length;
+    centerLong = centerLong/activities.length;
+
+    setCenter({lat: centerLat, long: centerLong});
+
+  }, [activities])
 
   return (
     <div className="map">
@@ -215,10 +237,10 @@ const Map = ({ eventData, center, zoom }) => {
 
 //need to swwap out the center default to average center from all points.
 Map.defaultProps = {
-  center: {
-    lat: 49.2827,
-    lng: -123.1207,
-  },
+  // center: {
+  //   lat: 49.2827,
+  //   lng: -123.1207,
+  // },
   zoom: 12,
 };
 
