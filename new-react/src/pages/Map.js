@@ -18,7 +18,7 @@ const Map = ({ eventData, center, zoom }) => {
   const { currentTrip, selectedActivities } = useContext(DataContext);
   const [dayProperties, setDayProperties] = useState([]);
   const [markers, setMarkers] = useState(null);
-  const [onlySelectedActivities, setOnlySelectedActivities] = useState([]);
+  // const [onlySelectedActivities, setOnlySelectedActivities] = useState([]);
 
   const [itinerary, setItinerary] = useState({});
   const [days, setDays] = useState([]);
@@ -28,21 +28,17 @@ const Map = ({ eventData, center, zoom }) => {
   const [daysList, setDaysList] = useState([]);
   const [show, setShow] = useState(daysList);
 
-  //-----------------------
 
+
+  //----------------------- USE EFFECT 1
   useEffect(() => {
+    console.log("--- USE EFFECT 1 ---")
     getData(params.id).then((data) => {
-      console.log("data that front end got back - mapp page", data);
-      console.log("params.id", params.id);
-      // console.log("data ONLYselectedActivities", data.onlySelectedActivities);
+      console.log("--- USE EFFECT 1 ---, data that front end got back on MAP PAGE: ", data)
+      console.log("--- USE EFFECT 1 --- params.id", params.id)
       setActivities(data.activities);
-      // setSelectedActivityIds(data.selectedActivityIds);
       setItinerary(data.itinerary);
       setDays(data.days);
-      // setOnlySelectedActivities(data.onlySelectedActivities); */
-      console.log("MAP PAGE ---- activities", activities)
-      console.log("MAP PAGE ---- days", days)
-      console.log("MAP PAGE ---- itinerary", itinerary)
     });
   }, [params.id]);
 
@@ -60,33 +56,10 @@ const Map = ({ eventData, center, zoom }) => {
   }
 
 
- //----------------------
-  // useEffect(() => {
-  //   console.log("useEffect in itinerary fired");
-  //   async function handleCall() {
-  //     const data = await getData({ id: params.id, act: selectedActivities });
-  //     setOnlySelectedActivities(data.onlySelectedActivities)
-  //   }
 
-
-  //   handleCall();
-
-  // }, [params.id]);
-
-  // async function getData(id) {
-  //   return fetch("http://localhost:8080/api/itinerary", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     }, 
-  //     body: JSON.stringify(id),
-  //   }).then((data) => {
-  //     return data.json();
-  //   });
-  // }
-  // //----------------------
-
+  //----------------------- USE EFFECT 2
   useEffect(() => {
+    console.log("--- USE EFFECT 2 ---")
     const uniqueDays = (activities) => {
       const allDays = [];
       activities.map((activity) => allDays.push(activity.day_id));
@@ -101,13 +74,18 @@ const Map = ({ eventData, center, zoom }) => {
     let daysArray = uniqueDays(activities);
     setDaysList(daysArray);
     setShow(daysArray);
-    console.log({daysArray, daysList})
+    console.log("--- USE EFFECT 2 ---", {daysArray, daysList})
   }, [activities]);
   
-  console.log("outside useeffect", {daysList, show})
+  console.log("OUTSIDE USEEFFECT", {daysList, show})
 
+
+
+  //----------------------- USE EFFECT 3
   //assign each day properties
   useEffect(() => {
+    console.log("--- USE EFFECT 3 ---")
+    console.log("--- USE EFFECT 3 --- daysList", daysList)
     const daysProps = {};
     daysList.forEach((day) => {
       daysProps[day] = {};
@@ -116,20 +94,23 @@ const Map = ({ eventData, center, zoom }) => {
       daysProps[day].color = Math.floor(Math.random() * 16777215).toString(16);
     });
 
-    console.log("daysProps", daysProps)
+    console.log("--- USE EFFECT 3 --- daysProps", daysProps)
     setDayProperties(daysProps);
-    console.log("dayProperties inside useeffect", dayProperties)
+    console.log("--- USE EFFECT 3 --- dayProperties", dayProperties)
   }, [daysList]);
 
-  console.log("dayProperties outside useeffect", dayProperties)
+  console.log("OUTSIDE USEEFFECT - dayProperties", dayProperties)
   
   const handleCallback = (childData) => {
     setShow(childData); // childData = ["day1", "day2", "day3", "day4"]
   };
 
+
+
+  //----------------------- USE EFFECT 4
   //create a filtered list of the days selected from the checkbox.
   useEffect(() => {
-    console.log("USEEFFECT - ", {show, filteredDays, daysList})
+    console.log("--- USE EFFECT 4 ---", {show, filteredDays, daysList})
     if (show.length === daysList.length) {
       setFilteredDays(activities);
     } else {
@@ -143,13 +124,17 @@ const Map = ({ eventData, center, zoom }) => {
     }
   }, [show]);
 
-  console.log("show outside useeffect", show)
-  console.log("filteredDays outside useeffect", filteredDays)
+  console.log("OUTSIDE USEEFFECT - show", show)
+  console.log("OUTSIDE USEEFFECT - filteredDays", filteredDays)
 
+
+
+  //----------------------- USE EFFECT 5
   //show only the markers that are enabled on checkbox
   useEffect(() => {
-    console.log("INSIDE USEFFECT - filteredDays", filteredDays)
-    console.log("INSIDE USEFFECT - dayProperties", dayProperties);
+    console.log("--- USE EFFECT 5 ---")
+    console.log("--- USE EFFECT 5 --- filteredDays", filteredDays)
+    console.log("--- USE EFFECT 5 --- dayProperties", dayProperties);
     setMarkers(
       filteredDays.map((activity) => {
         const dayNameFromEvent = activity.day_id;
@@ -177,11 +162,6 @@ const Map = ({ eventData, center, zoom }) => {
     );
   }, [filteredDays, dayProperties]);
 
-  // // console.log(" MAP current", currentTrip);
-  // // console.log(" MAP selectedActivitiesIds", selectedActivities);
-  // console.log(" MAP onlySelectedActivities", onlySelectedActivities);
-  // console.log(" day props", dayProperties);
-
   const start_date = new Date(itinerary.start_date);
   const end_date = new Date(itinerary.end_date);
 
@@ -203,7 +183,7 @@ const Map = ({ eventData, center, zoom }) => {
         {markers}
       </GoogleMapReact>
       {locationInfo && <LocationInfoBox info={locationInfo} />}
-      {dayProperties && (
+      {Object.keys(dayProperties).length > 0 && (
         <DaysCheckbox
           daysList={daysList}
           dayProperties={dayProperties}
