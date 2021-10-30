@@ -16,11 +16,12 @@ const getDays = async function (db, id) {
 };
 
 const getActivities = async function (db, id) {
-  const dbQuery = await db.query(
-    `SELECT * From activities WHERE itinerary_id = $1;`,
-    [id]
-  );
-  return dbQuery.rows;
+  const activities = [];
+  for (const i of id) {
+    const dbQuery = await db.query(`SELECT * From activities WHERE id = $1;`, [i]);
+    activities.push(dbQuery.rows[0]);
+  }
+  return activities
 };
 
 const updateSelectedActivities = async function (db, id, selectedActivityIds) {
@@ -41,12 +42,11 @@ const updateSelectedActivities = async function (db, id, selectedActivityIds) {
     // console.log({ numDays, generateDayId });
 
     for (const selectedId of selectedActivityIds) {
-      const generateDayId = daysIdArray[Math.floor(Math.random()*daysIdArray.length)];
 
     // const favActivities =
     await db.query(
-      `UPDATE activities SET heart = $1, day_id = $2 WHERE id = $3 RETURNING *;`,
-      [true, generateDayId, selectedId]
+      `UPDATE activities SET heart = $1 WHERE id = $2 RETURNING *;`,
+      [true, selectedId]
     );
     // console.log("favActivites.rows", favActivities.rows);
     // return favActivities.rows;
