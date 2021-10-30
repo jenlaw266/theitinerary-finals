@@ -30,6 +30,7 @@ const deleteItinerary = require("./queries/deleteItinerary");
 const getImage = require("./routes/getImage");
 const deleteDays = require("./queries/deleteDay");
 const addAltDay = require("./queries/addAltDay");
+const updateActivityDayID = require("./queries/updateActivityDayID");
 
 // Express Configuration
 App.use(
@@ -73,10 +74,12 @@ App.use("/api/itineraries", async function (req, res) {
 App.use("/api/itinerary/:id", async function (req, res) {
   const id = req.params.id;
   const activities = await getActivitiesForItinerary(db, id);
+  const allActivities = await getActivities(db, id);
   const days = await getDays(db, id);
   const itinerary = await getItinerary(db, id);
   // console.log("data", itinerary, days, activities);
-  res.json({ itinerary, days, activities });
+  // res.json(Promise.all([activities, allActivities, days, itinerary ]));
+  res.json({ activities, allActivities, days, itinerary });
 });
 
 App.use("/api/itinerary", async function (req, res) {
@@ -161,6 +164,12 @@ App.delete("/api/days/:id", async function (req, res) {
   await deleteDays(db, req.params.id).then((response) => {
     res.status(200).send("delete success");
   });
+});
+
+App.post("/api/activities/update", async function (req, res) {
+  const { id, heart, theDayId } = req.body;
+  const updateActivity = await updateActivityDayID(db, id, heart, theDayId);
+  res.status(200).send(updateActivity);
 });
 
 App.listen(PORT, () => {

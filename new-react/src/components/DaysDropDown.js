@@ -19,7 +19,10 @@ export default function IconMenu({
   anchorEl,
   allOptions,
   setDays,
-  itineraryId,
+  days,
+  theDayId,
+  allActivities,
+  setActivities,
 }) {
   const handleClose = () => {
     setAnchorEl(null);
@@ -54,6 +57,20 @@ export default function IconMenu({
     });
   };
 
+  const updateActivity = (id, heart) => {
+    axios
+      .post(`http://localhost:8080/api/activities/update`, {
+        id,
+        heart,
+        theDayId,
+      })
+      .then(async (response) => {
+        const updated = await response.json();
+        console.log("response from addActivity", updated);
+        setActivities((prev) => [...prev]);
+      });
+  };
+
   const altList = allOptions.map((day, id) => {
     let text = "";
     if (id !== 0) {
@@ -71,18 +88,16 @@ export default function IconMenu({
     );
   });
 
-  const genActivities = (id) => {
-    //get activities from table with itinerary ID
-
+  const genActivities = allActivities.map((activity) => {
     return (
-      <MenuItem onClick={() => console.log("click delete")}>
-        <ListItemText>{/*text*/}</ListItemText>
+      <MenuItem onClick={() => updateActivity(activity.id, true)}>
         <ListItemIcon>
-          <DeleteOutlineIcon fontSize="small" />
+          <AddIcon fontSize="small" />
         </ListItemIcon>
+        <ListItemText>{activity.name}</ListItemText>
       </MenuItem>
     );
-  };
+  });
 
   const toggleMenu = (prev) => {
     return prev === "default" ? "activity" : "default";
@@ -152,7 +167,7 @@ export default function IconMenu({
                   </ListItemIcon>
                   <ListItemText>Activities</ListItemText>
                 </MenuItem>
-                {genActivities(itineraryId)}
+                {genActivities}
               </div>
             </CSSTransition>
           </MenuList>

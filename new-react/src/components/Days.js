@@ -35,11 +35,6 @@ function a11yProps(index) {
   };
 }
 
-const dayTab = (all) => {
-  console.log("dayTab", all);
-  return all.map((each, id) => <Tab label={each.day} {...a11yProps(id)} />);
-};
-
 const alt = (value, dayActivities) => {
   //missing alt column
   const activityCard = dayActivities.map((activity, id) => {
@@ -49,6 +44,8 @@ const alt = (value, dayActivities) => {
         name={activity.name}
         city={activity.location}
         img={activity.image}
+        isChecked={false}
+        onChange={() => console.log("clicked")}
       />
     );
   });
@@ -59,16 +56,28 @@ const alt = (value, dayActivities) => {
   );
 };
 
-const Day = (props) => {
+const Days = (props) => {
   const [value, setValue] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [theDayId, setTheDayId] = useState();
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (event, newValue, id) => {
     setValue(newValue);
+  };
+
+  const dayTab = (all) => {
+    return all.map((each, id) => (
+      <Tab
+        label={each.day}
+        onClick={() => setTheDayId(each.id)}
+        {...a11yProps(each.id)}
+      />
+    ));
   };
 
   return (
@@ -101,11 +110,14 @@ const Day = (props) => {
           anchorEl={anchorEl}
           allOptions={props.allOptions}
           setDays={props.setDays}
-          itineraryId={props.itineraryId}
+          days={props.days}
+          theDayId={theDayId}
+          allActivities={props.allActivities}
+          setActivities={props.setActivities}
         />
       </Box>
     </Grid>
   );
 };
 
-export default Day;
+export default Days;

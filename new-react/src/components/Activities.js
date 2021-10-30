@@ -43,6 +43,8 @@ const Activities = (props) => {
     setSelectedActivities(updatedSelectedActivities);
   };
 
+  /*********************************************/
+  /////////////search db for selsected activities?
   const activityAlreadySelected = (activityId) =>
     selectedActivities.includes(activityId) ||
     currentSelected.includes(activityId);
