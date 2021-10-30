@@ -48,7 +48,10 @@ App.use("/api/create/activities", async function (req, res) {
   const body = req.body;
   const actObj = await createActivities(db, body);
   const activities = await getImage(db, actObj);
+
+
   // const activity_id = await getActivityId(db, activities[0].itinerary_id);
+
   res.json({
     message: "Success, able to get data from api",
     act: activities,
@@ -71,8 +74,10 @@ App.use("/api/itineraries", async function (req, res) {
 });
 
 App.use("/api/itinerary/:id", async function (req, res) {
+
   const id = req.params.id;
   const activities = await getActivitiesForItinerary(db, id);
+
   const days = await getDays(db, id);
   const itinerary = await getItinerary(db, id);
   // console.log("data, in itinerary page", itinerary, days, activities);
