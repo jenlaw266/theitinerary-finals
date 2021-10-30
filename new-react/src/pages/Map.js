@@ -86,10 +86,20 @@ const Map = ({ eventData, center, zoom }) => {
   useEffect(() => {
     console.log("--- USE EFFECT 3 ---")
     console.log("--- USE EFFECT 3 --- daysList", daysList)
+
+    const dayIdWithName = {};
+    console.log("--- USE EFFECT 3 --- days", days)
+    for (const day of days) {
+      dayIdWithName[day.id] = day.day
+    };
+
+    console.log("--- USE EFFECT 3 --- dayIdWithName", dayIdWithName)
+
     const daysProps = {};
     daysList.forEach((day) => {
       daysProps[day] = {};
-      daysProps[day].name = day;
+      daysProps[day].id = day;
+      daysProps[day].name = dayIdWithName[day];
       daysProps[day].visibility = true;
       daysProps[day].color = Math.floor(Math.random() * 16777215).toString(16);
     });
@@ -97,7 +107,7 @@ const Map = ({ eventData, center, zoom }) => {
     console.log("--- USE EFFECT 3 --- daysProps", daysProps)
     setDayProperties(daysProps);
     console.log("--- USE EFFECT 3 --- dayProperties", dayProperties)
-  }, [daysList]);
+  }, [daysList, days]);
 
   console.log("OUTSIDE USEEFFECT - dayProperties", dayProperties)
   

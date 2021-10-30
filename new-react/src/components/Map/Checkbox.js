@@ -66,7 +66,8 @@ function DaysCheckbox(props) {
                   inputProps={{ 'aria-labelledby': labelId }}
                 />
               </ListItemIcon>
-              <ListItemText id={labelId} primary={`${value}`} />
+              {/* <ListItemText id={labelId} primary={`${value}`} /> */}
+              <ListItemText id={labelId} primary={`${props.dayProperties[value].name}`} />
             </ListItemButton>
           </ListItem>
         );

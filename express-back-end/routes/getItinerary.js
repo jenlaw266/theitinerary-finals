@@ -65,23 +65,20 @@ const getActivitiesForItinerary = async function (db, id) {
   // console.log("dbquery rows", dbQuery.rows);
   return dbQuery.rows;
 };
-const getSelectedActivities = async function (db, id) {
-  // console.log("SELECTED ACTIVITY ID Length", selectedActivityIds.length);
-  // await updateSelectedActivities(db, id, selectedActivityIds);
-
-  const dbQuery = await db.query(
-    `SELECT * From activities WHERE (itinerary_id = $1 AND heart is true);`,
-    [id]
-  );
-  // console.log("id", id)
-  // console.log("dbquery rows", dbQuery.rows);
-  return dbQuery.rows;
-};
+// const getActivitiesForItineraryWithDays = async function (db, id) {
+//   const dbQuery = await db.query(
+//     `SELECT * From activities JOIN days ON activities.day_id = days.id WHERE (activities.itinerary_id = $1 AND heart is true);`,
+//     [id]
+//   );
+//   // console.log("id", id)
+//   console.log("getActivitiesForItineraryWithDays", dbQuery.rows);
+//   return dbQuery.rows;
+// };
 module.exports = {
   getItinerary,
   getDays,
   getActivities,
   getActivitiesForItinerary,
-  getSelectedActivities,
+  // getActivitiesForItineraryWithDays,
   updateSelectedActivities,
 };
