@@ -44,6 +44,8 @@ App.use("/api/create/activities", async function (req, res) {
   const body = req.body;
   const actObj = await createActivities(db, body);
   const activities = await getImage(db, actObj);
+  console.log('act', activities)
+
   const activity_id = await getActivityId(db, activities[0].itinerary_id);
   res.json({
     message: "Success, able to get data from api",
