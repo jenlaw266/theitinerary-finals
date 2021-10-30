@@ -23,6 +23,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [trips, setTrips] = useState([]);
   const [currentTrip, setCurrentTrip] = useState();
+  const [selectedActivities, setSelectedActivities] = useState([]);
 
   const [state, setState] = useState({
     message: "",
@@ -98,19 +99,19 @@ function App() {
                   <Login setToken={setToken} />
                 </Route>
 
-                <DataContext.Provider value={{ setTrips, currentTrip }}>
+                <DataContext.Provider
+                  value={{
+                    setTrips,
+                    currentTrip,
+                    selectedActivities,
+                    setSelectedActivities,
+                  }}
+                >
                   <Route path="/itineraries">
                     <Itineraries trips={trips} />
                   </Route>
                   <Route exact path="/itinerary/:id/map">
-                    {!loading ? (
-                      <Map
-                        {...console.log("RENDERING MAP")}
-                        eventData={eventData}
-                      />
-                    ) : (
-                      <Loader />
-                    )}
+                    {!loading ? <Map eventData={eventData} /> : <Loader />}
                   </Route>
                   <Route exact path="/itinerary/:id/chat">
                     <Chat />

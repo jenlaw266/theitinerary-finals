@@ -35,26 +35,23 @@ function DaysCheckbox(props) {
   };
 
   useEffect(() => {
-    console.log("checked", checked)
+    // console.log("checked", checked)
   }, [checked]);
 
-  console.log("checked outside handleToggle", checked)
-  //send data of days to place on map if box is checked
-  // const daysToMark = (checked) => {
-  //   return checked;
-  // }
+  // console.log("checked outside handleToggle", checked)
 
   return (
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
       {props.daysList.map((value) => {
         const labelId = `checkbox-list-label-${value}`;
-
+        {console.log(props.dayProperties)}
         return (
           <ListItem
             key={value}
             secondaryAction={
               <IconButton edge="end" aria-label="comments">
                 <LocationOnIcon style={{ color: props.dayProperties[value].color}} />
+                {/* <LocationOnIcon style={{ color: '000000'}} /> */}
               </IconButton>
             }
             disablePadding
@@ -69,7 +66,8 @@ function DaysCheckbox(props) {
                   inputProps={{ 'aria-labelledby': labelId }}
                 />
               </ListItemIcon>
-              <ListItemText id={labelId} primary={`${value}`} />
+              {/* <ListItemText id={labelId} primary={`${value}`} /> */}
+              <ListItemText id={labelId} primary={`${props.dayProperties[value].name}`} />
             </ListItemButton>
           </ListItem>
         );

@@ -1,6 +1,8 @@
 const getApi = require("./getApi");
 const getName = require("../queries/itineraries");
 const dayDiff = require("../helpers/convertDate");
+const getActivityId = require('../queries/getActivityId')
+
 
 const createActivities = async function (db, body) {
   await db.query(
@@ -36,7 +38,7 @@ const createActivities = async function (db, body) {
     for (let i = 0; i < response.length; i++) {
       //console.log('response', response[i].photos[0].photo_reference)
       let name = response[i].name;
-      let location = body.city;
+      let location = body.city;//"placeholder"//"London";
       let address = response[i].formatted_address;
       let lat = response[i].geometry.location.lat;
       let long = response[i].geometry.location.lng;
@@ -47,14 +49,17 @@ const createActivities = async function (db, body) {
       }
       output.push({
         itinerary_id: itinerary_id,
+        activity_id: 'PLACEHOLDER',
         name: name,
         location: location,
         address: address,
         lat: lat,
         long: long,
         rating: rating,
-        image: imageString
+        image: imageString,
+        heart: heart
       });
+      
       db.query(
         `INSERT INTO activities(name, location, lat, long, heart, image, day_id, itinerary_id)
                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
@@ -62,7 +67,16 @@ const createActivities = async function (db, body) {
       );
     }
   });
-  return output;
+  // console.log(output)
+
+  let outputWithActivityIds = [];
+  await getActivityId(db, output[0].itinerary_id).then((response) => {
+    // console.log("outputWithActivityIds response", response)
+    console.log("Fetching all activities ...")
+    outputWithActivityIds = response
+    
+  })
+  return outputWithActivityIds;
 };
 
 module.exports = createActivities;
