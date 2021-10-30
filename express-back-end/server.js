@@ -22,9 +22,9 @@ const {
   getItinerary,
   getDays,
   getActivities,
-  getSelectedActivities,
   getActivitiesForItinerary,
   updateSelectedActivities,
+  getNonSelectedActivities,
 } = require("./routes/getItinerary");
 const deleteItinerary = require("./queries/deleteItinerary");
 const getImage = require("./routes/getImage");
@@ -74,7 +74,7 @@ App.use("/api/itineraries", async function (req, res) {
 App.use("/api/itinerary/:id", async function (req, res) {
   const id = req.params.id;
   const activities = await getActivitiesForItinerary(db, id);
-  const allActivities = await getActivities(db, id);
+  const allActivities = await getNonSelectedActivities(db, id);
   const days = await getDays(db, id);
   const itinerary = await getItinerary(db, id);
   // console.log("data", itinerary, days, activities);
@@ -85,29 +85,19 @@ App.use("/api/itinerary/:id", async function (req, res) {
 App.use("/api/itinerary", async function (req, res) {
   console.log("SERVER FILE", req.body);
   const { id, currentSelected } = req.body;
-  // const selectedActivityIds = req.body.act;
-  // const itinerary = await getItinerary(db, id);
-  // const days = await getDays(db, id);
-  // const activities = await getActivities(db, id);
-  // const onlySelectedActivities = await getSelectedActivities(
-  //   db,
-  //   id
-  // selectedActivityIds
-  // );
 
   await updateSelectedActivities(db, id, currentSelected);
   res.send("success posted to db");
-  // console.log("ID", id);
-  // console.log("GET SELECTED ACT ONLY IDS", selectedActivityIds);
-  /* console.log("activities from server", activities);
+});
 
-  res.json({
-    itinerary: itinerary,
-    days: days,
-    activities: activities,
-    // selectedActivityIds: selectedActivityIds,
-    onlySelectedActivities: onlySelectedActivities,
-  }); */
+App.use("/api/itinerary/:id/map", async function (req, res) {
+  const id = req.params.id;
+  const activities = await getActivitiesForItinerary(db, id);
+  const days = await getDays(db, id);
+  const itinerary = await getItinerary(db, id);
+  console.log("data from map page", itinerary, days, activities);
+  console.log("data from map page id", id);
+  res.json({ itinerary, days, activities });
 });
 
 App.use("/api/login", async function (req, res) {
@@ -168,6 +158,7 @@ App.delete("/api/days/:id", async function (req, res) {
 
 App.post("/api/activities/update", async function (req, res) {
   const { id, heart, theDayId } = req.body;
+  console.log("backend", id, heart, theDayId);
   const updateActivity = await updateActivityDayID(db, id, heart, theDayId);
   res.status(200).send(updateActivity);
 });

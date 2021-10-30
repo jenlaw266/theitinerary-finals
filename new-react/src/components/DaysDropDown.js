@@ -58,6 +58,7 @@ export default function IconMenu({
   };
 
   const updateActivity = (id, heart) => {
+    console.log("id, heart, dayId", id, heart, theDayId);
     axios
       .post(`http://localhost:8080/api/activities/update`, {
         id,

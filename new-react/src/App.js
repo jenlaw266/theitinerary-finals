@@ -19,7 +19,6 @@ import DataContext from "./context/DataContext";
 function App() {
   const { token, setToken } = useToken(null);
   const [drawer, setDrawer] = useState(false);
-  const [eventData, setEventData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [trips, setTrips] = useState([]);
   const [currentTrip, setCurrentTrip] = useState();
@@ -28,25 +27,6 @@ function App() {
   const [state, setState] = useState({
     message: "",
   });
-
-  useEffect(() => {
-    const fetchData = () => {
-      /*       axios.get("http://localhost:8080/api/activities").then((response) => {
-        setEventData(response.data.act);
-        setLoading(false);
-      }); */
-      axios.get("http://localhost:8080/api/data").then((response) => {
-        setEventData(response.data);
-        setLoading(false);
-      });
-    };
-
-    const timer = setTimeout(() => {
-      fetchData();
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   useEffect(() => {
     axios.get("http://localhost:8080/api/itineraries").then((response) => {
@@ -111,19 +91,16 @@ function App() {
                     <Itineraries trips={trips} />
                   </Route>
                   <Route exact path="/itinerary/:id/map">
-                    {!loading ? <Map eventData={eventData} /> : <Loader />}
+                    {!loading ? <Map /> : <Loader />}
                   </Route>
                   <Route exact path="/itinerary/:id/chat">
                     <Chat />
                   </Route>
                   <Route exact path="/itinerary/:id">
-                    <Itinerary currentTrip={currentTrip} />
+                    <Itinerary />
                   </Route>
                   <Route exact path="/">
-                    <Home
-                      currentTrip={currentTrip}
-                      setCurrentTrip={setCurrentTrip}
-                    />
+                    <Home setCurrentTrip={setCurrentTrip} />
                   </Route>
                 </DataContext.Provider>
               </Switch>

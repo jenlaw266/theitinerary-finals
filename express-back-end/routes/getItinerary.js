@@ -24,15 +24,25 @@ const getActivities = async function (db, id) {
 };
 
 const updateSelectedActivities = async function (db, id, selectedActivityIds) {
-  const currentItinerary = await getItinerary(db, id);
-  const numDays = dayDiff(
-    currentItinerary.start_date,
-    currentItinerary.end_date
-  );
+  // const currentItinerary = await getDays(db, id);
+  // const numDays = dayDiff(
+  //   currentItinerary.start_date,
+  //   currentItinerary.end_date
+  // );
+
+  const currentDays = await getDays(db, id);
+  const daysIdArray = [];
+  for (const day of currentDays) {
+    daysIdArray.push(day.id);
+  }
+
+  // for (const selectedId of selectedActivityIds) {
+  //   const generateDayId = Math.floor(Math.random() * numDays) + 1;
+  // console.log({ numDays, generateDayId });
 
   for (const selectedId of selectedActivityIds) {
-    const generateDayId = Math.floor(Math.random() * numDays) + 1;
-    // console.log({ numDays, generateDayId });
+    const generateDayId =
+      daysIdArray[Math.floor(Math.random() * daysIdArray.length)];
 
     // const favActivities =
     await db.query(
@@ -56,23 +66,29 @@ const getActivitiesForItinerary = async function (db, id) {
   // console.log("dbquery rows", dbQuery.rows);
   return dbQuery.rows;
 };
-const getSelectedActivities = async function (db, id) {
-  // console.log("SELECTED ACTIVITY ID Length", selectedActivityIds.length);
-  // await updateSelectedActivities(db, id, selectedActivityIds);
 
+const getNonSelectedActivities = async function (db, id) {
   const dbQuery = await db.query(
-    `SELECT * From activities WHERE (itinerary_id = $1 AND heart is true);`,
+    `SELECT * From activities WHERE (itinerary_id = $1 AND heart is false);`,
     [id]
   );
-  // console.log("id", id)
-  // console.log("dbquery rows", dbQuery.rows);
   return dbQuery.rows;
 };
+// const getActivitiesForItineraryWithDays = async function (db, id) {
+//   const dbQuery = await db.query(
+//     `SELECT * From activities JOIN days ON activities.day_id = days.id WHERE (activities.itinerary_id = $1 AND heart is true);`,
+//     [id]
+//   );
+//   // console.log("id", id)
+//   console.log("getActivitiesForItineraryWithDays", dbQuery.rows);
+//   return dbQuery.rows;
+// };
 module.exports = {
   getItinerary,
   getDays,
   getActivities,
   getActivitiesForItinerary,
-  getSelectedActivities,
+  // getActivitiesForItineraryWithDays,
   updateSelectedActivities,
+  getNonSelectedActivities,
 };
