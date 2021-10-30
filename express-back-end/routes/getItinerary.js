@@ -24,15 +24,24 @@ const getActivities = async function (db, id) {
 };
 
 const updateSelectedActivities = async function (db, id, selectedActivityIds) {
-  const currentItinerary = await getItinerary(db, id);
-  const numDays = dayDiff(
-    currentItinerary.start_date,
-    currentItinerary.end_date
-  );
+  // const currentItinerary = await getDays(db, id);
+  // const numDays = dayDiff(
+  //   currentItinerary.start_date,
+  //   currentItinerary.end_date
+  // );
 
-  for (const selectedId of selectedActivityIds) {
-    const generateDayId = Math.floor(Math.random() * numDays) + 1;
+  const currentDays = await getDays(db, id);
+  const daysIdArray = [];
+  for (const day of currentDays) {
+    daysIdArray.push(day.id);
+  };
+
+  // for (const selectedId of selectedActivityIds) {
+  //   const generateDayId = Math.floor(Math.random() * numDays) + 1;
     // console.log({ numDays, generateDayId });
+
+    for (const selectedId of selectedActivityIds) {
+      const generateDayId = daysIdArray[Math.floor(Math.random()*daysIdArray.length)];
 
     // const favActivities =
     await db.query(
