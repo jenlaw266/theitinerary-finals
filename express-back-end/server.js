@@ -22,11 +22,14 @@ const {
   getItinerary,
   getDays,
   getActivities,
-  getSelectedActivities
+  getSelectedActivities,
+  getActivitiesForItinerary,
+  updateSelectedActivities,
 } = require("./routes/getItinerary");
 const deleteItinerary = require("./queries/deleteItinerary");
 const getImage = require("./routes/getImage");
 const deleteDays = require("./queries/deleteDay");
+const addAltDay = require("./queries/addAltDay");
 
 // Express Configuration
 App.use(
@@ -67,25 +70,41 @@ App.use("/api/itineraries", async function (req, res) {
   });
 });
 
-App.use("/api/itinerary", async function (req, res) {
-  console.log("SERVER FILE", req.body, req.body.act)
-  const id = req.body.id;
-  const selectedActivityIds = req.body.act;
-  const itinerary = await getItinerary(db, id);
+App.use("/api/itinerary/:id", async function (req, res) {
+  const id = req.params.id;
+  const activities = await getActivitiesForItinerary(db, id);
   const days = await getDays(db, id);
-  const activities = await getActivities(db, id);
-  const onlySelectedActivities = await getSelectedActivities(db, id, activities, selectedActivityIds)
+  const itinerary = await getItinerary(db, id);
+  // console.log("data", itinerary, days, activities);
+  res.json({ itinerary, days, activities });
+});
 
-  console.log("GET SELECTED ACT ONLY", onlySelectedActivities)
-  console.log("GET SELECTED ACT ONLY IDS", selectedActivityIds)
+App.use("/api/itinerary", async function (req, res) {
+  console.log("SERVER FILE", req.body);
+  const { id, currentSelected } = req.body;
+  // const selectedActivityIds = req.body.act;
+  // const itinerary = await getItinerary(db, id);
+  // const days = await getDays(db, id);
+  // const activities = await getActivities(db, id);
+  // const onlySelectedActivities = await getSelectedActivities(
+  //   db,
+  //   id
+  // selectedActivityIds
+  // );
+
+  await updateSelectedActivities(db, id, currentSelected);
+  res.send("success posted to db");
+  // console.log("ID", id);
+  // console.log("GET SELECTED ACT ONLY IDS", selectedActivityIds);
+  /* console.log("activities from server", activities);
 
   res.json({
     itinerary: itinerary,
     days: days,
     activities: activities,
-    selectedActivityIds: selectedActivityIds,
-    onlySelectedActivities: onlySelectedActivities
-  });
+    // selectedActivityIds: selectedActivityIds,
+    onlySelectedActivities: onlySelectedActivities,
+  }); */
 });
 
 App.use("/api/login", async function (req, res) {
@@ -129,9 +148,17 @@ App.use("/api/member/delete", async function (req, res) {
   });
 });
 
+App.use("/api/days/add", async function (req, res) {
+  if (req.body) {
+    const day = req.body.day;
+    const itineraryID = req.body.itinerary_id;
+    const newDay = await addAltDay(db, day, itineraryID);
+    res.status(200).send(newDay);
+  }
+});
+
 App.delete("/api/days/:id", async function (req, res) {
   await deleteDays(db, req.params.id).then((response) => {
-    console.log("deleteDays", response);
     res.status(200).send("delete success");
   });
 });

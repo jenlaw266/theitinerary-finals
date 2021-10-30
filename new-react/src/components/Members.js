@@ -17,9 +17,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
 import { deepPurple } from "@mui/material/colors";
 import LoginContext from "../context/LoginContext";
-import DataContext from "../context/DataContext"
+import DataContext from "../context/DataContext";
 import axios from "axios";
-
 
 //const members = ["John", "Mary", "Amy", "Leland", "Ysabel", "Jennifer"];
 
@@ -42,15 +41,13 @@ const Members = () => {
   const [addMembers, setAddMembers] = useState(false);
   const [deleteMember, setDeleteMember] = useState(false);
   const [members, setMembers] = useState([]);
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     async function handleCall() {
-      await getMembers({ id: currentTrip.id })
-      .then((response) => {
-        setMembers(response.members)
-      })
-      
+      await getMembers({ id: currentTrip.id }).then((response) => {
+        setMembers(response.members);
+      });
     }
 
     handleCall();
@@ -65,19 +62,18 @@ const Members = () => {
       body: JSON.stringify(id),
     }).then((data) => data.json());
   }
-  console.log('members', members)
+  console.log("members", members);
 
-  console.log('current', currentTrip.id)
-
+  console.log("current", currentTrip.id);
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       async function handleCall() {
         await addMember({
           username: search,
-          itineraryID: currentTrip.id
+          itineraryID: currentTrip.id,
         }).then((response) => {
-          setMembers(prevState => [...prevState, response.member[0]])
+          setMembers((prevState) => [...prevState, response.member[0]]);
         });
       }
       handleCall();
@@ -97,12 +93,11 @@ const Members = () => {
   async function handleDelete(username, id) {
     await delMember({
       username: username,
-      id: id
-    })
-    .then((response) => {
-      setMembers(response.members)
-    })
-  };
+      id: id,
+    }).then((response) => {
+      setMembers(response.members);
+    });
+  }
 
   async function delMember(data) {
     return fetch("http://localhost:8080/api/member/delete", {
@@ -113,7 +108,6 @@ const Members = () => {
       body: JSON.stringify(data),
     }).then((data) => data.json());
   }
-
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -136,9 +130,7 @@ const Members = () => {
     setAnchorEl(null);
   };
 
- 
-
-  console.log('search', search)
+  console.log("search", search);
 
   const ITEM_HEIGHT = 48;
 
@@ -218,10 +210,12 @@ const Members = () => {
               <ListItemText primary={text} />
               {deleteMember && (
                 <ListItemIcon>
-                  <IconButton onClick={() => {
-                    popOutForm();
-                    handleDelete(text, currentTrip.id);
-                  }}>
+                  <IconButton
+                    onClick={() => {
+                      popOutForm();
+                      handleDelete(text, currentTrip.id);
+                    }}
+                  >
                     <RemoveIcon />
                   </IconButton>
                 </ListItemIcon>
