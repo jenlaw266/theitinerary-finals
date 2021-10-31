@@ -1,6 +1,12 @@
 import { makeStyles } from "@mui/styles";
 import { createTheme, ThemeProvider } from "@mui/material";
 
+// const theme = createTheme({
+//   palette: {
+//     primary: blue,
+//   },
+// });
+
 const theme = createTheme({});
 
 const useStyles = makeStyles({

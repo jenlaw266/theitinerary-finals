@@ -1,0 +1,17 @@
+$light-yellow: #fffceb;
+$medium-yellow: #FFF399;
+$dark-yellow: #FFE733;
+$light-blue: #DADEF0;
+$dark-blue: #657ABB;
+
+body {
+  background-color: $light-yellow;
+}
+
+.home-image{
+  display: flex;
+  width: 50vw;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+}

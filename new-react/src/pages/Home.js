@@ -9,6 +9,9 @@ import axios from "axios";
 import DataContext from "../context/DataContext";
 import LoginContext from "../context/LoginContext";
 
+import homeImage from "../images/travelers2.png";
+import "../components/Home.scss";
+
 const Home = ({ currentTrip, setCurrentTrip }) => {
   const [city, setCity] = useState(null);
   const [start, setStart] = useState(null);
@@ -92,6 +95,7 @@ const Home = ({ currentTrip, setCurrentTrip }) => {
         <Button variant="outlined" type="submit">
           Submit
         </Button>
+        <img className="home-image" src={homeImage} alt="home-image" />
       </form>
       {submit && (
         <Activities activities={activities} currentTrip={currentTrip}/>

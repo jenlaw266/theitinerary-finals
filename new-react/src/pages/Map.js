@@ -117,7 +117,6 @@ const Map = ({ zoom }) => {
   };
 
 
-
   //----------------------- USE EFFECT 4
   //create a filtered list of the days selected from the checkbox.
   useEffect(() => {

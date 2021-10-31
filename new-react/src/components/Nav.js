@@ -15,6 +15,9 @@ import { Link, useHistory } from "react-router-dom";
 import LoginContext from "../context/LoginContext";
 import { Typography } from "@mui/material";
 
+import logo from "../images/theitinerary.png";
+import "./Nav.scss";
+
 const useStyles = makeStyles({
   // button: { color: "black" },
   text: { color: "pink" },
@@ -90,10 +93,10 @@ const Nav = (props) => {
       position="fixed"
       sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
     >
-      <Toolbar>
+      <Toolbar className="toolbar">
         <Box sx={{ flexGrow: 1 }}>
           <Button size="large" color="inherit" component={Link} to="/">
-            The Itinerary
+            <img className="logo" src={logo} alt="Logo" />
           </Button>
         </Box>
         <IconButton
