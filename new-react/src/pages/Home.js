@@ -9,6 +9,11 @@ import axios from "axios";
 import DataContext from "../context/DataContext";
 import LoginContext from "../context/LoginContext";
 
+import homeImage from "../images/travelers1.png";
+import homeLogo from "../images/theitineraryfat.png";
+import homeLoading from "../images/loading1.gif";
+import "../components/Home.scss";
+
 const Home = ({ currentTrip, setCurrentTrip }) => {
   const [city, setCity] = useState(null);
   const [start, setStart] = useState(null);
@@ -19,6 +24,7 @@ const Home = ({ currentTrip, setCurrentTrip }) => {
   // const [activityID, setActivityID] = useState([]);
   const { token } = useContext(LoginContext);
   const username = token ? token : "";
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -46,6 +52,7 @@ const Home = ({ currentTrip, setCurrentTrip }) => {
   };
 
   async function getData(data) {
+    setLoading(true);
     return fetch("http://localhost:8080/api/create/activities", {
       method: "POST",
       headers: {
@@ -62,40 +69,53 @@ const Home = ({ currentTrip, setCurrentTrip }) => {
   // console.log("selectedActivties", selectedActivities)
   
   return (
-    <div>
-      <h1>home</h1>
-      <form noValidate onSubmit={handleSubmit}>
+    <div className="home-body">
+      <img className="home-logo" src={homeLogo} alt="home-logo" />
+      <h1 className="home-title">Where is your next adventure?</h1>
+      <form noValidate onSubmit={handleSubmit} className="home-form">
         <TextField
           required
           id="outlined-required"
           label="Enter City"
           onChange={(e) => setCity(e.target.value)}
         />
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DatePicker
-            label="Start Date"
-            value={start}
-            onChange={(newValue) => {
-              setStart(newValue);
-            }}
-            renderInput={(params) => <TextField {...params} />}
-          />
-          <DatePicker
-            label="End Date"
-            value={end}
-            onChange={(newValue) => {
-              setEnd(newValue);
-            }}
-            renderInput={(params) => <TextField {...params} />}
-          />
-        </LocalizationProvider>
-        <Button variant="outlined" type="submit">
-          Submit
+        <div className="home-dates">
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <div className="home-start-date">
+              <DatePicker
+                label="Start Date"
+                value={start}
+                onChange={(newValue) => {
+                  setStart(newValue);
+                }}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </div>
+            <div className="home-end-date">
+              <DatePicker
+                label="End Date"
+                value={end}
+                onChange={(newValue) => {
+                  setEnd(newValue);
+                }}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </div>
+          </LocalizationProvider>
+        </div>
+        <Button variant="contained" type="submit" className="home-search-button" sx={{ 
+          borderRadius: '2rem',
+          color:'theme.palette.primary.dark' }}>
+          search
         </Button>
+        {/* <img className="home-image" src={homeImage} alt="home-image" /> */}
       </form>
-      {submit && (
-        <Activities activities={activities} currentTrip={currentTrip}/>
-      )}
+      {/* {loading ? <img className="home-activities-loading" src={homeLoading} alt="home-activities-loading" /> : 
+      <img className="home-image" src={homeImage} alt="home-image" />} */}
+      {submit ? 
+      (<Activities activities={activities} currentTrip={currentTrip}/>) : (loading ? <img className="home-activities-loading" src={homeLoading} alt="home-activities-loading" /> : 
+      <img className="home-image" src={homeImage} alt="home-image" />)
+      }
     </div>
   );
 };
