@@ -110,11 +110,12 @@ const Home = ({ currentTrip, setCurrentTrip }) => {
         </Button>
         {/* <img className="home-image" src={homeImage} alt="home-image" /> */}
       </form>
-      {loading ? <img className="home-activities-loading" src={homeLoading} alt="home-activities-loading" /> : 
-      <img className="home-image" src={homeImage} alt="home-image" />}
-      {submit && (
-        <Activities activities={activities} currentTrip={currentTrip}/>
-      )}
+      {/* {loading ? <img className="home-activities-loading" src={homeLoading} alt="home-activities-loading" /> : 
+      <img className="home-image" src={homeImage} alt="home-image" />} */}
+      {submit ? 
+      (<Activities activities={activities} currentTrip={currentTrip}/>) : (loading ? <img className="home-activities-loading" src={homeLoading} alt="home-activities-loading" /> : 
+      <img className="home-image" src={homeImage} alt="home-image" />)
+      }
     </div>
   );
 };

@@ -69,17 +69,15 @@ body {
 }
 
 .home-activities-loading {
-  width: 30vw;
+  width: 50vw;
   height: auto;
-  margin-top: 10rem;
+  margin-top: 7rem;
   margin-bottom: 2rem;
 }
 
 
 // ----------- MUI components ----------- 
-.MuiOutlinedInput-root.MuiInputBase-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.css-161nk7c-MuiInputBase-root-MuiOutlinedInput-root, .MuiOutlinedInput-root.MuiInputBase-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-xambc4-MuiInputBase-root-MuiOutlinedInput-root {
-  border-radius: 2rem;
-}
+
 
 .MuiOutlinedInput-root.MuiInputBase-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-o1fi3q-MuiInputBase-root-MuiOutlinedInput-root {
   padding-right: 1rem;
@@ -87,13 +85,22 @@ body {
 
 .MuiFormControl-root.MuiTextField-root.css-1u3bzj6-MuiFormControl-root-MuiTextField-root{
   width: 100%;
+  border-radius: 2rem;
 }
 
+//heading on calendar
 .css-1dozdou {
   background-color: $light-blue;
 }
 
+//search button
 .MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-sizeMedium.MuiButton-containedSizeMedium.MuiButtonBase-root.home-search-button.css-1d2a50z-MuiButtonBase-root-MuiButton-root {
   margin-top: 0.25rem;
   width: 80vw;
+  font-size: 1rem;
+}
+
+//text fields for dates and city
+.MuiOutlinedInput-notchedOutline.css-1d3z3hw-MuiOutlinedInput-notchedOutline{
+  border-radius: 2rem;
 }
