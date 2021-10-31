@@ -201,8 +201,8 @@ const Map = ({ zoom }) => {
   return (
     <div className="map">
       {!token && history.push("/login")}
-      <h2>{itinerary.name} Tripz</h2>
-      <h3>{start_date.toDateString()} to {end_date.toDateString()}</h3>
+      <h2 className="map-title">{itinerary.name}</h2>
+      <h3 className="map-dates">{start_date.toDateString()} to {end_date.toDateString()}</h3>
       {activities.length > 0 && 
       <GoogleMapReact
         bootstrapURLKeys={{
@@ -212,7 +212,6 @@ const Map = ({ zoom }) => {
         }}
         center={center}
         defaultZoom={zoom}
-        // onLoad={onLoad}
       >
         {markers}
       </GoogleMapReact>

@@ -31,19 +31,12 @@ function App() {
 
   useEffect(() => {
     const fetchData = () => {
-      /*       axios.get("http://localhost:8080/api/activities").then((response) => {
-        setEventData(response.data.act);
-        setLoading(false);
-      }); */
-      axios.get("http://localhost:8080/api/data").then((response) => {
-        setEventData(response.data);
-        setLoading(false);
-      });
+      setLoading(false);
     };
 
     const timer = setTimeout(() => {
       fetchData();
-    }, 1000);
+    }, 5000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -111,7 +104,7 @@ function App() {
                     <Itineraries trips={trips} />
                   </Route>
                   <Route exact path="/itinerary/:id/map">
-                    {!loading ? <Map eventData={eventData} /> : <Loader />}
+                    {loading ? <Loader /> : <Map />}
                   </Route>
                   <Route exact path="/itinerary/:id/chat">
                     <Chat />

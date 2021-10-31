@@ -1,17 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;600&display=swap');
+
 $light-yellow: #fffceb;
-$medium-yellow: #FFF399;
-$dark-yellow: #FFE733;
+$medium-yellow: #f7e34d;
+$dark-yellow: #ffee00;
 $light-blue: #DADEF0;
 $dark-blue: #657ABB;
+$font: 'Quicksand', sans-serif;
 
 body {
   background-color: $light-yellow;
+  font-family: $font;
+}
+
+.home-body{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5rem;
+}
+
+.home-logo{
+  width: 70vw;
 }
 
 .home-image{
   display: flex;
-  width: 50vw;
+  width: 70vw;
   height: auto;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  margin-top: 3rem;
+}
+
+.home-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-title{
+  display: flex;
+  justify-content: center;
+  font-family: $font;
+  margin-bottom: 1rem;
+  margin-top: 0;
+}
+
+.home-dates{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 80vw;
+  margin: 0.25rem;
+}
+
+#outlined.required{
+  width: 100vw;
+}
+
+.home-start-date, .home-end-date{
+  display: flex;
+  justify-content: center;
+  margin: 0.25rem;
+  border-radius: 1rem;
+  width: 80%
+}
+
+.home-activities-loading {
+  width: 30vw;
+  height: auto;
+  margin-top: 10rem;
+  margin-bottom: 2rem;
+}
+
+
+// ----------- MUI components ----------- 
+.MuiOutlinedInput-root.MuiInputBase-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.css-161nk7c-MuiInputBase-root-MuiOutlinedInput-root, .MuiOutlinedInput-root.MuiInputBase-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-xambc4-MuiInputBase-root-MuiOutlinedInput-root {
+  border-radius: 2rem;
+}
+
+.MuiOutlinedInput-root.MuiInputBase-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-o1fi3q-MuiInputBase-root-MuiOutlinedInput-root {
+  padding-right: 1rem;
+}
+
+.MuiFormControl-root.MuiTextField-root.css-1u3bzj6-MuiFormControl-root-MuiTextField-root{
+  width: 100%;
+}
+
+.css-1dozdou {
+  background-color: $light-blue;
+}
+
+.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-sizeMedium.MuiButton-containedSizeMedium.MuiButtonBase-root.home-search-button.css-1d2a50z-MuiButtonBase-root-MuiButton-root {
+  margin-top: 0.25rem;
+  width: 80vw;
 }
