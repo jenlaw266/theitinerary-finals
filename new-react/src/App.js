@@ -114,7 +114,7 @@ function App() {
                     {!loading ? <Map eventData={eventData} /> : <Loader />}
                   </Route>
                   <Route exact path="/itinerary/:id/chat">
-                    <Chat />
+                    <Chat username={token}/>
                   </Route>
                   <Route exact path="/itinerary/:id">
                     <Itinerary currentTrip={currentTrip} />

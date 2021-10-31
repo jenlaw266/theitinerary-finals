@@ -18,7 +18,7 @@ const Itinerary = ({ props }) => {
   const [activities, setActivities] = useState([]);
   // const [selectedActivityIds, setSelectedActivityIds] = useState({});
   // const [onlySelectedActivities, setOnlySelectedActivities] = useState([]);
-  const { currentTrip, setSelectedActivties } = useContext(DataContext);
+  const { currentTrip } = useContext(DataContext);
 
   // console.log("ITINERARY PAGE2 --> SELECTED ACTIVITIES", selectedActivities);
 
