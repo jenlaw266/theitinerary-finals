@@ -144,3 +144,14 @@ body {
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
+
+//card activity
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1.MuiCard-root.css-bhp9pd-MuiPaper-root-MuiCard-root{
+  border-radius: 2rem;
+}
+
+//card activity on hover
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1.MuiCard-root.css-bhp9pd-MuiPaper-root-MuiCard-root:hover{
+  box-shadow: 0.5rem 0.5rem $light-blue;
+  border-radius: 1rem;
+}
