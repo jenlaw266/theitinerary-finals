@@ -24,7 +24,6 @@ const Itineraries = ({ trips }) => {
     .map((itinerary) => {
       return (
         <ItineraryItem
-          className="itinerary-item"
           key={itinerary.id}
           id={itinerary.id}
           name={itinerary.name}
@@ -32,7 +31,7 @@ const Itineraries = ({ trips }) => {
           start_date={itinerary.start_date}
           end_date={itinerary.end_date}
         >
-          <Link to={`itinerary/${itinerary.id}`}>{itinerary.name}</Link>
+          <Link className="itinerary-link" to={`itinerary/${itinerary.id}`}>{itinerary.name}</Link>
         </ItineraryItem>
       );
     });
