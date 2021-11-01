@@ -1,9 +1,9 @@
-import axios from "axios";
 import React, { useState, useEffect, useContext } from "react";
 import io from 'socket.io-client';
 import LoginContext from "../context/LoginContext";
 import DataContext from "../context/DataContext";
-import './chat.css'
+import ScrollToBottom from "react-scroll-to-bottom";
+import './chat.scss'
 
 const socket = io('http://localhost:3001')
 
@@ -51,24 +51,44 @@ function Chat() {
 
   return (
     <div className="chat-window">
+      <div className="chat-header">
         <h1>{currentTrip.name} Chat</h1>
-      {chat.map((data, index)=>{
-        return(
-          <span className="message">{data.username}: {data.messages}</span>
-        )
-      })}
-      <div className="chat-footer">
-      <form onSubmit={sendMessage}>
-        <input type="text" name="message"
-        placeholder='Type message'
-        value={messages}
-        onChange={(e)=>{setMessages(e.target.value)}}
-        required
-        ></input>
-        <button type='submit'>Send</button>
-      </form>
-    </div>
       </div>
+      <div className="chat-body">
+        <ScrollToBottom className="message-container">
+        {chat.map((data, index)=>{
+            return(
+              <div
+              className="message"
+              id={username === data.username ? "you" : "other"}
+            >
+              <div>
+                <div className="message-content">
+                  <p>{data.messages}</p>
+                </div>
+                <div className="message-meta">
+                  <p id="author">{data.username}</p>
+                </div>
+              </div>
+            </div>
+              
+            )
+          })}
+        </ScrollToBottom>
+      </div>
+      <div className="chat-footer">
+        <form className="chat-form" onSubmit={sendMessage}>
+          <input type="text" name="message"
+          placeholder='Type message'
+          value={messages}
+          onChange={(e)=>{setMessages(e.target.value)}}
+          required
+          autoComplete="off"
+          ></input>
+          <button type='submit'>Send</button>
+        </form>
+      </div>
+    </div>
   );
 }
 
