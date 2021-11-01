@@ -21,7 +21,6 @@ const Home = ({ setCurrentTrip }) => {
   const [submit, setSubmit] = useState(false);
   const { setTrips, currentTrip } = useContext(DataContext);
   const [activities, setActivities] = useState([]);
-  // const [activityID, setActivityID] = useState([]);
   const { token } = useContext(LoginContext);
   const username = token ? token : "";
   const [loading, setLoading] = useState(false);
@@ -36,9 +35,7 @@ const Home = ({ setCurrentTrip }) => {
         end: end,
         username: username,
       }).then((response) => {
-        console.log("HOME", response);
         setActivities(response.act);
-        // setActivityID(response.selectedActivityIds)
         axios.get("http://localhost:8080/api/itineraries").then((response) => {
           const itins = response.data.itineraries;
           setTrips(itins);
@@ -63,9 +60,6 @@ const Home = ({ setCurrentTrip }) => {
       return data.json();
     });
   }
-
-  console.log("act", activities);
-  // console.log("act id", activityID);
 
   return (
     <div className="home-body">
@@ -113,10 +107,7 @@ const Home = ({ setCurrentTrip }) => {
         >
           search
         </Button>
-        {/* <img className="home-image" src={homeImage} alt="home-image" /> */}
       </form>
-      {/* {loading ? <img className="home-activities-loading" src={homeLoading} alt="home-activities-loading" /> : 
-      <img className="home-image" src={homeImage} alt="home-image" />} */}
       {submit ? (
         <Activities activities={activities} currentTrip={currentTrip} />
       ) : loading ? (

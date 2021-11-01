@@ -24,7 +24,6 @@ const Day = (props) => {
       })
       .then(async (response) => {
         const updated = await response.data.updateActivity;
-        console.log("updated", updated);
         props.setActivities((prev) => {
           return prev.map((activity, i) => {
             if (activity.id === updated.id) {
@@ -65,11 +64,15 @@ const Day = (props) => {
       );
     });
 
-    return <Typography>{activityCard}</Typography>;
+    return activityCard;
   };
 
   const dayTab = (all) => {
-    return all.map((each, id) => <Typography key={id}>{each.day}</Typography>);
+    return all.map((each, id) => (
+      <Typography key={id} variant="h4">
+        {each.day}
+      </Typography>
+    ));
   };
 
   return (
@@ -87,6 +90,7 @@ const Day = (props) => {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
           onClick={handleClick}
+          color="secondary"
         >
           Edit
         </Button>
