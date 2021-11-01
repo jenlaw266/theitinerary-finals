@@ -30,7 +30,7 @@ body {
   left: 30%;
   width: 6vw;
   align-self: flex-end;
-  animation-duration: 3s;
+  animation-duration: 4s;
   animation-iteration-count: 2;
   margin: 0 auto 0 auto;
   transform-origin: bottom;
@@ -39,10 +39,12 @@ body {
   @keyframes home-pin {
     0%   { transform: scale(1,1)    translateY(0); }
     10%  { transform: scale(1.1,.9) translateY(0); }
-    30%  { transform: scale(.9,1.1) translateY(-2rem); }
-    50%  { transform: scale(1,1)    translateY(0); }
-    57%  { transform: scale(1,1)    translateY(-0.5rem); }
-    64%  { transform: scale(1,1)    translateY(0); }
+    30%  { transform: scale(.9,1.1) translateY(-2.2rem); }
+    40%  { transform: scale(1,1)    translateY(0); }
+    50%  { transform: scale(.9,1.1)    translateY(-1rem); }
+    60%  { transform: scale(1,1)    translateY(0); }
+    75%  { transform: scale(.9,1.1)    translateY(-0.3rem); }
+    97%  { transform: scale(1,1)    translateY(0); }
     100% { transform: scale(1,1)    translateY(0); }
   }
 }

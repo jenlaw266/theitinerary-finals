@@ -111,6 +111,7 @@ const Itinerary = ({ props }) => {
 
   return (
     <div>
+      <h1 className="itinerary-title">Your {itinerary.name} Adventure</h1>
       {!token && history.push("/login")}
       {dayTab}
     </div>

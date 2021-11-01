@@ -7,6 +7,7 @@ import { useState } from "react";
 import DaysDropDown from "./DaysDropDown";
 import Button from "@mui/material/Button";
 import Activity from "./Activity";
+import "./Itinerary.scss";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;600&display=swap');
+
+$light-yellow: #fffceb;
+$medium-yellow: #f7e34d;
+$dark-yellow: #ffee00;
+$light-blue: #DADEF0;
+$dark-blue: #657ABB;
+$font: 'Quicksand', sans-serif;
+
+body {
+  background-color: $light-yellow;
+  font-family: $font;
+}
+
+.itinerary-title{
+  font-weight: 600;
+  font-size: 2rem;
+}
+
+//day tab title
+.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.Mui-selected.css-16juort-MuiButtonBase-root-MuiTab-root{
+  color: $dark-blue;
+  font-size: 1.5rem;
+}
+
+//edit button
+.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButtonBase-root.css-mo7p32-MuiButtonBase-root-MuiButton-root{
+  color: $dark-blue
+}
+
+//edit button hover
+.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButtonBase-root.css-mo7p32-MuiButtonBase-root-MuiButton-root:hover{
+  font-weight: 600;
+  background-color: $dark-yellow;
+}
+
+//edit options on hover
+.MuiMenuItem-root.MuiMenuItem-gutters.MuiButtonBase-root.css-e67epo-MuiButtonBase-root-MuiMenuItem-root:hover{
+  background-color: $dark-blue;
+  color: white
+}

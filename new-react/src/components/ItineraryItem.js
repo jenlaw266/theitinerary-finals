@@ -30,6 +30,9 @@ const ItineraryItem = (props) => {
 
   const start_date = new Date(props.start_date)
   const end_date = new Date(props.end_date)
+  const archived_start = start_date - new Date();
+  const archived_end = end_date - new Date();
+
 
   return (
     <div>
@@ -43,6 +46,7 @@ const ItineraryItem = (props) => {
             />
           }
           title={props.children}
+          subheader={archived_end > 0 ? (archived_start > 0 ? "TRIP COMING UP..." : "CURRENT TRIP!") : "PAST ADVENTURE"}
           // subheader={props.completed ? "Archived" : "Current"}
         />
 
