@@ -9,6 +9,7 @@ import { useHistory } from "react-router-dom";
 import LoginContext from "../context/LoginContext";
 import DataContext from "../context/DataContext";
 
+const REACT_APP_API_KEY = process.env.REACT_APP_API_KEY;
 
 const Map = ({ zoom }) => {
   const [locationInfo, setLocationInfo] = useState(null);
@@ -206,9 +207,8 @@ const Map = ({ zoom }) => {
       {activities.length > 0 && 
       <GoogleMapReact
         bootstrapURLKeys={{
-          key:
-            // process.env.REACT_GOOGLE_MAP_API
-            "AIzaSyBTwu8B2_jxWotAM4c_9uEJJJoTmiBE7Aw",
+          key: REACT_APP_API_KEY
+            // "AIzaSyBTwu8B2_jxWotAM4c_9uEJJJoTmiBE7Aw",
         }}
         center={center}
         defaultZoom={zoom}

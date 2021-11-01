@@ -28,6 +28,9 @@ const ItineraryItem = (props) => {
       });
   }
 
+  const start_date = new Date(props.start_date)
+  const end_date = new Date(props.end_date)
+
   return (
     <div>
       <Card>
@@ -40,12 +43,12 @@ const ItineraryItem = (props) => {
             />
           }
           title={props.children}
-          subheader={props.completed ? "Archived" : "Current"}
+          // subheader={props.completed ? "Archived" : "Current"}
         />
 
         <CardContent>
           <Typography>
-            Date: {props.start_date} to {props.end_date}
+            {start_date.toDateString()} to {end_date.toDateString()}
           </Typography>
           <CardActions disableSpacing>
             <IconButton

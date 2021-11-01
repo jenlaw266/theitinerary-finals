@@ -99,12 +99,12 @@ const Activities = (props) => {
       </Grid>
       {activityCard && (
         <Button
-          variant="outlined"
+          variant="contained"
           onClick={postSelectedActivities}
           // component={Link}
           // to={`itinerary/${id}`}
         >
-          Itinerary
+          create your itinerary
         </Button>
       )}
     </Container>
