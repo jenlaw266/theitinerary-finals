@@ -42,7 +42,7 @@ function DaysCheckbox(props) {
 
   return (
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-      {props.daysList.map((value) => {
+      {props.daysList.slice(0).reverse().map((value) => {
         const labelId = `checkbox-list-label-${value}`;
         // {console.log(props.dayProperties)}
         return (

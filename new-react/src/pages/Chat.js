@@ -1,37 +1,95 @@
-import { useEffect, useState, useContext } from "react";
-import io from "socket.io-client";
-import Messages from "../components/Chat/Messages";
-import MessageInput from "../components/Chat/MessageInput";
+import React, { useState, useEffect, useContext } from "react";
+import io from 'socket.io-client';
 import LoginContext from "../context/LoginContext";
-import { useHistory } from "react-router-dom";
 import DataContext from "../context/DataContext";
+import ScrollToBottom from "react-scroll-to-bottom";
+import './chat.scss'
 
-import "../components/Chat/chatbox.css";
+const socket = io('http://localhost:3001')
 
-export default function Chat() {
-  const [socket, setSocket] = useState(null);
+function Chat() {
+  const [messages, setMessages] = useState('')
+  const [chat, setChat] = useState([])
   const { token } = useContext(LoginContext);
-  const history = useHistory();
   const { currentTrip } = useContext(DataContext);
 
   useEffect(() => {
-    const newSocket = io(`http://${window.location.hostname}:3001`);
-    setSocket(newSocket);
-    return () => newSocket.close();
-  }, [setSocket]);
+    getMessages().then((data) => {
+      setChat(data.message)
+    });
+  }, []);
+
+  console.log('chat', chat)
+
+  async function getMessages(id) {
+    return fetch(`http://localhost:8080/api/chat`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((data) => {
+      return data.json();
+    });
+  }
+
+  useEffect(() => {
+    socket.on('connection', message => {
+      setChat([...chat, message])
+    })
+
+    socket.on('message', data => {
+      setChat([...chat, data])
+    })
+  })
+  const username = token
+
+  const sendMessage = (e) => {
+    e.preventDefault();
+    socket.emit('message', {username, messages})
+    setMessages('')
+  };
 
   return (
-    <div>
-      {!token && history.push("/login")}
-      <header className="app-header">{currentTrip?.name} Trip</header>
-      {socket ? (
-        <div className="chat-container">
-          <Messages socket={socket} />
-          <MessageInput socket={socket} />
-        </div>
-      ) : (
-        <div>Not Connected</div>
-      )}
+    <div className="chat-window">
+      <div className="chat-header">
+        <h1>{currentTrip.name} Chat</h1>
+      </div>
+      <div className="chat-body">
+        <ScrollToBottom className="message-container">
+        {chat.map((data, index)=>{
+            return(
+              <div
+              className="message"
+              id={username === data.username ? "you" : "other"}
+            >
+              <div>
+                <div className="message-content">
+                  <p>{data.messages}</p>
+                </div>
+                <div className="message-meta">
+                  <p id="author">{data.username}</p>
+                </div>
+              </div>
+            </div>
+              
+            )
+          })}
+        </ScrollToBottom>
+      </div>
+      <div className="chat-footer">
+        <form className="chat-form" onSubmit={sendMessage}>
+          <input type="text" name="message"
+          placeholder='Type message'
+          value={messages}
+          onChange={(e)=>{setMessages(e.target.value)}}
+          required
+          autoComplete="off"
+          ></input>
+          <button type='submit'>Send</button>
+        </form>
+      </div>
     </div>
   );
 }
+
+export default Chat;

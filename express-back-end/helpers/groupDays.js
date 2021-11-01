@@ -71,8 +71,7 @@ const updateDays = async function (db, activities, days) {
       names.push(name.name);
     }
     
-    for (const name of names) {
-      console.log(typeof name)
+    for (const name of names) { 
       await db.query(`UPDATE activities SET day_id = $1 
                       WHERE name = $2 RETURNING *`, 
                       [days[i].id, name])
