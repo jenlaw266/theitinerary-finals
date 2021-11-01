@@ -15,12 +15,9 @@ const Activity = (props) => {
     <div>
       <Card>
         <CardHeader
-          action={<Checkbox 
-          checked={isChecked}
-          onChange={() => {
-            toggleSelectedActivityId()
-          }}
-          />}
+          action={
+            <Checkbox checked={isChecked} onChange={toggleSelectedActivityId} />
+          }
           title={props.name}
           subheader={props.location}
         />

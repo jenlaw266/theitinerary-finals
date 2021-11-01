@@ -19,6 +19,3 @@ const addAltDay = async function (db, day, itineraryID) {
 };
 
 module.exports = addAltDay;
-
-// {id: 2, day: 'Day 1 Alt 1', day_type_id: 2, itinerary_id: 1}
-//props: id, day, itinerary_id

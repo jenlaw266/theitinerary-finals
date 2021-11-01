@@ -14,12 +14,12 @@ import homeLogo from "../images/theitineraryfat.png";
 import homeLoading from "../images/loading1.gif";
 import "../components/Home.scss";
 
-const Home = ({ currentTrip, setCurrentTrip }) => {
+const Home = ({ setCurrentTrip }) => {
   const [city, setCity] = useState(null);
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
   const [submit, setSubmit] = useState(false);
-  const { setTrips } = useContext(DataContext);
+  const { setTrips, currentTrip } = useContext(DataContext);
   const [activities, setActivities] = useState([]);
   // const [activityID, setActivityID] = useState([]);
   const { token } = useContext(LoginContext);
@@ -36,7 +36,7 @@ const Home = ({ currentTrip, setCurrentTrip }) => {
         end: end,
         username: username,
       }).then((response) => {
-        console.log("HOME", response)
+        console.log("HOME", response);
         setActivities(response.act);
         // setActivityID(response.selectedActivityIds)
         axios.get("http://localhost:8080/api/itineraries").then((response) => {
@@ -66,8 +66,7 @@ const Home = ({ currentTrip, setCurrentTrip }) => {
 
   console.log("act", activities);
   // console.log("act id", activityID);
-  // console.log("selectedActivties", selectedActivities)
-  
+
   return (
     <div className="home-body">
       <img className="home-logo" src={homeLogo} alt="home-logo" />
@@ -103,19 +102,32 @@ const Home = ({ currentTrip, setCurrentTrip }) => {
             </div>
           </LocalizationProvider>
         </div>
-        <Button variant="contained" type="submit" className="home-search-button" sx={{ 
-          borderRadius: '2rem',
-          color:'theme.palette.primary.dark' }}>
+        <Button
+          variant="contained"
+          type="submit"
+          className="home-search-button"
+          sx={{
+            borderRadius: "2rem",
+            color: "theme.palette.primary.dark",
+          }}
+        >
           search
         </Button>
         {/* <img className="home-image" src={homeImage} alt="home-image" /> */}
       </form>
       {/* {loading ? <img className="home-activities-loading" src={homeLoading} alt="home-activities-loading" /> : 
       <img className="home-image" src={homeImage} alt="home-image" />} */}
-      {submit ? 
-      (<Activities activities={activities} currentTrip={currentTrip}/>) : (loading ? <img className="home-activities-loading" src={homeLoading} alt="home-activities-loading" /> : 
-      <img className="home-image" src={homeImage} alt="home-image" />)
-      }
+      {submit ? (
+        <Activities activities={activities} currentTrip={currentTrip} />
+      ) : loading ? (
+        <img
+          className="home-activities-loading"
+          src={homeLoading}
+          alt="home-activities-loading"
+        />
+      ) : (
+        <img className="home-image" src={homeImage} alt="home-image" />
+      )}
     </div>
   );
 };
