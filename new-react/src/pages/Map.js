@@ -8,6 +8,7 @@ import DaysCheckbox from "../components/Map/Checkbox";
 import { useHistory } from "react-router-dom";
 import LoginContext from "../context/LoginContext";
 import DataContext from "../context/DataContext";
+import "../components/Map/Map.scss"
 
 const REACT_APP_API_KEY = process.env.REACT_APP_API_KEY;
 
