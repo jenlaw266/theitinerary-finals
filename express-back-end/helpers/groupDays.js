@@ -1,37 +1,3 @@
-// function averageCenter(coords) {
-//   if (coords.length === 1) {
-//     return coords[0];
-//   }
-
-//   let x = 0.0;
-//   let y = 0.0;
-//   let z = 0.0;
-
-//   for (let coord of coords) {
-//     let latitude = coord.lat * Math.PI / 180;
-//     let longitude = coord.long * Math.PI / 180;
-
-//     x += Math.cos(latitude) * Math.cos(longitude);
-//     y += Math.cos(latitude) * Math.sin(longitude);
-//     z += Math.sin(latitude);
-//   }
-
-//   let total = coords.length;
-
-//   x = x / total;
-//   y = y / total;
-//   z = z / total;
-
-//   let centralLongitude = Math.atan2(y, x);
-//   let centralSquareRoot = Math.sqrt(x * x + y * y);
-//   let centralLatitude = Math.atan2(z, centralSquareRoot);
-
-//   return {
-//     lat: centralLatitude * 180 / Math.PI,
-//     long: centralLongitude * 180 / Math.PI
-//   };
-// }
-
 function deg2rad(deg) {
   return deg * (Math.PI / 180)
 };
@@ -48,15 +14,6 @@ const getDistanceFromLatLongInKM = (lat1, long1, lat2, long2) => {
    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
    const d = R * c; // Distance in km
    return d;
-};
-
-const getMaxDistance = (arr, perDay) => {
-  const copy = arr.slice();
-  for(let i = 0; i < perDay - 2; i++){
-     const minIndex = copy.indexOf(Math.min(...copy));
-     copy.splice(minIndex, 1);
-  };
-  return Math.min(...copy);
 };
 
 const groupActivities = (activities, days) => {
@@ -105,4 +62,21 @@ const groupActivities = (activities, days) => {
   return dayGroups;
 };
 
-module.exports = groupActivities;
+const updateDays = async function (db, activities, days) {
+  const actDays = groupActivities(activities, days);
+  for (let i = 0; i < actDays.length; i++) {
+    const names = []
+    names.push(actDays[i].name)
+    for (const name of actDays[i].group) {
+      names.push(name.name);
+    }
+    
+    for (const name of names) { 
+      await db.query(`UPDATE activities SET day_id = $1 
+                      WHERE name = $2 RETURNING *`, 
+                      [days[i].id, name])
+    }
+  }
+};
+
+module.exports = updateDays;

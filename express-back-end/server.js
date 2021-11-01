@@ -12,7 +12,6 @@ db.connect();
 
 const getName = require("./queries/itineraries");
 const login = require("./routes/login");
-// const getActivityId = require('./queries/getActivityId')
 const getMembers = require("./routes/getMembers");
 const addMember = require("./routes/addMember");
 const deleteMember = require("./routes/deleteMember");
@@ -31,6 +30,8 @@ const getImage = require("./routes/getImage");
 const deleteDays = require("./queries/deleteDay");
 const addAltDay = require("./queries/addAltDay");
 const updateActivityDayID = require("./queries/updateActivityDayID");
+const updateDays = require("./helpers/groupDays");
+const retrieveMessages = require("./routes/retrieveMessages");
 
 // Express Configuration
 App.use(
@@ -50,12 +51,9 @@ App.use("/api/create/activities", async function (req, res) {
   const actObj = await createActivities(db, body);
   const activities = await getImage(db, actObj);
 
-  // const activity_id = await getActivityId(db, activities[0].itinerary_id);
-
   res.json({
     message: "Success, able to get data from api",
     act: activities,
-    // id: activity_id,
   });
 });
 
@@ -78,6 +76,7 @@ App.use("/api/itinerary/:id", async function (req, res) {
   const activities = await getActivitiesForItinerary(db, id);
   const allActivities = await getNonSelectedActivities(db, id);
   const days = await getDays(db, id);
+  console.log("days itin id", days);
   const itinerary = await getItinerary(db, id);
   // console.log("data", itinerary, days, activities);
   // res.json(Promise.all([activities, allActivities, days, itinerary ]));
@@ -85,9 +84,11 @@ App.use("/api/itinerary/:id", async function (req, res) {
 });
 
 App.use("/api/itinerary", async function (req, res) {
-  console.log("SERVER FILE", req.body);
   const { id, currentSelected } = req.body;
-
+  const days = await getDays(db, id);
+  console.log("days, itinerary", days);
+  const activities = await getActivities(db, currentSelected);
+  updateDays(db, activities, days);
   await updateSelectedActivities(db, id, currentSelected);
   res.send("success posted to db");
 });
@@ -97,8 +98,7 @@ App.use("/api/itinerary/:id/map", async function (req, res) {
   const activities = await getActivitiesForItinerary(db, id);
   const days = await getDays(db, id);
   const itinerary = await getItinerary(db, id);
-  console.log("data from map page", itinerary, days, activities);
-  console.log("data from map page id", id);
+
   res.json({ itinerary, days, activities });
 });
 
@@ -131,13 +131,10 @@ App.use("/api/member/add", async function (req, res) {
 });
 
 App.use("/api/member/delete", async function (req, res) {
-  console.log("req", req.body);
   const username = req.body.username;
   const itineraryID = req.body.id;
-  console.log("itin", itineraryID);
   await deleteMember(db, username, itineraryID);
   const members = await getMembers(db, itineraryID);
-  console.log(members);
   res.json({
     members: members,
   });
@@ -150,6 +147,13 @@ App.use("/api/days/add", async function (req, res) {
     const newDay = await addAltDay(db, day, itineraryID);
     res.status(200).send(newDay);
   }
+});
+
+App.get("/api/chat", async function (req, res) {
+  const message = await retrieveMessages(db);
+  res.json({
+    message: message,
+  });
 });
 
 App.delete("/api/days/:id", async function (req, res) {

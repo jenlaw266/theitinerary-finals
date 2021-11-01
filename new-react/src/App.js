@@ -28,6 +28,18 @@ function App() {
   });
 
   useEffect(() => {
+    const fetchData = () => {
+      setLoading(false);
+    };
+
+    const timer = setTimeout(() => {
+      fetchData();
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
     axios.get("http://localhost:8080/api/itineraries").then((response) => {
       const itins = response.data.itineraries;
       setTrips(itins);
@@ -88,10 +100,10 @@ function App() {
                     <Itineraries trips={trips} />
                   </Route>
                   <Route exact path="/itinerary/:id/map">
-                    {!loading ? <Map /> : <Loader />}
+                    {loading ? <Loader /> : <Map />}
                   </Route>
                   <Route exact path="/itinerary/:id/chat">
-                    <Chat />
+                    <Chat username={token} />
                   </Route>
                   <Route exact path="/itinerary/:id">
                     <Itinerary />
