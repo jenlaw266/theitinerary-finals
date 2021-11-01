@@ -159,10 +159,14 @@ App.delete("/api/days/:id", async function (req, res) {
 });
 
 App.post("/api/activities/update", async function (req, res) {
-  const { id, heart, theDayId } = req.body;
-  console.log("backend", id, heart, theDayId);
-  const updateActivity = await updateActivityDayID(db, id, heart, theDayId);
-  res.status(200).send(updateActivity);
+  const { id, heart, dayId, itinId } = req.body;
+  console.log("backend", id, heart, dayId);
+  const updateActivity = await updateActivityDayID(db, heart, id, dayId);
+  const allActivities = await getNonSelectedActivities(db, itinId);
+  console.log("updateActivity", updateActivity.rows[0]);
+  res
+    .status(200)
+    .send({ updateActivity: updateActivity.rows[0], allActivities });
 });
 
 App.listen(PORT, () => {

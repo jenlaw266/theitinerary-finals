@@ -22,7 +22,6 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [trips, setTrips] = useState([]);
   const [currentTrip, setCurrentTrip] = useState();
-  const [selectedActivities, setSelectedActivities] = useState([]);
 
   const [state, setState] = useState({
     message: "",
@@ -83,8 +82,6 @@ function App() {
                   value={{
                     setTrips,
                     currentTrip,
-                    selectedActivities,
-                    setSelectedActivities,
                   }}
                 >
                   <Route path="/itineraries">

@@ -59,7 +59,6 @@ const Home = ({ setCurrentTrip }) => {
 
   console.log("act", activities);
   // console.log("act id", activityID);
-  // console.log("selectedActivties", selectedActivities)
 
   return (
     <div>

@@ -2,10 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
 import LoginContext from "../context/LoginContext";
-import Days from "../components/Days";
+import Day from "../components/Day";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import DataContext from "../context/DataContext";
 
 const Itinerary = ({ props }) => {
   //take the :id from url
@@ -15,22 +14,18 @@ const Itinerary = ({ props }) => {
   const [itinerary, setItinerary] = useState({});
   const [days, setDays] = useState([]);
   const [activities, setActivities] = useState([]);
-  const [allActivities, setAllActivities] = useState([]);
+  const [allNonSelectedActivities, setAllNonSelectedActivities] = useState([]);
   // const [selectedActivityIds, setSelectedActivityIds] = useState({});
   // const [onlySelectedActivities, setOnlySelectedActivities] = useState([]);
-  const { currentTrip, setSelectedActivties } = useContext(DataContext);
-
-  // console.log("ITINERARY PAGE2 --> SELECTED ACTIVITIES", selectedActivities);
 
   useEffect(() => {
     getData(params.id).then((data) => {
       console.log("data that front end got back", data);
-      // console.log("data ONLYselectedActivities", data.onlySelectedActivities);
       setActivities(data.activities);
       // setSelectedActivityIds(data.selectedActivityIds);
       setItinerary(data.itinerary);
       setDays(data.days);
-      setAllActivities(data.allActivities);
+      setAllNonSelectedActivities(data.allActivities);
       // setOnlySelectedActivities(data.onlySelectedActivities); */
     });
   }, [params.id]);
@@ -48,11 +43,9 @@ const Itinerary = ({ props }) => {
     });
   }
 
-  console.log("current trip", currentTrip);
-  console.log("days", days);
-  console.log("itin", itinerary);
-  console.log("act", activities);
-  // console.log("onlySelectedActivities", onlySelectedActivities);
+  // console.log("days", days);
+  // console.log("itin", itinerary);
+  // console.log("act", activities);
 
   const primaryDays = days.filter((day) => day.day_type_id === 1);
   // console.log("primaryDays from itinerary", primaryDays)
@@ -71,26 +64,22 @@ const Itinerary = ({ props }) => {
     });
 
     const allOptions = [day].concat(alt);
-    console.log("day.day", day.day, day.id);
-    console.log("allOptions", allOptions);
-    const dayActivities = activities.filter(
-      // (activity) => activity.day_id === Number(day.day.split(" ")[1])
-      (activity) => activity.day_id === Number(day.id)
-    );
 
-    console.log("activities", activities);
-    console.log("dayActivities", dayActivities);
+    // console.log("allOptions", allOptions);
+
+    // console.log("dayActivities", dayActivities);
     return (
-      <Days
+      <Day
         key={id}
         itineraryId={params.id}
         allOptions={allOptions}
-        dayActivities={dayActivities}
-        allActivities={allActivities}
+        allNonSelectedActivities={allNonSelectedActivities}
+        setAllNonSelectedActivities={setAllNonSelectedActivities}
         setActivities={setActivities}
+        activities={activities}
         days={days}
         setDays={setDays}
-      ></Days>
+      ></Day>
     );
   });
 

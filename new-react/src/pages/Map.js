@@ -9,13 +9,12 @@ import { useHistory } from "react-router-dom";
 import LoginContext from "../context/LoginContext";
 import DataContext from "../context/DataContext";
 
-
 const Map = ({ zoom }) => {
   const [locationInfo, setLocationInfo] = useState(null);
   const [filteredDays, setFilteredDays] = useState([]);
   const history = useHistory();
   const { token } = useContext(LoginContext);
-  const { currentTrip, selectedActivities } = useContext(DataContext);
+  const { currentTrip } = useContext(DataContext);
   const [dayProperties, setDayProperties] = useState([]);
   const [markers, setMarkers] = useState(null);
 
@@ -27,9 +26,7 @@ const Map = ({ zoom }) => {
   const [daysList, setDaysList] = useState([]);
   const [show, setShow] = useState(daysList);
 
-  const [center, setCenter] = useState({ lat: 49.2827, lng: -123.1207 })
-
-
+  const [center, setCenter] = useState({ lat: 49.2827, lng: -123.1207 });
 
   //----------------------- USE EFFECT 1
   useEffect(() => {
@@ -75,9 +72,8 @@ const Map = ({ zoom }) => {
     setShow(daysArray);
     // console.log("--- USE EFFECT 2 ---", {daysArray, daysList})
   }, [activities]);
-  
-  // console.log("OUTSIDE USEEFFECT", {daysList, show})
 
+  // console.log("OUTSIDE USEEFFECT", {daysList, show})
 
   console.log("OUTSIDE USEEFFECT", { daysList, show });
 
@@ -110,7 +106,7 @@ const Map = ({ zoom }) => {
   }, [daysList, days]);
 
   // console.log("OUTSIDE USEEFFECT - dayProperties", dayProperties)
-  
+
   const handleCallback = (childData) => {
     setShow(childData); // childData = ["day1", "day2", "day3", "day4"]
   };
@@ -135,8 +131,6 @@ const Map = ({ zoom }) => {
   // console.log("OUTSIDE USEEFFECT - show", show)
   // console.log("OUTSIDE USEEFFECT - filteredDays", filteredDays)
 
-
-
   //----------------------- USE EFFECT 5
   //show only the markers that are enabled on checkbox
   useEffect(() => {
@@ -147,7 +141,9 @@ const Map = ({ zoom }) => {
       filteredDays.map((activity) => {
         const dayNameFromEvent = activity.day_id;
 
-        const assignedColor = !dayProperties ? "000000" : dayProperties[dayNameFromEvent].color;
+        const assignedColor = !dayProperties
+          ? "000000"
+          : dayProperties[dayNameFromEvent].color;
 
         return (
           <LocationMarker
@@ -171,8 +167,6 @@ const Map = ({ zoom }) => {
   const start_date = new Date(itinerary.start_date);
   const end_date = new Date(itinerary.end_date);
 
-
-  
   //----------------------- USE EFFECT 6
   useEffect(() => {
     let centerLat = 0;
@@ -185,42 +179,35 @@ const Map = ({ zoom }) => {
       activitiesLength++;
     }
 
-    centerLat = centerLat/activitiesLength;
-    centerLong = centerLong/activitiesLength;
-    setCenter({lat: centerLat, lng: centerLong});
+    centerLat = centerLat / activitiesLength;
+    centerLong = centerLong / activitiesLength;
+    setCenter({ lat: centerLat, lng: centerLong });
     // console.log("--- USE EFFECT 6 --- centerlat", centerLat, typeof centerLat)
     // console.log("--- USE EFFECT 6 --- centerlong", centerLong, typeof centerLong)
     // console.log("--- USE EFFECT 6 --- center", center)
-
-  }, [activities])
-
-
+  }, [activities]);
 
   return (
     <div className="map">
       {!token && history.push("/login")}
       <h2>{itinerary.name} Tripz</h2>
-<<<<<<< HEAD
       <h3>
         {start_date.toDateString()} to {end_date.toDateString()}
       </h3>
-=======
-      <h3>{start_date.toDateString()} to {end_date.toDateString()}</h3>
-      {activities.length > 0 && 
->>>>>>> 6022e7419db5b60f304ab854f8988e609cb3d9eb
-      <GoogleMapReact
-        bootstrapURLKeys={{
-          key:
-            // process.env.REACT_GOOGLE_MAP_API
-            "AIzaSyBTwu8B2_jxWotAM4c_9uEJJJoTmiBE7Aw",
-        }}
-        center={center}
-        defaultZoom={zoom}
-        // onLoad={onLoad}
-      >
-        {markers}
-      </GoogleMapReact>
-      }
+      {activities.length > 0 && (
+        <GoogleMapReact
+          bootstrapURLKeys={{
+            key:
+              // process.env.REACT_GOOGLE_MAP_API
+              "AIzaSyBTwu8B2_jxWotAM4c_9uEJJJoTmiBE7Aw",
+          }}
+          center={center}
+          defaultZoom={zoom}
+          // onLoad={onLoad}
+        >
+          {markers}
+        </GoogleMapReact>
+      )}
       {locationInfo && <LocationInfoBox info={locationInfo} />}
       {Object.keys(dayProperties).length > 0 && (
         <DaysCheckbox
@@ -233,11 +220,6 @@ const Map = ({ zoom }) => {
   );
 };
 
-<<<<<<< HEAD
-//need to swwap out the center default to average center from all points.
-=======
-
->>>>>>> 6022e7419db5b60f304ab854f8988e609cb3d9eb
 Map.defaultProps = {
   zoom: 12,
 };

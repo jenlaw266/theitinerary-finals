@@ -13,18 +13,15 @@ const Activities = (props) => {
   const originalActivities = props.activities;
   const id = props.currentTrip?.id;
   const history = useHistory();
-  const { selectedActivities, setSelectedActivities } = useContext(DataContext);
   const [currentSelected, setCurrentSelected] = useState([]);
   // console.log("ORIGINAL ACTIVITIES", originalActivities)
   // const fakeActivities = originalActivities.map((act, index) => {
   //   return {...act, id: index}
   // });
-  console.log("ITINERARY PAGE --> SELECTED ACTIVITIES", selectedActivities);
 
   //add selected activties
   const addToSelectedActivities = (activityId) => {
     setCurrentSelected((prev) => [...prev, activityId]);
-    setSelectedActivities((prev) => [...prev, activityId]);
   };
 
   const filterActivities = (activityArray, activityId) => {
@@ -35,18 +32,10 @@ const Activities = (props) => {
 
   //remove from selecyed activities if user unselects.
   const removeFromSelectedActivities = (activityId) => {
-    const updatedSelectedActivities = filterActivities(
-      selectedActivities,
-      activityId
-    );
     setCurrentSelected(filterActivities(currentSelected, activityId));
-    setSelectedActivities(updatedSelectedActivities);
   };
 
-  /*********************************************/
-  /////////////search db for selsected activities?
   const activityAlreadySelected = (activityId) =>
-    selectedActivities.includes(activityId) ||
     currentSelected.includes(activityId);
 
   const toggleSelectedActivityId = (activityId) => {
@@ -57,8 +46,6 @@ const Activities = (props) => {
 
     return addToSelectedActivities(activityId);
   };
-
-  console.log("selectedACtivitiesID", selectedActivities);
 
   const postSelectedActivities = () => {
     //post to backend
@@ -83,7 +70,6 @@ const Activities = (props) => {
           img={act.image}
           address={act.address}
           heart={act.heart}
-          selectedActivities={selectedActivities}
           toggleSelectedActivityId={() => {
             toggleSelectedActivityId(act.id);
             // console.log("FROM ACTIVITIES", act)
