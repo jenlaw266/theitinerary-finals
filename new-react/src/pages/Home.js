@@ -14,7 +14,7 @@ import homeLogo from "../images/theitineraryfat.png";
 import homeLoading from "../images/loading1.gif";
 import "../components/Home.scss";
 
-const Home = ({ currentTrip, setCurrentTrip }) => {
+const Home = ({ setCurrentTrip }) => {
   const [city, setCity] = useState(null);
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
