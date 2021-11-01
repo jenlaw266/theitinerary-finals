@@ -4,16 +4,12 @@ import MenuList from "@mui/material/MenuList";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Menu from "@mui/material/Menu";
 import axios from "axios";
-import { CSSTransition } from "react-transition-group";
 import { useContext } from "react";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import DataContext from "../context/DataContext";
+import KitesurfingIcon from "@mui/icons-material/Kitesurfing";
 
 export default function IconMenu({
   setAnchorEl,
@@ -24,7 +20,6 @@ export default function IconMenu({
   setActivities,
 }) {
   const { currentTrip } = useContext(DataContext);
-  console.log("currentTrip dropdown", currentTrip);
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -46,7 +41,6 @@ export default function IconMenu({
       .then((response) => {
         const newActivity = response.data.updateActivity;
         const allActivities = response.data.allActivities;
-        console.log("update front end", newActivity);
         setActivities((prev) => [...prev, newActivity]);
         setAllNonSelectedActivities(allActivities);
       });
@@ -78,7 +72,7 @@ export default function IconMenu({
           <MenuList>
             <MenuItem>
               <ListItemIcon>
-                <ArrowForwardIosIcon fontSize="small" />
+                <KitesurfingIcon fontSize="small" />
               </ListItemIcon>
               <ListItemText>Activities</ListItemText>
             </MenuItem>
