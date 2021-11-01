@@ -24,6 +24,7 @@ const Itineraries = ({ trips }) => {
     .map((itinerary) => {
       return (
         <ItineraryItem
+          className="itinerary-item"
           key={itinerary.id}
           id={itinerary.id}
           name={itinerary.name}
