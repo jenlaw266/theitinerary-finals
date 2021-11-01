@@ -7,7 +7,7 @@ import DaysDropDown from "../DaysDropDown";
 import Button from "@mui/material/Button";
 import Activity from "../Activity";
 import axios from "axios";
-import DayTab from "../DayTitle";
+import DayTab from "./DayTab";
 import Tab from "@mui/material/Tab";
 
 function TabPanel(props) {
