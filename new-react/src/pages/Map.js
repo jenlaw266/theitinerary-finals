@@ -166,13 +166,10 @@ const Map = ({ zoom }) => {
   return (
     <div className="map">
       {!token && history.push("/login")}
-<<<<<<< HEAD
       <h2>{itinerary.name} Trips</h2>
       <h3>{start_date.toDateString()} to {end_date.toDateString()}</h3>
-=======
       <h2 className="map-title">{itinerary.name}</h2>
       <h3 className="map-dates">{start_date.toDateString()} to {end_date.toDateString()}</h3>
->>>>>>> 5250ffc5b30b9b719e79c6f2079d2d289a11b3b8
       {activities.length > 0 && 
       <GoogleMapReact
         bootstrapURLKeys={{
