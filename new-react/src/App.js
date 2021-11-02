@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
 import Nav from "./components/Nav";
 import Home from "./pages/Home";
-import { Router, Switch, useLocation } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 import Itinerary from "./pages/Itinerary";
 import Itineraries from "./pages/Itineraries";
 import Layout from "./components/Layout";
@@ -60,7 +60,7 @@ function App() {
   };
 
   return (
-    <Router>
+    <Route>
       <AnimatePresence>
         <Box sx={{ display: "flex" }}>
           <LoginContext.Provider value={{ token, loading, currentTrip }}>
@@ -110,7 +110,7 @@ function App() {
           </LoginContext.Provider>
         </Box>
       </AnimatePresence>
-    </Router>
+    </Route>
   );
 }
 

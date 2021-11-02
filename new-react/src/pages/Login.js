@@ -9,7 +9,6 @@ import { motion } from "framer-motion";
 import { animationPages } from "../animations/index.js"
 import "../styles/login.scss";
 import loginImage from "../images/loading2.gif";
-import { motion } from "framer-motion";
 
 const containerVariants = {
   hidden: {
