@@ -13,9 +13,11 @@ $font: 'Quicksand', sans-serif;
   flex-direction: column;
   margin: auto;
   width: 70vw;
+  height: 80vh;
 }
 
 .chat-header {
+  margin-top: 5rem;
   width: 70vw;
   height: 3rem;
   border-radius: 1rem 1rem 0 0;
@@ -32,22 +34,14 @@ $font: 'Quicksand', sans-serif;
 
 }
 
-// .chat-header p {
-//   display: block;
-//   padding: 0 1em 0 2em;
-//   color: #fff;
-//   font-weight: 300;
-//   // line-height: 45px;
-// }
-
 .chat-body {
   width: 70vw;
-  height: 60vh;
   border: 1px solid #263238;
   background: #fff;
   border-top-color: $light-blue;
   position: relative;
 }
+
 .chat-body .message-container {
   width: 100%;
   height: 100%;

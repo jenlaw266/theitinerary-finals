@@ -3,6 +3,8 @@ import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
 import LoginContext from "../context/LoginContext";
 import Day from "../components/Day";
+import { motion } from "framer-motion";
+import { animationPages } from "../animations/index.js"
 
 const Itinerary = ({ props }) => {
   //take the :id from url
@@ -68,11 +70,14 @@ const Itinerary = ({ props }) => {
   });
 
   return (
-    <div>
-      <h1 className="itinerary-title">Your {itinerary.name} Adventure</h1>
-      {!token && history.push("/login")}
-      {dayTab}
-    </div>
+    <motion.div initial="out" animate="end" exit="out" variants={animationPages}>
+      <div>
+        <h1 className="itinerary-title">Your {itinerary.name} Adventure</h1>
+        {!token && history.push("/login")}
+        {dayTab}
+      </div>
+    </motion.div>
+    
   );
 };
 

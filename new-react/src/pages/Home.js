@@ -8,6 +8,8 @@ import Button from "@mui/material/Button";
 import axios from "axios";
 import DataContext from "../context/DataContext";
 import LoginContext from "../context/LoginContext";
+import { motion } from "framer-motion";
+import { animationPages } from "../animations/index.js"
 
 import homeImage from "../images/travelers1.png";
 import homeLogo from "../images/theitinerarynopin.png";
@@ -63,67 +65,69 @@ const Home = ({ setCurrentTrip }) => {
   }
 
   return (
-    <div className="home-body">
-      <div class="home-logo-container">
-        <img className="home-pin" src={homePin} alt="home-pin" />
-        <img className="home-logo" src={homeLogo} alt="home-logo" />
-      </div>
-      <h1 className="home-title">Where is your next adventure?</h1>
-      <form noValidate onSubmit={handleSubmit} className="home-form">
-        <TextField
-          required
-          id="outlined-required"
-          label="Enter City"
-          onChange={(e) => setCity(e.target.value)}
-        />
-        <div className="home-dates">
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <div className="home-start-date">
-              <DatePicker
-                label="Start Date"
-                value={start}
-                onChange={(newValue) => {
-                  setStart(newValue);
-                }}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </div>
-            <div className="home-end-date">
-              <DatePicker
-                label="End Date"
-                value={end}
-                onChange={(newValue) => {
-                  setEnd(newValue);
-                }}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </div>
-          </LocalizationProvider>
+    <motion.div initial="out" animate="end" exit="out" variants={animationPages}>
+      <div className="home-body">
+        <div class="home-logo-container">
+          <img className="home-pin" src={homePin} alt="home-pin" />
+          <img className="home-logo" src={homeLogo} alt="home-logo" />
         </div>
-        <Button
-          variant="contained"
-          type="submit"
-          className="home-search-button"
-          sx={{
-            borderRadius: "2rem",
-            color: "theme.palette.primary.dark",
-          }}
-        >
-          search
-        </Button>
-      </form>
-      {submit ? (
-        <Activities activities={activities} currentTrip={currentTrip} />
-      ) : loading ? (
-        <img
-          className="home-activities-loading"
-          src={homeLoading}
-          alt="home-activities-loading"
-        />
-      ) : (
-        <img className="home-image" src={homeImage} alt="home-image" />
-      )}
-    </div>
+        <h1 className="home-title">Where is your next adventure?</h1>
+        <form noValidate onSubmit={handleSubmit} className="home-form">
+          <TextField
+            required
+            id="outlined-required"
+            label="Enter City"
+            onChange={(e) => setCity(e.target.value)}
+          />
+          <div className="home-dates">
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <div className="home-start-date">
+                <DatePicker
+                  label="Start Date"
+                  value={start}
+                  onChange={(newValue) => {
+                    setStart(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </div>
+              <div className="home-end-date">
+                <DatePicker
+                  label="End Date"
+                  value={end}
+                  onChange={(newValue) => {
+                    setEnd(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </div>
+            </LocalizationProvider>
+          </div>
+          <Button
+            variant="contained"
+            type="submit"
+            className="home-search-button"
+            sx={{
+              borderRadius: "2rem",
+              color: "theme.palette.primary.dark",
+            }}
+          >
+            search
+          </Button>
+        </form>
+        {submit ? (
+          <Activities activities={activities} currentTrip={currentTrip} />
+        ) : loading ? (
+          <img
+            className="home-activities-loading"
+            src={homeLoading}
+            alt="home-activities-loading"
+          />
+        ) : (
+          <img className="home-image" src={homeImage} alt="home-image" />
+        )}
+      </div>
+    </motion.div>
   );
 };
 

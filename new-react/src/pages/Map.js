@@ -8,6 +8,8 @@ import DaysCheckbox from "../components/Map/Checkbox";
 import { useHistory } from "react-router-dom";
 import LoginContext from "../context/LoginContext";
 import DataContext from "../context/DataContext";
+import { motion } from "framer-motion";
+import { animationPages } from "../animations/index.js"
 import "../styles/map.scss"
 
 const REACT_APP_API_KEY = process.env.REACT_APP_API_KEY;
@@ -157,30 +159,32 @@ const Map = ({ zoom }) => {
   }, [activities]);
 
   return (
-    <div className="map">
-      {!token && history.push("/login")}
-      <h2 className="map-title">{itinerary.name}</h2>
-      <h3 className="map-dates">{start_date.toDateString()} to {end_date.toDateString()}</h3>
-      {activities.length > 0 && 
-      <GoogleMapReact
-        bootstrapURLKeys={{
-          key: REACT_APP_API_KEY
-        }}
-        center={center}
-        defaultZoom={zoom}
-      >
-        {markers}
-      </GoogleMapReact>
-      }
-      {locationInfo && <LocationInfoBox info={locationInfo} />}
-      {Object.keys(dayProperties).length > 0 && (
-        <DaysCheckbox
-          daysList={daysList}
-          dayProperties={dayProperties}
-          parentCallback={handleCallback}
-        />
-      )}
-    </div>
+    <motion.div initial="out" animate="end" exit="out" variants={animationPages}>
+      <div className="map">
+        {!token && history.push("/login")}
+        <h2 className="map-title">{itinerary.name}</h2>
+        <h3 className="map-dates">{start_date.toDateString()} to {end_date.toDateString()}</h3>
+        {activities.length > 0 && 
+        <GoogleMapReact
+          bootstrapURLKeys={{
+            key: REACT_APP_API_KEY
+          }}
+          center={center}
+          defaultZoom={zoom}
+        >
+          {markers}
+        </GoogleMapReact>
+        }
+        {locationInfo && <LocationInfoBox info={locationInfo} />}
+        {Object.keys(dayProperties).length > 0 && (
+          <DaysCheckbox
+            daysList={daysList}
+            dayProperties={dayProperties}
+            parentCallback={handleCallback}
+          />
+        )}
+      </div>
+    </motion.div>
   );
 };
 

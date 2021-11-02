@@ -5,6 +5,8 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import PropTypes from "prop-types";
+import { motion } from "framer-motion";
+import { animationPages } from "../animations/index.js"
 import "../styles/login.scss";
 import loginImage from "../images/loading2.gif";
 
@@ -49,40 +51,42 @@ const Login = ({ setToken, setDisplayName }) => {
   const toggle = url === "/login" ? "register" : "login";
 
   return (
-    <div>
-      <img className="login-image" src={loginImage} alt="login-image" />
-      <h1 className="login-title">{title}</h1>
-      <form noValidate onSubmit={handleSubmit}>
-        <TextField
-          required
-          id="outlined-required"
-          label="Email"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <div className="login-user-pass">
+    <motion.div initial="out" animate="end" exit="out" variants={animationPages}>
+      <div>
+        <img className="login-image" src={loginImage} alt="login-image" />
+        <h1 className="login-title">{title}</h1>
+        <form noValidate onSubmit={handleSubmit}>
           <TextField
             required
-            id="outlined-user-input"
-            label="Username"
-            onChange={(e) => setUsername(e.target.value)}
-            />
-          <TextField
-            required
-            id="outlined-password-input"
-            label="Password"
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-            />
-        </div>
-        <Button variant="outlined" type="submit">
-          SUBMIT 
+            id="outlined-required"
+            label="Email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <div className="login-user-pass">
+            <TextField
+              required
+              id="outlined-user-input"
+              label="Username"
+              onChange={(e) => setUsername(e.target.value)}
+              />
+            <TextField
+              required
+              id="outlined-password-input"
+              label="Password"
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+              />
+          </div>
+          <Button variant="outlined" type="submit">
+            SUBMIT 
+          </Button>
+        </form>
+        <div className="login-status-question">{question}</div>
+        <Button variant="outlined" component={Link} to={`/${toggle}`}>
+          {toggle}      
         </Button>
-      </form>
-      <div className="login-status-question">{question}</div>
-      <Button variant="outlined" component={Link} to={`/${toggle}`}>
-        {toggle}      
-      </Button>
-    </div>
+      </div>
+    </motion.div>
   );
 };
 

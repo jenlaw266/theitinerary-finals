@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import ItineraryItem from "../components/ItineraryItem";
 import LoginContext from "../context/LoginContext";
 import { useHistory } from "react-router-dom";
+import { motion } from "framer-motion";
+import { animationPages } from "../animations/index.js"
 import "../styles/itineraries.scss";
 
 const Itineraries = ({ trips }) => {
@@ -18,16 +20,18 @@ const Itineraries = ({ trips }) => {
     .reverse()
     .map((itinerary) => {
       return (
-        <ItineraryItem
-          key={itinerary.id}
-          id={itinerary.id}
-          name={itinerary.name}
-          completed={itinerary.completed}
-          start_date={itinerary.start_date}
-          end_date={itinerary.end_date}
-        >
-          <Link className="itinerary-link" to={`itinerary/${itinerary.id}`}>{itinerary.name}</Link>
-        </ItineraryItem>
+        <motion.div initial="out" animate="end" exit="out" variants={animationPages}>
+          <ItineraryItem
+            key={itinerary.id}
+            id={itinerary.id}
+            name={itinerary.name}
+            completed={itinerary.completed}
+            start_date={itinerary.start_date}
+            end_date={itinerary.end_date}
+          >
+            <Link className="itinerary-link" to={`itinerary/${itinerary.id}`}>{itinerary.name}</Link>
+          </ItineraryItem>
+        </motion.div>
       );
     });
 

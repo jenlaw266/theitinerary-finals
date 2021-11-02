@@ -15,6 +15,7 @@ import Members from "./components/Members";
 import useToken from "./hooks/useToken";
 import LoginContext from "./context/LoginContext";
 import DataContext from "./context/DataContext";
+import { AnimatePresence } from "framer-motion";
 
 function App() {
   const { token, setToken } = useToken(null);
@@ -70,53 +71,55 @@ function App() {
 
   return (
     <Router>
-      <Box sx={{ display: "flex" }}>
-        <LoginContext.Provider value={{ token, loading, currentTrip }}>
-          <Nav
-            setDrawer={setDrawer}
-            setToken={setToken}
-            token={token}
-            trips={trips}
-            currentTrip={currentTrip}
-          />
-          {drawer && <Members />}
-          <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-            <Layout>
-              <Switch>
-                <Route path="/login">
-                  <Login setToken={setToken} />
-                </Route>
-                <Route path="/register">
-                  <Login setToken={setToken} />
-                </Route>
+      <AnimatePresence>
+        <Box sx={{ display: "flex" }}>
+          <LoginContext.Provider value={{ token, loading, currentTrip }}>
+            <Nav
+              setDrawer={setDrawer}
+              setToken={setToken}
+              token={token}
+              trips={trips}
+              currentTrip={currentTrip}
+            />
+            {drawer && <Members />}
+            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+              <Layout>
+                <Switch>
+                  <Route path="/login">
+                    <Login setToken={setToken} />
+                  </Route>
+                  <Route path="/register">
+                    <Login setToken={setToken} />
+                  </Route>
 
-                <DataContext.Provider
-                  value={{
-                    setTrips,
-                    currentTrip,
-                  }}
-                >
-                  <Route path="/itineraries">
-                    <Itineraries trips={trips} />
-                  </Route>
-                  <Route exact path="/itinerary/:id/map">
-                    {loading ? <Loader /> : <Map />}
-                  </Route>
-                  <Route exact path="/itinerary/:id/chat">
-                    <Chat username={token} />
-                  </Route>
-                  <Route exact path="/itinerary/:id">
-                    <Itinerary />
-                  </Route>
-                  <Route exact path="/">
-                    <Home setCurrentTrip={setCurrentTrip} />
-                  </Route>
-                </DataContext.Provider>
-              </Switch>
-            </Layout>
-          </Box>
-        </LoginContext.Provider>
-      </Box>
+                  <DataContext.Provider
+                    value={{
+                      setTrips,
+                      currentTrip,
+                    }}
+                  >
+                    <Route path="/itineraries">
+                      <Itineraries trips={trips} />
+                    </Route>
+                    <Route exact path="/itinerary/:id/map">
+                      {loading ? <Loader /> : <Map />}
+                    </Route>
+                    <Route exact path="/itinerary/:id/chat">
+                      <Chat username={token} />
+                    </Route>
+                    <Route exact path="/itinerary/:id">
+                      <Itinerary />
+                    </Route>
+                    <Route exact path="/">
+                      <Home setCurrentTrip={setCurrentTrip} />
+                    </Route>
+                  </DataContext.Provider>
+                </Switch>
+              </Layout>
+            </Box>
+          </LoginContext.Provider>
+        </Box>
+      </AnimatePresence>
     </Router>
   );
 }
