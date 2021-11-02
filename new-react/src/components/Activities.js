@@ -81,6 +81,7 @@ const Activities = (props) => {
           img={act.image}
           address={act.address}
           heart={act.heart}
+          description={act.description}
           selectedActivities={selectedActivities}
           toggleSelectedActivityId={() => {
             toggleSelectedActivityId(act.id);

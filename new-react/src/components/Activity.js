@@ -32,6 +32,7 @@ const Activity = (props) => {
         />
         <CardContent>
           <Typography>{props.address}</Typography>
+          <Typography>{props.description}</Typography>
         </CardContent>
       </Card>
     </div>
