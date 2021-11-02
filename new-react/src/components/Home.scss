@@ -20,17 +20,45 @@ body {
   margin-top: 3rem;
 }
 
+.home-logo-container{
+  position: relative;
+  display: inline-block;
+}
+
+.home-pin{
+  position: absolute;
+  left: 30%;
+  width: 6vw;
+  align-self: flex-end;
+  animation-duration: 4s;
+  animation-iteration-count: 2;
+  margin: 0 auto 0 auto;
+  transform-origin: bottom;
+  animation-name: home-pin;
+  animation-timing-function: ease;
+  @keyframes home-pin {
+    0%   { transform: scale(1,1)    translateY(0); }
+    10%  { transform: scale(1.1,.9) translateY(0); }
+    30%  { transform: scale(.9,1.1) translateY(-2.2rem); }
+    40%  { transform: scale(1,1)    translateY(0); }
+    50%  { transform: scale(.9,1.1)    translateY(-1rem); }
+    60%  { transform: scale(1,1)    translateY(0); }
+    75%  { transform: scale(.9,1.1)    translateY(-0.3rem); }
+    97%  { transform: scale(1,1)    translateY(0); }
+    100% { transform: scale(1,1)    translateY(0); }
+  }
+}
+
 .home-logo{
   width: 70vw;
 }
 
 .home-image{
   display: flex;
-  width: 70vw;
+  width: 90vw;
   height: auto;
   justify-content: center;
   align-items: center;
-  margin-top: 2rem;
 }
 
 .home-form{
@@ -67,7 +95,6 @@ body {
   justify-content: center;
   align-items: center;
   border-radius: 1rem;
-  width: 100%
 }
 
 .home-activities-loading {
@@ -83,18 +110,13 @@ body {
 
 .MuiOutlinedInput-root.MuiInputBase-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-o1fi3q-MuiInputBase-root-MuiOutlinedInput-root {
   padding-right: 1rem;
+  height: 2.5rem;
 }
-
-//city- the whole field
-// .MuiFormControl-root.MuiTextField-root.css-1u3bzj6-MuiFormControl-root-MuiTextField-root{
-//   width: 100%;
-//   border-radius: 2rem;
-// }
 
 //city text field 
 .MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input{
   border-radius: 2rem;
-  width: 80vw;
+  width: 75vw;
 
 }
 
@@ -125,7 +147,37 @@ body {
 }
 
 //nav toolbar
-.MuiToolbar-root.MuiToolbar-gutters.MuiToolbar-regular.toolbar css-1t29gy6-MuiToolbar-root{
+.MuiToolbar-root.MuiToolbar-gutters.MuiToolbar-regular.toolbar.css-1t29gy6-MuiToolbar-root{
   position: static
 }
 
+.MuiContainer-root.MuiContainer-maxWidthLg.css-1oqqzyl-MuiContainer-root{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+//generate itinerary button
+.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-sizeMedium.MuiButton-containedSizeMedium.MuiButtonBase-root.css-w8hwut-MuiButtonBase-root-MuiButton-root{
+  width: 85vw;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.4rem;
+  color: black;
+  border-radius: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+//card activity
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1.MuiCard-root.css-bhp9pd-MuiPaper-root-MuiCard-root{
+  border-radius: 2rem;
+  transition: transform 250ms
+}
+
+//card activity on hover
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1.MuiCard-root.css-bhp9pd-MuiPaper-root-MuiCard-root:hover{
+  box-shadow: 0.5rem 0.5rem $light-blue;
+  border-radius: 1rem;
+  transform: translateX(1rem);
+}

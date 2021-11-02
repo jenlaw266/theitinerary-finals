@@ -73,8 +73,11 @@ const Activities = (props) => {
         {activityCard}
       </Grid>
       {activityCard && (
-        <Button variant="outlined" onClick={postSelectedActivities}>
-          Itinerary
+        <Button
+          variant="contained"
+          onClick={postSelectedActivities}
+        >
+          create your itinerary
         </Button>
       )}
     </Container>
