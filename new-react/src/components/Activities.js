@@ -1,19 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Activity from "./Activity";
 import Grid from "@mui/material/Grid";
 import { Container } from "@mui/material";
 import Button from "@mui/material/Button";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
+import DataContext from "../context/DataContext";
+
+//diff list for different cities
 
 const Activities = (props) => {
   const originalActivities = props.activities;
   const id = props.currentTrip?.id;
   const history = useHistory();
+  const { selectedActivities, setSelectedActivities } = useContext(DataContext);
   const [currentSelected, setCurrentSelected] = useState([]);
 
+  console.log("ITINERARY PAGE --> SELECTED ACTIVITIES", selectedActivities);
+
+  //add selected activties
   const addToSelectedActivities = (activityId) => {
     setCurrentSelected((prev) => [...prev, activityId]);
+    setSelectedActivities((prev) => [...prev, activityId]);
   };
 
   const filterActivities = (activityArray, activityId) => {
@@ -23,7 +31,12 @@ const Activities = (props) => {
   };
 
   const removeFromSelectedActivities = (activityId) => {
+    const updatedSelectedActivities = filterActivities(
+      selectedActivities,
+      activityId
+    );
     setCurrentSelected(filterActivities(currentSelected, activityId));
+    setSelectedActivities(updatedSelectedActivities);
   };
 
   const activityAlreadySelected = (activityId) =>
@@ -37,6 +50,8 @@ const Activities = (props) => {
     return addToSelectedActivities(activityId);
   };
 
+  console.log("selectedACtivitiesID", selectedActivities);
+
   const postSelectedActivities = () => {
     axios
       .post("http://localhost:8080/api/itinerary", {
@@ -47,7 +62,8 @@ const Activities = (props) => {
         history.push(`/itinerary/${id}`);
       });
   };
-
+  console.log('originalActivities', originalActivities)
+  console.log('selected', selectedActivities)
   const activityCard = originalActivities.map((act, index) => {
     return (
       <Grid key={index} item xs={12} sm={6} md={4}>
@@ -58,12 +74,9 @@ const Activities = (props) => {
           img={act.image}
           address={act.address}
           heart={act.heart}
-
-          description={act.description}
-          selectedActivities={selectedActivities}
-
           toggleSelectedActivityId={() => {
             toggleSelectedActivityId(act.id);
+            // console.log("FROM ACTIVITIES", act)
           }}
           isChecked={activityAlreadySelected(act.id)}
         />
@@ -78,10 +91,12 @@ const Activities = (props) => {
       </Grid>
       {activityCard && (
         <Button
-          variant="contained"
+          variant="outlined"
           onClick={postSelectedActivities}
+          // component={Link}
+          // to={`itinerary/${id}`}
         >
-          create your itinerary
+          Itinerary
         </Button>
       )}
     </Container>
