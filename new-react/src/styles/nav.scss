@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;600&display=swap');
+
+$light-yellow: #fffceb;
+$medium-yellow: #f7e34d;
+$dark-yellow: #ffee00;
+$light-blue: #DADEF0;
+$dark-blue: #657ABB;
+$font: 'Quicksand', sans-serif;
+
+.logo{
+  width: 30vw;
+  height: auto;
+}
+
+.toolbar {
+  background-color: $dark-blue;
+}
+
+
+//mui icon components
+.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root:hover{
+  color: $dark-yellow
+}
+
+//dropdown
+.MuiMenuItem-root.MuiMenuItem-gutters.MuiButtonBase-root.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root{
+  font-family: $font
+}
+
+//dropdown hover
+.MuiMenuItem-root.MuiMenuItem-gutters.MuiButtonBase-root.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root:hover{
+  background-color: $medium-yellow;
+  font-family: $font
+}
+
+//user name
+.MuiTypography-root.MuiTypography-body1.css-ahj2mt-MuiTypography-root{
+  font-family: $font
+}

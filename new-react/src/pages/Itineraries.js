@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import ItineraryItem from "../components/ItineraryItem";
 import LoginContext from "../context/LoginContext";
 import { useHistory } from "react-router-dom";
-import "../components/Itineraries.scss";
+import "../styles/itineraries.scss";
 
 const Itineraries = ({ trips }) => {
   const { token, loading } = useContext(LoginContext);

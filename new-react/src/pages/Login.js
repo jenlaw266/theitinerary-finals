@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import PropTypes from "prop-types";
-import "../components/Login.scss";
+import "../styles/login.scss";
 import loginImage from "../images/loading2.gif";
 
 const Login = ({ setToken, setDisplayName }) => {
@@ -62,7 +62,7 @@ const Login = ({ setToken, setDisplayName }) => {
         <div className="login-user-pass">
           <TextField
             required
-            id="outlined-required"
+            id="outlined-user-input"
             label="Username"
             onChange={(e) => setUsername(e.target.value)}
             />
