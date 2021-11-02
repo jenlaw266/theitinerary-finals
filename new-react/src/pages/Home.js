@@ -13,7 +13,7 @@ import homeImage from "../images/travelers1.png";
 import homeLogo from "../images/theitinerarynopin.png";
 import homePin from "../images/theitinerarypin.png";
 import homeLoading from "../images/loading1.gif";
-import "../components/Home.scss";
+import "../styles/home.scss";
 
 const Home = ({ setCurrentTrip }) => {
   const [city, setCity] = useState(null);

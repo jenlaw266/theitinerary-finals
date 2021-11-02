@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import LoginContext from "../context/LoginContext";
 import DataContext from "../context/DataContext";
 import ScrollToBottom from "react-scroll-to-bottom";
-import './chat.scss'
+import '../styles/chat.scss'
 
 const socket = io('http://localhost:3001')
 
