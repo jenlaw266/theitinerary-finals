@@ -30,7 +30,6 @@ export default function IconMenu({
     const dayId = currentDay[0].id;
     const itinId = currentTrip.id;
 
-    console.log(dayId);
     axios
       .post(`http://localhost:8080/api/activities/update`, {
         id,

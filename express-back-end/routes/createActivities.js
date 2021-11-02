@@ -79,11 +79,9 @@ const createActivities = async function (db, body) {
       );
     }
   });
-  // console.log(output)
 
   let outputWithActivityIds = [];
   await getActivityId(db, output[0].itinerary_id).then((response) => {
-    // console.log("outputWithActivityIds response", response)
     console.log("Fetching all activities ...")
     outputWithActivityIds = response
     

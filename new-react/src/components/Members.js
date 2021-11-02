@@ -59,9 +59,6 @@ const Members = () => {
       body: JSON.stringify(id),
     }).then((data) => data.json());
   }
-  console.log("members", members);
-
-  console.log("current", currentTrip.id);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -126,8 +123,6 @@ const Members = () => {
     setDeleteMember(true);
     setAnchorEl(null);
   };
-
-  console.log("search", search);
 
   const ITEM_HEIGHT = 48;
 

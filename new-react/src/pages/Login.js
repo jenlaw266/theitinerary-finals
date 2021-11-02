@@ -24,7 +24,6 @@ const Login = ({ setToken, setDisplayName }) => {
       password,
       title,
     });
-    console.log("token", token.token);
     setToken(token);
     history.push("/");
   };
