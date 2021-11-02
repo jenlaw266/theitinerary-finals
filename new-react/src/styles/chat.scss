@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;600&display=swap');
-
 $light-yellow: #fffceb;
 $medium-yellow: #f7e34d;
 $dark-yellow: #ffee00;
@@ -11,13 +10,11 @@ $font: 'Quicksand', sans-serif;
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin: auto;
   width: 70vw;
-  height: 80vh;
+  margin-top: 2rem;
 }
 
 .chat-header {
-  margin-top: 5rem;
   width: 70vw;
   height: 3rem;
   border-radius: 1rem 1rem 0 0;
@@ -31,11 +28,11 @@ $font: 'Quicksand', sans-serif;
 .chat-title{
   margin-left: 1rem;
   font-size: 1.5rem
-
 }
 
 .chat-body {
   width: 70vw;
+  height: 60vh;
   border: 1px solid #263238;
   background: #fff;
   border-top-color: $light-blue;
@@ -63,6 +60,8 @@ $font: 'Quicksand', sans-serif;
   // width: auto;
   // height: auto;
   min-height: 40px;
+  max-width: 120px;
+  background-color: green;
   max-width: 200px;
   background-color: #43a047;
 
