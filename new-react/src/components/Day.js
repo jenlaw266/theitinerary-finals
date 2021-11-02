@@ -57,6 +57,7 @@ const Day = (props) => {
           name={activity.name}
           city={activity.location}
           img={activity.image}
+          description={activity.description}
           isChecked={(activity) => checkActivities(activity)}
           toggleSelectedActivityId={() => {
             toggleSelectedActivityId(activity);

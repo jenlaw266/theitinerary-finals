@@ -57,12 +57,12 @@ function Chat() {
         </div>
         <div className="chat-body">
           <ScrollToBottom className="message-container">
-          {chat.map((data, index)=>{
+          {chat.map((data)=>{
               return(
                 <div
                 className="message"
                 id={username === data.username ? "you" : "other"}
-              >
+                >
                 <div>
                   <div className="message-content">
                     <p>{data.messages}</p>
@@ -72,9 +72,8 @@ function Chat() {
                   </div>
                 </div>
               </div>
-                
               )
-            })}
+          })}
           </ScrollToBottom>
         </div>
         <div className="chat-footer">

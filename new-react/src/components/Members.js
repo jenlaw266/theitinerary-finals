@@ -118,6 +118,10 @@ const Members = () => {
     setAddMembers(true);
     setAnchorEl(null);
   };
+  const submitForm = (e) => {
+    e.preventDefault()
+    setSearch("");
+  };
 
   const popOutDelete = () => {
     setDeleteMember(true);
@@ -217,16 +221,17 @@ const Members = () => {
         </List>
 
         {addMembers && (
-          <div className={classes.bottomSearch}>
+          <form onSubmit={submitForm} className={classes.bottomSearch}>
             <TextField
               id="filled-search"
               label="Search field"
               type="search"
               variant="filled"
+              value={search}
               onKeyDown={handleKeyDown}
               onChange={(e) => setSearch(e.target.value)}
             />
-          </div>
+          </form>
         )}
       </Box>
     </Drawer>
