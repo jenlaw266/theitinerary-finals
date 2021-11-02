@@ -7,6 +7,21 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import "../styles/login.scss";
 import loginImage from "../images/loading2.gif";
+import { motion } from "framer-motion";
+
+const containerVariants = {
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+    transition: { delay: 0.5, duration: 1 },
+  },
+  exit: {
+    x: "-100vw",
+    transition: { ease: "easeInOut" },
+  },
+};
 
 const Login = ({ setToken, setDisplayName }) => {
   const [email, setEmail] = useState("");
@@ -41,14 +56,19 @@ const Login = ({ setToken, setDisplayName }) => {
   const { url } = useRouteMatch();
 
   useEffect(() => {
-    setQuestion(url === "/login" ? "Sign up!" : "Already an explorer?")
+    setQuestion(url === "/login" ? "Sign up!" : "Already an explorer?");
     setTitle(url === "/login" ? "Login" : "Register");
   }, [url]);
 
   const toggle = url === "/login" ? "register" : "login";
 
   return (
-    <div>
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
       <img className="login-image" src={loginImage} alt="login-image" />
       <h1 className="login-title">{title}</h1>
       <form noValidate onSubmit={handleSubmit}>
@@ -64,24 +84,24 @@ const Login = ({ setToken, setDisplayName }) => {
             id="outlined-user-input"
             label="Username"
             onChange={(e) => setUsername(e.target.value)}
-            />
+          />
           <TextField
             required
             id="outlined-password-input"
             label="Password"
             type="password"
             onChange={(e) => setPassword(e.target.value)}
-            />
+          />
         </div>
         <Button variant="outlined" type="submit">
-          SUBMIT 
+          SUBMIT
         </Button>
       </form>
       <div className="login-status-question">{question}</div>
       <Button variant="outlined" component={Link} to={`/${toggle}`}>
-        {toggle}      
+        {toggle}
       </Button>
-    </div>
+    </motion.div>
   );
 };
 

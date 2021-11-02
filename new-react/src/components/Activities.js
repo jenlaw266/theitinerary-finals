@@ -56,7 +56,6 @@ const Activities = (props) => {
           name={act.name}
           location={act.location}
           img={act.image}
-          address={act.address}
           heart={act.heart}
           description={act.description}
           toggleSelectedActivityId={() => {
