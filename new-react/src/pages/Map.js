@@ -8,7 +8,9 @@ import DaysCheckbox from "../components/Map/Checkbox";
 import { useHistory } from "react-router-dom";
 import LoginContext from "../context/LoginContext";
 import DataContext from "../context/DataContext";
+import "../components/Map/Map.scss"
 
+const REACT_APP_API_KEY = process.env.REACT_APP_API_KEY;
 
 const Map = ({ zoom }) => {
   const [locationInfo, setLocationInfo] = useState(null);
@@ -23,9 +25,7 @@ const Map = ({ zoom }) => {
   const params = useParams();
   const [daysList, setDaysList] = useState([]);
   const [show, setShow] = useState(daysList);
-  const [center, setCenter] = useState({ lat: 49.2827, lng: -123.1207 })
-
-
+  const [center, setCenter] = useState({ lat: 49.2827, lng: -123.1207 });
 
   //----------------------- USE EFFECT 1
   useEffect(() => {
@@ -47,21 +47,19 @@ const Map = ({ zoom }) => {
     });
   }
 
-
-
   //----------------------- USE EFFECT 2
   useEffect(() => {
     const uniqueDays = (activities) => {
       const allDays = [];
       activities.map((activity) => allDays.push(activity.day_id));
-  
+
       const days = allDays.filter(
         (value, index, self) => self.indexOf(value) === index
       );
-  
+
       return days.sort();
     };
-  
+
     let daysArray = uniqueDays(activities);
     setDaysList(daysArray);
     setShow(daysArray);
@@ -70,11 +68,10 @@ const Map = ({ zoom }) => {
   //----------------------- USE EFFECT 3
   //assign each day properties
   useEffect(() => {
-
     const dayIdWithName = {};
     for (const day of days) {
-      dayIdWithName[day.id] = day.day
-    };
+      dayIdWithName[day.id] = day.day;
+    }
 
     const daysProps = {};
     daysList.forEach((day) => {
@@ -88,11 +85,9 @@ const Map = ({ zoom }) => {
     setDayProperties(daysProps);
   }, [daysList, days]);
 
-  
   const handleCallback = (childData) => {
     setShow(childData); // childData = ["day1", "day2", "day3", "day4"]
   };
-
 
   //----------------------- USE EFFECT 4
   //create a filtered list of the days selected from the checkbox.
@@ -109,17 +104,18 @@ const Map = ({ zoom }) => {
       setFilteredDays(newFilteredDays);
     }
   }, [show]);
-  console.log('dayList', daysList)
+  console.log("dayList", daysList);
 
   //----------------------- USE EFFECT 5
   //show only the markers that are enabled on checkbox
   useEffect(() => {
-
     setMarkers(
       filteredDays.map((activity) => {
         const dayNameFromEvent = activity.day_id;
 
-        const assignedColor = !dayProperties ? "000000" : dayProperties[dayNameFromEvent].color;
+        const assignedColor = !dayProperties
+          ? "000000"
+          : dayProperties[dayNameFromEvent].color;
 
         return (
           <LocationMarker
@@ -143,8 +139,6 @@ const Map = ({ zoom }) => {
   const start_date = new Date(itinerary.start_date);
   const end_date = new Date(itinerary.end_date);
 
-
-  
   //----------------------- USE EFFECT 6
   useEffect(() => {
     let centerLat = 0;
@@ -157,25 +151,20 @@ const Map = ({ zoom }) => {
       activitiesLength++;
     }
 
-    centerLat = centerLat/activitiesLength;
-    centerLong = centerLong/activitiesLength;
-    setCenter({lat: centerLat, lng: centerLong});
-
-  }, [activities])
+    centerLat = centerLat / activitiesLength;
+    centerLong = centerLong / activitiesLength;
+    setCenter({ lat: centerLat, lng: centerLong });
+  }, [activities]);
 
   return (
     <div className="map">
       {!token && history.push("/login")}
-      <h2>{itinerary.name} Trips</h2>
-      <h3>{start_date.toDateString()} to {end_date.toDateString()}</h3>
       <h2 className="map-title">{itinerary.name}</h2>
       <h3 className="map-dates">{start_date.toDateString()} to {end_date.toDateString()}</h3>
       {activities.length > 0 && 
       <GoogleMapReact
         bootstrapURLKeys={{
-          key:
-            // process.env.REACT_GOOGLE_MAP_API
-            "AIzaSyBTwu8B2_jxWotAM4c_9uEJJJoTmiBE7Aw",
+          key: REACT_APP_API_KEY
         }}
         center={center}
         defaultZoom={zoom}
@@ -186,15 +175,14 @@ const Map = ({ zoom }) => {
       {locationInfo && <LocationInfoBox info={locationInfo} />}
       {Object.keys(dayProperties).length > 0 && (
         <DaysCheckbox
-        daysList={daysList}
-        dayProperties={dayProperties}
-        parentCallback={handleCallback}
-      />
+          daysList={daysList}
+          dayProperties={dayProperties}
+          parentCallback={handleCallback}
+        />
       )}
     </div>
   );
 };
-
 
 Map.defaultProps = {
   zoom: 12,

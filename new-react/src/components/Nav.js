@@ -20,7 +20,7 @@ import "./Nav.scss";
 
 const useStyles = makeStyles({
   // button: { color: "black" },
-  text: { color: "pink" },
+  // text: { color: "pink" },
 });
 
 const Nav = (props) => {

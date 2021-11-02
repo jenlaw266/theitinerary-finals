@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;600&display=swap');
+
+$light-yellow: #fffceb;
+$medium-yellow: #f7e34d;
+$dark-yellow: #ffee00;
+$light-blue: #DADEF0;
+$dark-blue: #657ABB;
+$font: 'Quicksand', sans-serif;
+
+body {
+  background-color: $light-yellow;
+  font-family: $font;
+}
+
+.itineraries-title{
+  font-weight: 600;
+  font-size: 2rem;
+}
+
+.itinerary-link {
+font-size: 2rem;
+color: $dark-blue
+}
+
+.itinerary-link:hover {
+  color: $medium-yellow;
+  text-shadow: 2px 2px black
+}
+
+button {
+  color: $dark-blue;
+}
+
+
+//itinerary item card
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1.MuiCard-root.css-bhp9pd-MuiPaper-root-MuiCard-root{
+  margin: 1rem;
+  width: 80vw;
+}

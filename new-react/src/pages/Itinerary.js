@@ -2,11 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
 import LoginContext from "../context/LoginContext";
-import Days from "../components/Days";
-import Activity from "../components/Activity";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import DataContext from "../context/DataContext";
+import Day from "../components/Day";
 
 const Itinerary = ({ props }) => {
   //take the :id from url
@@ -16,21 +12,15 @@ const Itinerary = ({ props }) => {
   const [itinerary, setItinerary] = useState({});
   const [days, setDays] = useState([]);
   const [activities, setActivities] = useState([]);
-  // const [selectedActivityIds, setSelectedActivityIds] = useState({});
-  // const [onlySelectedActivities, setOnlySelectedActivities] = useState([]);
-  const { currentTrip } = useContext(DataContext);
-
-  // console.log("ITINERARY PAGE2 --> SELECTED ACTIVITIES", selectedActivities);
+  const [allNonSelectedActivities, setAllNonSelectedActivities] = useState([]);
 
   useEffect(() => {
     getData(params.id).then((data) => {
       console.log("data that front end got back", data);
-      // console.log("data ONLYselectedActivities", data.onlySelectedActivities);
       setActivities(data.activities);
-      // setSelectedActivityIds(data.selectedActivityIds);
       setItinerary(data.itinerary);
       setDays(data.days);
-      // setOnlySelectedActivities(data.onlySelectedActivities); */
+      setAllNonSelectedActivities(data.allActivities);
     });
   }, [params.id]);
 
@@ -40,21 +30,12 @@ const Itinerary = ({ props }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      // body: { id }, //use this when passing an object/variable to the backend
     }).then((data) => {
-      // setSelectedActivities()
       return data.json();
     });
   }
 
-  console.log("current trip", currentTrip);
-  console.log("days", days);
-  console.log("itin", itinerary);
-  console.log("act", activities);
-  // console.log("onlySelectedActivities", onlySelectedActivities);
-
   const primaryDays = days.filter((day) => day.day_type_id === 1);
-  // console.log("primaryDays from itinerary", primaryDays)
 
   const dayTab = primaryDays.map((day, id) => {
     const dayNum = day.day[4];
@@ -63,54 +44,32 @@ const Itinerary = ({ props }) => {
       (alt) => alt.day_type_id !== 1 && alt.day[4] === dayNum
     );
 
-    
     const alt = altDays.map((altDay) => {
       if (day.day[4] === altDay.day[4]) {
         return altDay;
       }
     });
-    
+
     const allOptions = [day].concat(alt);
-    console.log("day.day",day.day, day.id)
-    console.log("allOptions", allOptions);
-    const dayActivities = activities.filter(
-      // (activity) => activity.day_id === Number(day.day.split(" ")[1])
-      (activity) => activity.day_id === Number(day.id)
-    );
-    
-    console.log("activities", activities)
-    console.log("dayActivities", dayActivities)
+
     return (
-      <Days
+      <Day
         key={id}
         itineraryId={params.id}
         allOptions={allOptions}
-        dayActivities={dayActivities}
-        ></Days>
-        );
+        allNonSelectedActivities={allNonSelectedActivities}
+        setAllNonSelectedActivities={setAllNonSelectedActivities}
+        setActivities={setActivities}
+        activities={activities}
+        days={days}
+        setDays={setDays}
+      ></Day>
+    );
   });
-
-  // const likedActivitiesInfo = onlySelectedActivities.map((likedActivity) => {
-  //   return (
-  //     <Days
-  //       key={id}
-  //       allOptions={allOptions}
-  //       setDays={setDays}
-  //       dayActivities={dayActivities}
-  //     ></Days>
-  //   );
-  //   <div>
-  //     <h1>      </h1>
-  //     <img src={likedActivity.image}></img>
-  //     <h2>Name: {likedActivity.name}</h2>
-  //     <h2>Location: {likedActivity.location} {likedActivity.itinerary_id}</h2>
-  //     <h3>Day: Day {likedActivity.day_id}</h3>
-  //   </div>
-  // )
-  // });
 
   return (
     <div>
+      <h1 className="itinerary-title">Your {itinerary.name} Adventure</h1>
       {!token && history.push("/login")}
       {dayTab}
     </div>

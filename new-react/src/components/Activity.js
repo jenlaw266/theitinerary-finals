@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -15,12 +14,9 @@ const Activity = (props) => {
     <div>
       <Card>
         <CardHeader
-          action={<Checkbox 
-          checked={isChecked}
-          onChange={() => {
-            toggleSelectedActivityId()
-          }}
-          />}
+          action={
+            <Checkbox checked={isChecked} onChange={toggleSelectedActivityId} />
+          }
           title={props.name}
           subheader={props.location}
         />

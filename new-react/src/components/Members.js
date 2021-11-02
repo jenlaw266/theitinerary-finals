@@ -17,10 +17,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
 import { deepPurple } from "@mui/material/colors";
 import LoginContext from "../context/LoginContext";
-import DataContext from "../context/DataContext";
-import axios from "axios";
-
-//const members = ["John", "Mary", "Amy", "Leland", "Ysabel", "Jennifer"];
 
 const drawerWidth = 200;
 

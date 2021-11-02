@@ -52,7 +52,7 @@ function Chat() {
   return (
     <div className="chat-window">
       <div className="chat-header">
-        <h1>{currentTrip.name} Chat</h1>
+        <h1 className="chat-title">{currentTrip.name} Chat</h1>
       </div>
       <div className="chat-body">
         <ScrollToBottom className="message-container">

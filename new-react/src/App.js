@@ -19,11 +19,9 @@ import DataContext from "./context/DataContext";
 function App() {
   const { token, setToken } = useToken(null);
   const [drawer, setDrawer] = useState(false);
-  const [eventData, setEventData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [trips, setTrips] = useState([]);
   const [currentTrip, setCurrentTrip] = useState();
-  const [selectedActivities, setSelectedActivities] = useState([]);
 
   const [state, setState] = useState({
     message: "",
@@ -96,8 +94,6 @@ function App() {
                   value={{
                     setTrips,
                     currentTrip,
-                    selectedActivities,
-                    setSelectedActivities,
                   }}
                 >
                   <Route path="/itineraries">
@@ -107,16 +103,13 @@ function App() {
                     {loading ? <Loader /> : <Map />}
                   </Route>
                   <Route exact path="/itinerary/:id/chat">
-                    <Chat username={token}/>
+                    <Chat username={token} />
                   </Route>
                   <Route exact path="/itinerary/:id">
-                    <Itinerary currentTrip={currentTrip} />
+                    <Itinerary />
                   </Route>
                   <Route exact path="/">
-                    <Home
-                      currentTrip={currentTrip}
-                      setCurrentTrip={setCurrentTrip}
-                    />
+                    <Home setCurrentTrip={setCurrentTrip} />
                   </Route>
                 </DataContext.Provider>
               </Switch>

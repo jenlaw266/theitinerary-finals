@@ -23,11 +23,13 @@ const {
   getActivities,
   getActivitiesForItinerary,
   updateSelectedActivities,
+  getNonSelectedActivities,
 } = require("./routes/getItinerary");
 const deleteItinerary = require("./queries/deleteItinerary");
 const getImage = require("./routes/getImage");
 const deleteDays = require("./queries/deleteDay");
 const addAltDay = require("./queries/addAltDay");
+const updateActivityDayID = require("./queries/updateActivityDayID");
 const updateDays = require("./helpers/groupDays");
 const retrieveMessages = require("./routes/retrieveMessages");
 
@@ -70,20 +72,21 @@ App.use("/api/itineraries", async function (req, res) {
 });
 
 App.use("/api/itinerary/:id", async function (req, res) {
-
   const id = req.params.id;
   const activities = await getActivitiesForItinerary(db, id);
-
+  const allActivities = await getNonSelectedActivities(db, id);
   const days = await getDays(db, id);
-  console.log('days itin id', days)
+  console.log("days itin id", days);
   const itinerary = await getItinerary(db, id);
-  res.json({ itinerary, days, activities });
+  // console.log("data", itinerary, days, activities);
+  // res.json(Promise.all([activities, allActivities, days, itinerary ]));
+  res.json({ activities, allActivities, days, itinerary });
 });
 
 App.use("/api/itinerary", async function (req, res) {
   const { id, currentSelected } = req.body;
   const days = await getDays(db, id);
-  console.log('days, itinerary', days)
+  console.log("days, itinerary", days);
   const activities = await getActivities(db, currentSelected);
   updateDays(db, activities, days);
   await updateSelectedActivities(db, id, currentSelected);
@@ -146,17 +149,26 @@ App.use("/api/days/add", async function (req, res) {
   }
 });
 
-App.get('/api/chat', async function(req, res) {
+App.get("/api/chat", async function (req, res) {
   const message = await retrieveMessages(db);
   res.json({
-    message: message
-  })
+    message: message,
+  });
 });
 
 App.delete("/api/days/:id", async function (req, res) {
   await deleteDays(db, req.params.id).then((response) => {
     res.status(200).send("delete success");
   });
+});
+
+App.post("/api/activities/update", async function (req, res) {
+  const { id, heart, dayId, itinId } = req.body;
+  const updateActivity = await updateActivityDayID(db, heart, id, dayId);
+  const allActivities = await getNonSelectedActivities(db, itinId);
+  res
+    .status(200)
+    .send({ updateActivity: updateActivity.rows[0], allActivities });
 });
 
 App.listen(PORT, () => {

@@ -10,18 +10,18 @@ import DataContext from "../context/DataContext";
 import LoginContext from "../context/LoginContext";
 
 import homeImage from "../images/travelers1.png";
-import homeLogo from "../images/theitineraryfat.png";
+import homeLogo from "../images/theitinerarynopin.png";
+import homePin from "../images/theitinerarypin.png";
 import homeLoading from "../images/loading1.gif";
 import "../components/Home.scss";
 
-const Home = ({ currentTrip, setCurrentTrip }) => {
+const Home = ({ setCurrentTrip }) => {
   const [city, setCity] = useState(null);
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
   const [submit, setSubmit] = useState(false);
-  const { setTrips } = useContext(DataContext);
+  const { setTrips, currentTrip } = useContext(DataContext);
   const [activities, setActivities] = useState([]);
-  // const [activityID, setActivityID] = useState([]);
   const { token } = useContext(LoginContext);
   const username = token ? token : "";
   const [loading, setLoading] = useState(false);
@@ -36,9 +36,7 @@ const Home = ({ currentTrip, setCurrentTrip }) => {
         end: end,
         username: username,
       }).then((response) => {
-        console.log("HOME", response)
         setActivities(response.act);
-        // setActivityID(response.selectedActivityIds)
         axios.get("http://localhost:8080/api/itineraries").then((response) => {
           const itins = response.data.itineraries;
           setTrips(itins);
@@ -64,13 +62,12 @@ const Home = ({ currentTrip, setCurrentTrip }) => {
     });
   }
 
-  console.log("act", activities);
-  // console.log("act id", activityID);
-  // console.log("selectedActivties", selectedActivities)
-  
   return (
     <div className="home-body">
-      <img className="home-logo" src={homeLogo} alt="home-logo" />
+      <div class="home-logo-container">
+        <img className="home-pin" src={homePin} alt="home-pin" />
+        <img className="home-logo" src={homeLogo} alt="home-logo" />
+      </div>
       <h1 className="home-title">Where is your next adventure?</h1>
       <form noValidate onSubmit={handleSubmit} className="home-form">
         <TextField
@@ -103,19 +100,29 @@ const Home = ({ currentTrip, setCurrentTrip }) => {
             </div>
           </LocalizationProvider>
         </div>
-        <Button variant="contained" type="submit" className="home-search-button" sx={{ 
-          borderRadius: '2rem',
-          color:'theme.palette.primary.dark' }}>
+        <Button
+          variant="contained"
+          type="submit"
+          className="home-search-button"
+          sx={{
+            borderRadius: "2rem",
+            color: "theme.palette.primary.dark",
+          }}
+        >
           search
         </Button>
-        {/* <img className="home-image" src={homeImage} alt="home-image" /> */}
       </form>
-      {/* {loading ? <img className="home-activities-loading" src={homeLoading} alt="home-activities-loading" /> : 
-      <img className="home-image" src={homeImage} alt="home-image" />} */}
-      {submit ? 
-      (<Activities activities={activities} currentTrip={currentTrip}/>) : (loading ? <img className="home-activities-loading" src={homeLoading} alt="home-activities-loading" /> : 
-      <img className="home-image" src={homeImage} alt="home-image" />)
-      }
+      {submit ? (
+        <Activities activities={activities} currentTrip={currentTrip} />
+      ) : loading ? (
+        <img
+          className="home-activities-loading"
+          src={homeLoading}
+          alt="home-activities-loading"
+        />
+      ) : (
+        <img className="home-image" src={homeImage} alt="home-image" />
+      )}
     </div>
   );
 };
