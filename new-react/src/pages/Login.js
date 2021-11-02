@@ -5,12 +5,15 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import PropTypes from "prop-types";
+import "../components/Login.scss";
+import loginImage from "../images/loading2.gif";
 
 const Login = ({ setToken, setDisplayName }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [title, setTitle] = useState("");
+  const [question, setQuestion] = useState("");
   const history = useHistory();
 
   const handleSubmit = async (e) => {
@@ -39,6 +42,7 @@ const Login = ({ setToken, setDisplayName }) => {
   const { url } = useRouteMatch();
 
   useEffect(() => {
+    setQuestion(url === "/login" ? "Sign up!" : "Already an explorer?")
     setTitle(url === "/login" ? "Login" : "Register");
   }, [url]);
 
@@ -46,39 +50,37 @@ const Login = ({ setToken, setDisplayName }) => {
 
   return (
     <div>
-      <h1>{title}</h1>
-
+      <img className="login-image" src={loginImage} alt="login-image" />
+      <h1 className="login-title">{title}</h1>
       <form noValidate onSubmit={handleSubmit}>
-        <TextField
-          required
-          id="outlined-required"
-          label="Username"
-          onChange={(e) => setUsername(e.target.value)}
-        />
         <TextField
           required
           id="outlined-required"
           label="Email"
           onChange={(e) => setEmail(e.target.value)}
         />
-        <TextField
-          required
-          id="outlined-password-input"
-          label="Password"
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="login-user-pass">
+          <TextField
+            required
+            id="outlined-required"
+            label="Username"
+            onChange={(e) => setUsername(e.target.value)}
+            />
+          <TextField
+            required
+            id="outlined-password-input"
+            label="Password"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+            />
+        </div>
         <Button variant="outlined" type="submit">
-          Submit
+          SUBMIT 
         </Button>
       </form>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
+      <div className="login-status-question">{question}</div>
       <Button variant="outlined" component={Link} to={`/${toggle}`}>
-        {toggle}
+        {toggle}      
       </Button>
     </div>
   );

@@ -10,7 +10,8 @@ import DataContext from "../context/DataContext";
 import LoginContext from "../context/LoginContext";
 
 import homeImage from "../images/travelers1.png";
-import homeLogo from "../images/theitineraryfat.png";
+import homeLogo from "../images/theitinerarynopin.png";
+import homePin from "../images/theitinerarypin.png";
 import homeLoading from "../images/loading1.gif";
 import "../components/Home.scss";
 
@@ -69,7 +70,10 @@ const Home = ({ setCurrentTrip }) => {
 
   return (
     <div className="home-body">
-      <img className="home-logo" src={homeLogo} alt="home-logo" />
+      <div class="home-logo-container">
+        <img className="home-pin" src={homePin} alt="home-pin" />
+        <img className="home-logo" src={homeLogo} alt="home-logo" />
+      </div>
       <h1 className="home-title">Where is your next adventure?</h1>
       <form noValidate onSubmit={handleSubmit} className="home-form">
         <TextField
