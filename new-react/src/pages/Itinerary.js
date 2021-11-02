@@ -16,7 +16,6 @@ const Itinerary = ({ props }) => {
 
   useEffect(() => {
     getData(params.id).then((data) => {
-      console.log("data that front end got back", data);
       setActivities(data.activities);
       setItinerary(data.itinerary);
       setDays(data.days);

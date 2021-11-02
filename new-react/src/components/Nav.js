@@ -10,7 +10,6 @@ import ListAltIcon from "@mui/icons-material/ListAlt";
 import SmsIcon from "@mui/icons-material/Sms";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import { makeStyles } from "@mui/styles";
 import { Link, useHistory } from "react-router-dom";
 import LoginContext from "../context/LoginContext";
 import { Typography } from "@mui/material";
@@ -18,13 +17,9 @@ import { Typography } from "@mui/material";
 import logo from "../images/theitinerary.png";
 import "../styles/nav.scss";
 
-const useStyles = makeStyles({
-  // button: { color: "black" },
-  // text: { color: "pink" },
-});
+
 
 const Nav = (props) => {
-  const classes = useStyles();
   const history = useHistory();
   const id = props.currentTrip?.id;
   const { token } = useContext(LoginContext);
@@ -45,7 +40,6 @@ const Nav = (props) => {
     props.setToken(null);
     setAnchorEl(null);
     history.push("/");
-    console.log("logout", token);
   };
 
   const toggleDrawer = () => {

@@ -59,7 +59,6 @@ App.use("/api/create/activities", async function (req, res) {
 
 App.delete("/api/itineraries/:id", async function (req, res) {
   await deleteItinerary(db, req.params.id).then((response) => {
-    console.log("app.delete response", response);
     res.status(200).send("delete success");
   });
 });
@@ -76,17 +75,14 @@ App.use("/api/itinerary/:id", async function (req, res) {
   const activities = await getActivitiesForItinerary(db, id);
   const allActivities = await getNonSelectedActivities(db, id);
   const days = await getDays(db, id);
-  console.log("days itin id", days);
   const itinerary = await getItinerary(db, id);
-  // console.log("data", itinerary, days, activities);
-  // res.json(Promise.all([activities, allActivities, days, itinerary ]));
+
   res.json({ activities, allActivities, days, itinerary });
 });
 
 App.use("/api/itinerary", async function (req, res) {
   const { id, currentSelected } = req.body;
   const days = await getDays(db, id);
-  console.log("days, itinerary", days);
   const activities = await getActivities(db, currentSelected);
   updateDays(db, activities, days);
   await updateSelectedActivities(db, id, currentSelected);
@@ -104,7 +100,6 @@ App.use("/api/itinerary/:id/map", async function (req, res) {
 
 App.use("/api/login", async function (req, res) {
   const token = await login(db, req.body);
-  console.log("token", token);
   res.json({
     token: token,
   });
@@ -113,7 +108,6 @@ App.use("/api/login", async function (req, res) {
 App.use("/api/members", async function (req, res) {
   const id = req.body.id;
   const members = await getMembers(db, id);
-  console.log("mem", members);
   res.json({
     members: members,
   });

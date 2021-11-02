@@ -52,23 +52,12 @@ function App() {
 
   const fetchActivities = () => {
     axios.get("/api/activities").then((response) => {
-      console.log(response.data);
-      console.log(response.data.message); // Just the message
-
       setState({
         message: response.data.message,
         act: response.data.act[6].name,
       });
     });
   };
-
-  //  return (
-  //     <div className="App">
-  //       <h1>{state.message}</h1>
-  //       <h1>{state.act}</h1>
-  //       <button onClick={fetchActivities}>Fetch Data</button>
-  //     </div>
-  //   );
 
   return (
     <Box sx={{ display: "flex" }}>

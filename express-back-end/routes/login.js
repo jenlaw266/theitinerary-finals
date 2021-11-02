@@ -27,7 +27,6 @@ const login = async function (db, body) {
   if (title === "Login") {
     const dbQuery = await getUser(db, email);
     const hasUser = dbQuery.rows[0];
-    console.log("hasUser", hasUser);
 
     if (
       (hasUser.email = email && bcrypt.compareSync(password, hasUser.password))
