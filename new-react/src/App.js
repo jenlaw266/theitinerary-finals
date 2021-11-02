@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
 import Nav from "./components/Nav";
 import Home from "./pages/Home";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 import Itinerary from "./pages/Itinerary";
 import Itineraries from "./pages/Itineraries";
 import Layout from "./components/Layout";
@@ -15,6 +15,7 @@ import Members from "./components/Members";
 import useToken from "./hooks/useToken";
 import LoginContext from "./context/LoginContext";
 import DataContext from "./context/DataContext";
+import { AnimatePresence } from "framer-motion";
 
 function App() {
   const { token, setToken } = useToken(null);
@@ -22,6 +23,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [trips, setTrips] = useState([]);
   const [currentTrip, setCurrentTrip] = useState();
+  const location = useLocation();
 
   const [state, setState] = useState({
     message: "",
@@ -69,20 +71,20 @@ function App() {
   //   );
 
   return (
-    <Router>
-      <Box sx={{ display: "flex" }}>
-        <LoginContext.Provider value={{ token, loading, currentTrip }}>
-          <Nav
-            setDrawer={setDrawer}
-            setToken={setToken}
-            token={token}
-            trips={trips}
-            currentTrip={currentTrip}
-          />
-          {drawer && <Members />}
-          <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-            <Layout>
-              <Switch>
+    <Box sx={{ display: "flex" }}>
+      <LoginContext.Provider value={{ token, loading, currentTrip }}>
+        <Nav
+          setDrawer={setDrawer}
+          setToken={setToken}
+          token={token}
+          trips={trips}
+          currentTrip={currentTrip}
+        />
+        {drawer && <Members />}
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+          <Layout>
+            <AnimatePresence>
+              <Switch location={location} key={location.key}>
                 <Route path="/login">
                   <Login setToken={setToken} />
                 </Route>
@@ -113,11 +115,11 @@ function App() {
                   </Route>
                 </DataContext.Provider>
               </Switch>
-            </Layout>
-          </Box>
-        </LoginContext.Provider>
-      </Box>
-    </Router>
+            </AnimatePresence>
+          </Layout>
+        </Box>
+      </LoginContext.Provider>
+    </Box>
   );
 }
 
