@@ -17,6 +17,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
 import { deepPurple } from "@mui/material/colors";
 import LoginContext from "../context/LoginContext";
+import "../styles/members.scss"
 
 const drawerWidth = 200;
 

@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;600&display=swap');
+
+$light-yellow: #fffceb;
+$medium-yellow: #f7e34d;
+$dark-yellow: #ffee00;
+$light-blue: #DADEF0;
+$dark-blue: #657ABB;
+$font: 'Quicksand', sans-serif;
+
+//group name
+.MuiTypography-root.MuiTypography-body1.MuiListItemText-primary.css-10hburv-MuiTypography-root{
+  font-family: $font;
+}
+
+//search field
+.MuiInputLabel-root.MuiInputLabel-formControl.MuiInputLabel-animated.MuiInputLabel-filled.MuiFormLabel-root.MuiFormLabel-colorPrimary.css-e4w4as-MuiFormLabel-root-MuiInputLabel-root{
+  font-family: $font;
+}
+
+//avatar user
+.MuiAvatar-root.MuiAvatar-circular.MuiAvatar-colorDefault.css-wk5mvb-MuiAvatar-root{
+  background-color: $medium-yellow;
+}
+
+//avatar other members
+.MuiAvatar-root.MuiAvatar-circular.MuiAvatar-colorDefault.css-1f0tmi6-MuiAvatar-root{
+  background-color: $light-blue;
+  color: black;
+  font-size: 1rem;
+}

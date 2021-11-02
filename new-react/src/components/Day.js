@@ -6,6 +6,7 @@ import DaysDropDown from "./DaysDropDown";
 import Button from "@mui/material/Button";
 import Activity from "./Activity";
 import axios from "axios";
+import "../styles/itinerary.scss"
 
 const Day = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);

@@ -57,6 +57,7 @@ const Activities = (props) => {
           location={act.location}
           img={act.image}
           heart={act.heart}
+          description={act.description}
           toggleSelectedActivityId={() => {
             toggleSelectedActivityId(act.id);
           }}
@@ -72,8 +73,11 @@ const Activities = (props) => {
         {activityCard}
       </Grid>
       {activityCard && (
-        <Button variant="outlined" onClick={postSelectedActivities}>
-          Itinerary
+        <Button
+          variant="contained"
+          onClick={postSelectedActivities}
+        >
+          create your itinerary
         </Button>
       )}
     </Container>

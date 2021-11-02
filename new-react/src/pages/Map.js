@@ -8,6 +8,9 @@ import DaysCheckbox from "../components/Map/Checkbox";
 import { useHistory } from "react-router-dom";
 import LoginContext from "../context/LoginContext";
 import DataContext from "../context/DataContext";
+import "../styles/map.scss"
+
+const REACT_APP_API_KEY = process.env.REACT_APP_API_KEY;
 
 const Map = ({ zoom }) => {
   const [locationInfo, setLocationInfo] = useState(null);
@@ -156,27 +159,19 @@ const Map = ({ zoom }) => {
   return (
     <div className="map">
       {!token && history.push("/login")}
-      <h2>{itinerary.name} Trips</h2>
-      <h3>
-        {start_date.toDateString()} to {end_date.toDateString()}
-      </h3>
       <h2 className="map-title">{itinerary.name}</h2>
-      <h3 className="map-dates">
-        {start_date.toDateString()} to {end_date.toDateString()}
-      </h3>
-      {activities.length > 0 && (
-        <GoogleMapReact
-          bootstrapURLKeys={{
-            key:
-              // process.env.REACT_GOOGLE_MAP_API
-              "AIzaSyBTwu8B2_jxWotAM4c_9uEJJJoTmiBE7Aw",
-          }}
-          center={center}
-          defaultZoom={zoom}
-        >
-          {markers}
-        </GoogleMapReact>
-      )}
+      <h3 className="map-dates">{start_date.toDateString()} to {end_date.toDateString()}</h3>
+      {activities.length > 0 && 
+      <GoogleMapReact
+        bootstrapURLKeys={{
+          key: REACT_APP_API_KEY
+        }}
+        center={center}
+        defaultZoom={zoom}
+      >
+        {markers}
+      </GoogleMapReact>
+      }
       {locationInfo && <LocationInfoBox info={locationInfo} />}
       {Object.keys(dayProperties).length > 0 && (
         <DaysCheckbox

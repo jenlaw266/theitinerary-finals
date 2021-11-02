@@ -16,7 +16,7 @@ import LoginContext from "../context/LoginContext";
 import { Typography } from "@mui/material";
 
 import logo from "../images/theitinerary.png";
-import "./Nav.scss";
+import "../styles/nav.scss";
 
 const useStyles = makeStyles({
   // button: { color: "black" },

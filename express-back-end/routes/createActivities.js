@@ -2,6 +2,9 @@ const getApi = require("./getApi");
 const getName = require("../queries/itineraries");
 const dayDiff = require("../helpers/convertDate");
 const getActivityId = require('../queries/getActivityId')
+const victoriaData = require('../helpers/victoriaData');
+const parisData = require('../helpers/parisData');
+const addDescription = require('../helpers/addDescription');
 
 
 const createActivities = async function (db, body) {
@@ -30,14 +33,22 @@ const createActivities = async function (db, body) {
 
   await db.query(`INSERT INTO main_parties(user_id, itinerary_id, creator)
                   VALUES ($1, $2, $3) RETURNING *`, [userID, itinerary_id, true]);
-
+                
   let output = [];
-  await getApi(body.city).then((response) => {
+  await getApi(body.city)
+  .then((response) => {
     const day_id = 1;
     const heart = false;
+    let description = '';
     for (let i = 0; i < response.length; i++) {
-      //console.log('response', response[i].photos[0].photo_reference)
       let name = response[i].name;
+      let desc
+      if (body.city.toLowerCase() === 'victoria') {
+        description = addDescription(name, victoriaData);
+      }
+      if (body.city.toLowerCase() === 'paris') {
+        description = addDescription(name, parisData);
+      }
       let location = body.city;//"placeholder"//"London";
       let address = response[i].formatted_address;
       let lat = response[i].geometry.location.lat;
@@ -57,13 +68,14 @@ const createActivities = async function (db, body) {
         long: long,
         rating: rating,
         image: imageString,
+        description: description,
         heart: heart
       });
       
       db.query(
-        `INSERT INTO activities(name, location, lat, long, heart, image, day_id, itinerary_id)
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
-        [name, body.city, lat, long, heart, imageString, day_id, itinerary_id]
+        `INSERT INTO activities(name, location, lat, long, heart, image, description, day_id, itinerary_id)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
+        [name, body.city, lat, long, heart, imageString, description, day_id, itinerary_id]
       );
     }
   });

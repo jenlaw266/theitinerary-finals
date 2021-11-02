@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import LoginContext from "../context/LoginContext";
 import DataContext from "../context/DataContext";
 import ScrollToBottom from "react-scroll-to-bottom";
-import './chat.scss'
+import '../styles/chat.scss'
 
 const socket = io('http://localhost:3001')
 
@@ -52,7 +52,7 @@ function Chat() {
   return (
     <div className="chat-window">
       <div className="chat-header">
-        <h1>{currentTrip.name} Chat</h1>
+        <h1 className="chat-title">{currentTrip.name} Chat</h1>
       </div>
       <div className="chat-body">
         <ScrollToBottom className="message-container">

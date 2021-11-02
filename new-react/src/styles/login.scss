@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;600&display=swap');
+
+$light-yellow: #fffceb;
+$medium-yellow: #f7e34d;
+$dark-yellow: #ffee00;
+$light-blue: #DADEF0;
+$dark-blue: #657ABB;
+$font: 'Quicksand', sans-serif;
+
+body{
+  display: flex;
+  justify-content: center;
+}
+
+.login-title{
+  margin-top: 0;
+}
+
+.login-user-pass{
+  display: flex;
+  flex-direction: row;
+  width: 80vw;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.login-image{
+  width: 55vw;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+//search button
+.MuiButton-root.MuiButton-outlined.MuiButton-outlinedPrimary.MuiButton-sizeMedium.MuiButton-outlinedSizeMedium.MuiButtonBase-root.css-14kyquj-MuiButtonBase-root-MuiButton-root{
+  width: 80vw;
+  height: 2rem;
+  margin-top: 0.25rem;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.4rem;
+  border-radius: 2rem;
+  background-color: $medium-yellow;
+  color: black
+}
+
+//input 
+.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input{
+  height: 0.5rem;
+}

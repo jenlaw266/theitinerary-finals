@@ -1,39 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;600&display=swap');
+
 $light-yellow: #fffceb;
 $medium-yellow: #f7e34d;
 $dark-yellow: #ffee00;
 $light-blue: #DADEF0;
 $dark-blue: #657ABB;
+$font: 'Quicksand', sans-serif;
 
 .chat-window {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   margin: auto;
-  position: center;
-  width: 70%;
-  height: 80%;
+  width: 70vw;
 }
 
-.chat-window p {
-  margin: 0;
-}
 .chat-header {
-  height: 45px;
-  border-radius: 6px;
+  width: 70vw;
+  height: 3rem;
+  border-radius: 1rem 1rem 0 0;
+  border: 1px solid black;
+  border-bottom-color: $light-blue;
   background: $light-blue;
   position: relative;
   cursor: pointer;
 }
-.chat-header p {
-  display: block;
-  padding: 0 1em 0 2em;
-  color: #fff;
-  font-weight: 700;
-  line-height: 45px;
+
+.chat-title{
+  margin-left: 1rem;
+  font-size: 1.5rem
+
 }
 
+// .chat-header p {
+//   display: block;
+//   padding: 0 1em 0 2em;
+//   color: #fff;
+//   font-weight: 300;
+//   // line-height: 45px;
+// }
+
 .chat-body {
-  height: 75vh;
+  width: 70vw;
+  height: 60vh;
   border: 1px solid #263238;
   background: #fff;
-
+  border-top-color: $light-blue;
   position: relative;
 }
 .chat-body .message-container {
@@ -46,6 +58,7 @@ $dark-blue: #657ABB;
 .chat-body .message-container::-webkit-scrollbar {
   display: none;
 }
+
 .chat-body .message {
   height: auto;
   padding: 10px;
@@ -53,21 +66,25 @@ $dark-blue: #657ABB;
 }
 
 .chat-body .message .message-content {
-  width: auto;
-  height: auto;
+  // width: auto;
+  // height: auto;
   min-height: 40px;
-  max-width: 120px;
+  max-width: 200px;
   background-color: #43a047;
+
   border-radius: 5px;
   color: white;
   display: flex;
   align-items: center;
   margin-right: 5px;
   margin-left: 5px;
-  padding-right: 5px;
-  padding-left: 5px;
+  padding: 5px;
   overflow-wrap: break-word;
   word-break: break-word;
+}
+
+.message-content p {
+  margin: 0;
 }
 
 #you {
@@ -126,7 +143,7 @@ $dark-blue: #657ABB;
   padding: 0 0.7em;
   font-size: 1em;
   outline: none;
-  font-family: "Open Sans", sans-serif;
+  font-family: $font;
 }
 
 .chat-footer button {
@@ -139,13 +156,16 @@ $dark-blue: #657ABB;
   border-bottom-left-radius: 5px;
   border-top-left-radius: 5px;
   outline: none;
-  font-size: 25px;
-  color: $light-yellow;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  text-shadow: 1px 1px $dark-yellow
 }
 
 .chat-footer button:hover {
   background-color: $dark-blue;
 }
+
 .hide {
   opacity: 0 !important;
 }
