@@ -27,7 +27,7 @@ const Activity = (props) => {
           alt={props.img}
         />
         <CardContent>
-          <Typography>{props.address}</Typography>
+          <Typography>{props.desc}</Typography>
         </CardContent>
       </Card>
     </div>
