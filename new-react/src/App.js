@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
 import Nav from "./components/Nav";
 import Home from "./pages/Home";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Router, Switch, useLocation } from "react-router-dom";
 import Itinerary from "./pages/Itinerary";
 import Itineraries from "./pages/Itineraries";
 import Layout from "./components/Layout";
@@ -23,6 +23,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [trips, setTrips] = useState([]);
   const [currentTrip, setCurrentTrip] = useState();
+  const location = useLocation();
 
   const [state, setState] = useState({
     message: "",
@@ -51,23 +52,12 @@ function App() {
 
   const fetchActivities = () => {
     axios.get("/api/activities").then((response) => {
-      console.log(response.data);
-      console.log(response.data.message); // Just the message
-
       setState({
         message: response.data.message,
         act: response.data.act[6].name,
       });
     });
   };
-
-  //  return (
-  //     <div className="App">
-  //       <h1>{state.message}</h1>
-  //       <h1>{state.act}</h1>
-  //       <button onClick={fetchActivities}>Fetch Data</button>
-  //     </div>
-  //   );
 
   return (
     <Router>

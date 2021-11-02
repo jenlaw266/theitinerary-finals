@@ -21,8 +21,6 @@ function Chat() {
     });
   }, []);
 
-  console.log('chat', chat)
-
   async function getMessages(id) {
     return fetch(`http://localhost:8080/api/chat`, {
       method: "GET",

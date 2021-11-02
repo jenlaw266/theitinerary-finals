@@ -106,7 +106,6 @@ const Map = ({ zoom }) => {
       setFilteredDays(newFilteredDays);
     }
   }, [show]);
-  console.log("dayList", daysList);
 
   //----------------------- USE EFFECT 5
   //show only the markers that are enabled on checkbox

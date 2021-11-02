@@ -6,7 +6,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import DataContext from "../context/DataContext";
 import { CardActions } from "@mui/material";
 import { Typography } from "@mui/material";
-import { StylesContext } from "@mui/styles";
 import IconButton from "@mui/material/IconButton";
 import MapIcon from "@mui/icons-material/Map";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
@@ -17,7 +16,6 @@ const ItineraryItem = (props) => {
   const { setTrips } = useContext(DataContext);
 
   async function deleteData(id) {
-    console.log("clicked delete", id);
     axios
       .delete(`http://localhost:8080/api/itineraries/${id}`)
       .then((response) => {
@@ -47,7 +45,6 @@ const ItineraryItem = (props) => {
           }
           title={props.children}
           subheader={archived_end > 0 ? (archived_start > 0 ? "TRIP COMING UP..." : "CURRENT TRIP!") : "PAST ADVENTURE"}
-          // subheader={props.completed ? "Archived" : "Current"}
         />
 
         <CardContent>

@@ -9,6 +9,21 @@ import { motion } from "framer-motion";
 import { animationPages } from "../animations/index.js"
 import "../styles/login.scss";
 import loginImage from "../images/loading2.gif";
+import { motion } from "framer-motion";
+
+const containerVariants = {
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+    transition: { delay: 0.5, duration: 1 },
+  },
+  exit: {
+    x: "-100vw",
+    transition: { ease: "easeInOut" },
+  },
+};
 
 const Login = ({ setToken, setDisplayName }) => {
   const [email, setEmail] = useState("");
@@ -26,7 +41,6 @@ const Login = ({ setToken, setDisplayName }) => {
       password,
       title,
     });
-    console.log("token", token.token);
     setToken(token);
     history.push("/");
   };
@@ -44,7 +58,7 @@ const Login = ({ setToken, setDisplayName }) => {
   const { url } = useRouteMatch();
 
   useEffect(() => {
-    setQuestion(url === "/login" ? "Sign up!" : "Already an explorer?")
+    setQuestion(url === "/login" ? "Sign up!" : "Already an explorer?");
     setTitle(url === "/login" ? "Login" : "Register");
   }, [url]);
 
