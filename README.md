@@ -20,7 +20,7 @@ The ITinerary generates equal amount of activities per day (with the possible ex
 
 ## Final Product
 Login/Register
-![1](https://github.com/jenlaw266/theitinerary-finals/blob/master/new-react/src/images/screenshots/1_register.gif&s=200)
+![1](https://github.com/jenlaw266/theitinerary-finals/blob/master/new-react/src/images/screenshots/1_register.gif&s=700)
 
 Create an Itinerary
 ![2](https://github.com/jenlaw266/theitinerary-finals/blob/master/new-react/src/images/screenshots/2_create.gif)
