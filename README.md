@@ -1,14 +1,15 @@
-# React + Express No-Fluff Boilerplate
+# ![theItinerary](https://github.com/jenlaw266/theitinerary-finals/blob/master/new-react/src/images/theitineraryfat.png)
 
-A boilerplate project for anyone interested in making a project that uses React and Express.
+Explanation of the app here
 
-This repository is a bootleg of @NimaBoscarino's [React Rails Boilerplate](https://github.com/NimaBoscarino/react-rails-boilerplate). It uses the same React app, but replaces the Rails server with an Express server.
-
-Note! This boilerplate has _no fluff_! That means that there's nothing set up for you to do authentication stuff, there's no Redux stuff, and there's no React Router stuff. On the Express end, there is no session storage or database connection.
-
-The main important bit is that the React project has `proxy` set to `localhost:8080` in the `package.json` file, and that the Express app listens to port 8080 in `server.js`. Take a look!
-
-You can (and perhaps should) rename the directories `express-back-end` and `react-front-end` if you want-- The name doesn't matter.
+## Final Product
+### Login/Register
+### Create an Itinerary
+### Itinerary Map
+### Edit Itinerary
+### Add Members to Trip
+### Chat with Other Members
+### View Past Trips
 
 ## Running the projects
 
@@ -32,15 +33,9 @@ At some point, you'll likely want to install and configure a database driver for
 
 And don't forget to update the README!
 
-## Example Projects
+## Dependencies
 
-You might want to look at examples of projects that have used this boilerplate for hints on how to extend it. Here are a few:
 
-* [Later Cart](https://github.com/bonitac/later-cart)
-* [Buddi.io](https://github.com/Danny-Tran/buddi.io)
 
-If you'd like your project added to the list, please shoot me a message.
-
-## Contact
-
-Please contact me on Slack (@garrettgsb) or Nima at `nima@lighthouselabs.com` if you have any questions, requests, or feedback, or post an issue to this repo. If you are using the boilerplate, I'd love to hear from you as well!
+## Credits
+This repository is a bootleg of @NimaBoscarino's [React Rails Boilerplate](https://github.com/NimaBoscarino/react-rails-boilerplate). It uses the same React app, but replaces the Rails server with an Express server.

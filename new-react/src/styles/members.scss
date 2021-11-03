@@ -17,6 +17,16 @@ $font: 'Quicksand', sans-serif;
   font-family: $font;
 }
 
+//
+// .MuiFormControl-root.MuiTextField-root.css-1u3bzj6-MuiFormControl-root-MuiTextField-root{
+//   width: 100%;
+// }
+
+//drawer size
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-12i7wg6-MuiPaper-root-MuiDrawer-paper{
+  width: 40vw;
+}
+
 //avatar user
 .MuiAvatar-root.MuiAvatar-circular.MuiAvatar-colorDefault.css-wk5mvb-MuiAvatar-root{
   background-color: $medium-yellow;
@@ -27,8 +37,4 @@ $font: 'Quicksand', sans-serif;
   background-color: $light-blue;
   color: black;
   font-size: 1rem;
-}
-
-#filled-search {
-  width: 100%;
 }
