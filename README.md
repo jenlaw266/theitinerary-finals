@@ -22,7 +22,6 @@ The ITinerary generates equal amount of activities per day (with the possible ex
 #### Login/Register
 <img src="./new-react/src/images/screenshots/1_register.gif" width="400"/>
 
-
 #### Create an Itinerary
 <img src="./new-react/src/images/screenshots/2_create.gif" width="400"/>
 
@@ -30,7 +29,7 @@ The ITinerary generates equal amount of activities per day (with the possible ex
 <img src="./new-react/src/images/screenshots/3_map.gif" width="400"/>
 
 #### Edit Itinerary
-<img src="./new-react/src/images/screenshots/4_edit" width="400"/>
+<img src="./new-react/src/images/screenshots/4_edit.gif" width="400"/>
 
 #### Add Members to Trip
 <img src="./new-react/src/images/screenshots/5_add_members.gif" width="400"/>
