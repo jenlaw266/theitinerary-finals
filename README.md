@@ -19,38 +19,75 @@ The ITinerary generates equal amount of activities per day (with the possible ex
 *Created by: Leland M. ([**@lmckibben**](https://github.com/lmckibben)), Jennifer L. ([**@jenlaw266**](https://github.com/jenlaw266)), and Ysabel G. ([**@ysabelgarcia10**](https://github.com/ysabelgarcia10))*
 
 ## Final Product
-Login/Register
-<img src="./new-react/src/images/screenshots/1_register.gif" width="300"/>
+#### Login/Register
+<img src="./new-react/src/images/screenshots/1_register.gif" width="400"/>
 
 
-Create an Itinerary
-<img src="./new-react/src/images/screenshots/2_create.gif" width="300"/>
+#### Create an Itinerary
+<img src="./new-react/src/images/screenshots/2_create.gif" width="400"/>
 
-Itinerary Map
-<img src="./new-react/src/images/screenshots/3_map.gif" width="300"/>
+#### Itinerary Map
+<img src="./new-react/src/images/screenshots/3_map.gif" width="400"/>
 
-Edit Itinerary
-<img src="./new-react/src/images/screenshots/4_edit" width="300"/>
+#### Edit Itinerary
+<img src="./new-react/src/images/screenshots/4_edit" width="400"/>
 
-Add Members to Trip
-<img src="./new-react/src/images/screenshots/5_add_members.gif" width="300"/>
+#### Add Members to Trip
+<img src="./new-react/src/images/screenshots/5_add_members.gif" width="400"/>
 
-Chat with Other Members
-<img src="./new-react/src/images/screenshots/6_chat.gif" width="300"/>
+#### Chat with Other Members
+<img src="./new-react/src/images/screenshots/6_chat.gif" width="400"/>
 
-View Past Trips
-<img src="./new-react/src/images/screenshots/7_past_trips.gif" width="300"/>
+#### View Past Trips
+<img src="./new-react/src/images/screenshots/7_past_trips.gif" width="400"/>
 
 
 ## Getting Started
+1. Clone this 
+repository.
+```
+git clone https://github.com/jenlaw266/theitinerary-finals.git
+```
 
-From here, you can start working on your project!
+2. Navigate to the directories and install the dependencies.
+```
+cd theitinerary-finals/express-back-end
+npm install
+cd theitinerary-finals/new-react
+npm install
+cd theitinerary-finals/chat-server
+npm install
+```
 
-As soon as the dependencies are installed, your Express server can serve JSON and static assets (like images) in response to API calls from the React app. You can get started on developing your React app, routing plan, etc. right away! Any request that isn't handled by React is passed on to the Express server. That means that you can call a route like `/api/users` from React using `fetch`, `axios`, or something else, and Express will receive it as though they originated from the same app. For routing, best practice is to namespace all of your data routes to `/api`, so that they don't clash with other routing schemes, like React Router.
+3. Navigate to the express server directory and run a database reset.
+```
+cd theitinerary-finals/express-back-end
+npm run db:reset
+```
 
-At some point, you'll likely want to install and configure a database driver for Postgres or MongoDB-- Refer to past projects for hints on how to do this.
+4. Open three terminal windows to launch the front-end, back-end, and chat servers.
+```
+cd theitinerary-finals/express-back-end
+npm start
+cd theitinerary-finals/new-react
+npm start
+cd theitinerary-finals/chat-server
+npm start
+```
 
-And don't forget to update the README!
+5. Visit `http:localhost:3000/` to view the application.
+
+### Setting up the API
+1. Ensure that you have an API key with Google Cloud Platform (you can set it up at `https://console.cloud.google.com/apis/credentials`) . Enable the following API on your dashboard:
+* Maps JavaScript API
+* Service Usage API
+* Places API
+* Geocoding API
+
+2. Within your express-back-end and new-react directories, add the following in your **.env** file:
+
+* *REACT_APP_API_KEY = your_key_here*
+
 
 ## Dependencies
 ### Backend
