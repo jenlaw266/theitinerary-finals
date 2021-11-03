@@ -1,4 +1,4 @@
-# ![theItinerary](https://github.com/jenlaw266/theitinerary-finals/blob/master/new-react/src/images/theitineraryfat.png)
+![theItinerary](https://github.com/jenlaw266/theitinerary-finals/blob/master/new-react/src/images/theitineraryfat.png)
 
 ## About
 **The ITinerary** is a quick and easy-to-use itinerary generator application that can alleviate the stress in planning for the next adventure. 
@@ -18,18 +18,25 @@ The ITinerary generates equal amount of activities per day (with the possible ex
 
 ## Final Product
 Login/Register
+![1](https://github.com/jenlaw266/theitinerary-finals/blob/master/new-react/src/images/screenshots/1_register.gif)
 
 Create an Itinerary
+![2](https://github.com/jenlaw266/theitinerary-finals/blob/master/new-react/src/images/screenshots/2_create.gif)
 
 Itinerary Map
+![3](https://github.com/jenlaw266/theitinerary-finals/blob/master/new-react/src/images/screenshots/3_map.gif)
 
 Edit Itinerary
+![4](https://github.com/jenlaw266/theitinerary-finals/blob/master/new-react/src/images/screenshots/4_edit.gif)
 
 Add Members to Trip
+![5](https://github.com/jenlaw266/theitinerary-finals/blob/master/new-react/src/images/screenshots/5_add_members.gif)
 
 Chat with Other Members
+![6](https://github.com/jenlaw266/theitinerary-finals/blob/master/new-react/src/images/screenshots/6_chat.gif)
 
 View Past Trips
+![7](https://github.com/jenlaw266/theitinerary-finals/blob/master/new-react/src/images/screenshots/7_past_trips.gif)
 
 
 ## Getting Started
