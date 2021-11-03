@@ -20,28 +20,26 @@ The ITinerary generates equal amount of activities per day (with the possible ex
 
 ## Final Product
 Login/Register
-![1](https://github.com/jenlaw266/theitinerary-finals/blob/master/new-react/src/images/screenshots/1_register.gif&s=700)
-
-<img src="./new-react/src/images//screenshots/1_register.gif" width="300"/>
+<img src="./new-react/src/images/screenshots/1_register.gif" width="300"/>
 
 
 Create an Itinerary
-![2](https://github.com/jenlaw266/theitinerary-finals/blob/master/new-react/src/images/screenshots/2_create.gif)
+<img src="./new-react/src/images/screenshots/2_create.gif" width="300"/>
 
 Itinerary Map
-![3](https://github.com/jenlaw266/theitinerary-finals/blob/master/new-react/src/images/screenshots/3_map.gif)
+<img src="./new-react/src/images/screenshots/3_map.gif" width="300"/>
 
 Edit Itinerary
-![4](https://github.com/jenlaw266/theitinerary-finals/blob/master/new-react/src/images/screenshots/4_edit.gif)
+<img src="./new-react/src/images/screenshots/4_edit" width="300"/>
 
 Add Members to Trip
-![5](https://github.com/jenlaw266/theitinerary-finals/blob/master/new-react/src/images/screenshots/5_add_members.gif)
+<img src="./new-react/src/images/screenshots/5_add_members.gif" width="300"/>
 
 Chat with Other Members
-![6](https://github.com/jenlaw266/theitinerary-finals/blob/master/new-react/src/images/screenshots/6_chat.gif)
+<img src="./new-react/src/images/screenshots/6_chat.gif" width="300"/>
 
 View Past Trips
-![7](https://github.com/jenlaw266/theitinerary-finals/blob/master/new-react/src/images/screenshots/7_past_trips.gif)
+<img src="./new-react/src/images/screenshots/7_past_trips.gif" width="300"/>
 
 
 ## Getting Started
