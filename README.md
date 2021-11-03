@@ -16,6 +16,8 @@ The ITinerary generates equal amount of activities per day (with the possible ex
 
 *Note: The ITinerary was built as a fulfillment to Lighthouse Lab's final project requirement. This demo is intended for mobile viewing only.*
 
+*Created by: Leland M. (@lmckibben), Jennifer L. (@jenlaw266), and Ysabel G. (@ysabelgarcia10)*
+
 ## Final Product
 Login/Register
 ![1](https://github.com/jenlaw266/theitinerary-finals/blob/master/new-react/src/images/screenshots/1_register.gif)
