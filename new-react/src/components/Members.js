@@ -17,7 +17,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
 import { deepPurple } from "@mui/material/colors";
 import LoginContext from "../context/LoginContext";
-import "../styles/members.scss"
+import "../styles/members.scss";
 
 const drawerWidth = 200;
 
@@ -126,6 +126,10 @@ const Members = () => {
 
   const ITEM_HEIGHT = 48;
 
+  const submitForm = (e) => {
+    setSearch("");
+  };
+
   return (
     <Drawer
       variant="permanent"
@@ -217,16 +221,17 @@ const Members = () => {
         </List>
 
         {addMembers && (
-          <div className={classes.bottomSearch}>
+          <form onSubmit={submitForm} className={classes.bottomSearch}>
             <TextField
               id="filled-search"
               label="Search field"
               type="search"
               variant="filled"
               onKeyDown={handleKeyDown}
+              value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-          </div>
+          </form>
         )}
       </Box>
     </Drawer>
